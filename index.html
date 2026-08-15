@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SIG Lab — Sistemas Integrados de Gestión · Guía de estudio avanzada</title>
+<meta name="description" content="Guía de estudio avanzada, infografías y ayuda memoria de Sistemas Integrados de Gestión: ISO 9001, ISO 14001, ISO 45001 e ISO 37001. Diagramas propios, casuística aplicada y rutas de certificación en Perú e internacionales.">
+<meta name="author" content="SIG Lab">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFBF9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101116" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SIG Lab — Sistemas Integrados de Gestión">
+<meta property="og:description" content="Guía de estudio avanzada de ISO 9001, 14001, 45001 y 37001: 27 diagramas propios, casuística de auditoría y rutas de certificación.">
+<meta property="og:locale" content="es_PE">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FF6B35'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' text-anchor='middle' fill='%2316161A'%3ES%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="topbar">
+  <button class="iconbtn navtoggle" id="nav-toggle" aria-label="Abrir menú de secciones">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+  </button>
+
+  <a class="brand" href="#/panel">
+    <span class="brand-mark" aria-hidden="true">SIG</span>
+    <span class="brand-name">SIG Lab <em>· estudio</em></span>
+  </a>
+
+  <span class="topbar-spacer"></span>
+
+  <div class="topbar-actions">
+    <button class="iconbtn searchbtn" id="search-btn" aria-label="Buscar en todo el contenido">
+      <span style="display:flex;align-items:center;gap:8px">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
+        <span>Buscar…</span>
+      </span>
+      <kbd>/</kbd>
+    </button>
+    <button class="iconbtn" id="theme-btn" aria-label="Cambiar tema">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke-linecap="round"/></svg>
+      <span data-theme-label style="font-size:11px">Auto</span>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" id="nav-wrap" data-open="false" aria-label="Secciones del sitio">
+    <div id="nav"></div>
+    <div class="sidebar-foot">
+      <strong>SIG Lab</strong> — guía de estudio independiente.<br>
+      ISO 9001 · 14001 · 45001 · 37001<br>
+      Actualizado a agosto de 2026.
+    </div>
+  </nav>
+
+  <main class="main" id="main" tabindex="-1"></main>
+</div>
+
+<button class="fab" id="fab" aria-label="Volver arriba" data-show="false">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="modal-backdrop" id="search-modal" hidden role="dialog" aria-modal="true" aria-label="Buscar en el contenido">
+  <div class="modal">
+    <input type="search" placeholder="Buscar cláusulas, términos, fórmulas, casos, diagramas…" aria-label="Término de búsqueda" autocomplete="off" spellcheck="false">
+    <div class="results" id="search-results"></div>
+    <div class="modal-foot">
+      <span>↑ ↓ navegar</span><span>↵ abrir</span><span>esc cerrar</span>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="assets/js/app.js"></script>
+<noscript>
+  <div style="padding:48px 24px;max-width:640px;margin:0 auto">
+    <h1 style="font-family:Georgia,serif">SIG Lab</h1>
+    <p>Esta guía de estudio necesita JavaScript para funcionar. El contenido completo está disponible en el
+    <a href="https://github.com/oprbguitar/sistemas-integrados-curso">repositorio del proyecto</a>.</p>
+  </div>
+</noscript>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+/* ============================================================
+   SIG Lab — Design tokens
+   Sistema editorial: rejilla de 4px, filetes de 1px, radio <= 10px,
+   sin sombras. Un acento focal por vista + color semantico por norma.
+   ============================================================ */
+
+:root {
+  /* --- Superficies e ink (modo claro por defecto) --- */
+  --paper:        #FBFBF9;   /* white smoke  */
+  --paper-2:      #FFFFFF;   /* tarjetas     */
+  --paper-3:      #F2F2EE;   /* zonas hundidas */
+  --ink:          #16161A;   /* jet          */
+  --ink-2:        #3A3D45;
+  --muted:        #62697A;   /* blue slate   */
+  --muted-2:      #8B92A1;
+  --hairline:     #DEDFE3;   /* silver       */
+  --hairline-2:   #ECEDEF;
+
+  /* --- Acento focal (1-2 elementos por diagrama) --- */
+  --accent:       #FF6B35;   /* atomic tangerine */
+  --accent-ink:   #B23F13;
+  --accent-wash:  #FFF0E9;
+
+  /* --- Color semantico por norma (nunca decorativo) --- */
+  --c-9001:       #1D5FB0;   /* Calidad      */
+  --c-9001-wash:  #E8F0FB;
+  --c-14001:      #17845A;   /* Ambiente     */
+  --c-14001-wash: #E5F5EE;
+  --c-45001:      #D97706;   /* SST          */
+  --c-45001-wash: #FDF3E3;
+  --c-37001:      #6D4AA6;   /* Antisoborno  */
+  --c-37001-wash: #F1EBFA;
+  --c-esg:        #0E7C86;   /* ESG / Sost.  */
+  --c-esg-wash:   #E3F4F5;
+  --c-sig:        #16161A;   /* Integrado    */
+
+  /* --- Estados --- */
+  --ok:           #17845A;
+  --ok-wash:      #E5F5EE;
+  --warn:         #D97706;
+  --warn-wash:    #FDF3E3;
+  --risk:         #C2321B;
+  --risk-wash:    #FCEBE7;
+  --info:         #1D5FB0;
+  --info-wash:    #E8F0FB;
+
+  /* --- Escala de riesgo 5x5 --- */
+  --r1: #E8F5EC;  --r2: #D6F0DC;  --r3: #FFF3CC;
+  --r4: #FFD9A8;  --r5: #FBB9A0;  --r6: #EF8A6B;  --r7: #D2452A;
+
+  /* --- Tipografia --- */
+  --font-title: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-body:  "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:  "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --fs-xs:   0.75rem;   /* 12 */
+  --fs-sm:   0.8125rem; /* 13 */
+  --fs-base: 0.9375rem; /* 15 */
+  --fs-md:   1.0625rem; /* 17 */
+  --fs-lg:   1.375rem;  /* 22 */
+  --fs-xl:   1.875rem;  /* 30 */
+  --fs-2xl:  2.5rem;    /* 40 */
+  --fs-3xl:  3.25rem;   /* 52 */
+
+  --lh-tight: 1.16;
+  --lh-snug:  1.35;
+  --lh-body:  1.62;
+
+  /* --- Rejilla de 4px: todo espaciado es multiplo de 4 --- */
+  --s1: 4px;   --s2: 8px;   --s3: 12px;  --s4: 16px;
+  --s5: 20px;  --s6: 24px;  --s8: 32px;  --s10: 40px;
+  --s12: 48px; --s16: 64px; --s20: 80px; --s24: 96px;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 10px;   /* techo duro: nada mas redondo que esto */
+  --r-pill: 999px;
+
+  --line: 1px solid var(--hairline);
+  --line-2: 1px solid var(--hairline-2);
+
+  --maxw: 1200px;
+  --maxw-prose: 76ch;
+  --nav-h: 56px;
+
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --dur: 180ms;
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   Modo oscuro
+   ============================================================ */
+:root[data-theme="dark"] {
+  --paper:        #101116;
+  --paper-2:      #171922;
+  --paper-3:      #1E2029;
+  --ink:          #EDEEF2;
+  --ink-2:        #C4C8D2;
+  --muted:        #98A0B0;
+  --muted-2:      #6E7686;
+  --hairline:     #2A2D38;
+  --hairline-2:   #22242E;
+
+  --accent:       #FF8557;
+  --accent-ink:   #FFB394;
+  --accent-wash:  #2C1A12;
+
+  --c-9001:       #6BA6F0;  --c-9001-wash:  #14203A;
+  --c-14001:      #4FC894;  --c-14001-wash: #10281F;
+  --c-45001:      #F0A93C;  --c-45001-wash: #2C2010;
+  --c-37001:      #A98BE0;  --c-37001-wash: #201938;
+  --c-esg:        #4FBFC9;  --c-esg-wash:   #0F2A2C;
+  --c-sig:        #EDEEF2;
+
+  --ok:   #4FC894;  --ok-wash:   #10281F;
+  --warn: #F0A93C;  --warn-wash: #2C2010;
+  --risk: #F0705A;  --risk-wash: #301612;
+  --info: #6BA6F0;  --info-wash: #14203A;
+
+  --r1: #12271B;  --r2: #17351F;  --r3: #33300F;
+  --r4: #402A11;  --r5: #4A2418;  --r6: #5C2A1B;  --r7: #7A2A1B;
+
+  color-scheme: dark;
+}
+
+/* Respeta la preferencia del sistema cuando no hay eleccion explicita */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #101116;
+    --paper-2:      #171922;
+    --paper-3:      #1E2029;
+    --ink:          #EDEEF2;
+    --ink-2:        #C4C8D2;
+    --muted:        #98A0B0;
+    --muted-2:      #6E7686;
+    --hairline:     #2A2D38;
+    --hairline-2:   #22242E;
+
+    --accent:       #FF8557;
+    --accent-ink:   #FFB394;
+    --accent-wash:  #2C1A12;
+
+    --c-9001:       #6BA6F0;  --c-9001-wash:  #14203A;
+    --c-14001:      #4FC894;  --c-14001-wash: #10281F;
+    --c-45001:      #F0A93C;  --c-45001-wash: #2C2010;
+    --c-37001:      #A98BE0;  --c-37001-wash: #201938;
+    --c-esg:        #4FBFC9;  --c-esg-wash:   #0F2A2C;
+    --c-sig:        #EDEEF2;
+
+    --ok:   #4FC894;  --ok-wash:   #10281F;
+    --warn: #F0A93C;  --warn-wash: #2C2010;
+    --risk: #F0705A;  --risk-wash: #301612;
+    --info: #6BA6F0;  --info-wash: #14203A;
+
+    --r1: #12271B;  --r2: #17351F;  --r3: #33300F;
+    --r4: #402A11;  --r5: #4A2418;  --r6: #5C2A1B;  --r7: #7A2A1B;
+
+    color-scheme: dark;
+  }
+}
