@@ -6,7 +6,8 @@
 
 [![Estado](https://img.shields.io/badge/estado-publicado-17845A)](https://oprbguitar.github.io/sistemas-integrados-curso/)
 [![Normas](https://img.shields.io/badge/ISO-9001%20·%2014001%20·%2045001%20·%2037001-1D5FB0)](#de-qué-trata-un-sistema-integrado-de-gestión)
-[![Diagramas](https://img.shields.io/badge/diagramas-19%20originales-FF6B35)](#los-diagramas)
+[![Diagramas](https://img.shields.io/badge/diagramas-19%20interactivos-FF6B35)](#los-diagramas)
+[![Contraste](https://img.shields.io/badge/contraste-WCAG%20AA%20verificado-17845A)](#los-diagramas)
 [![Licencia](https://img.shields.io/badge/licencia-Estudio%20SIG%20Lab-6D4AA6)](LICENSE)
 [![Actualizado](https://img.shields.io/badge/actualizado-agosto%202026-62697A)](#estado-normativo-agosto-2026)
 
@@ -70,7 +71,7 @@ Una lesión con incapacidad permanente, un vertimiento a un cuerpo de agua y un 
 
 ## Qué contiene este repositorio
 
-Un sitio estático de **14 secciones**, sin dependencias externas ni paso de compilación.
+Un sitio estático de **15 secciones**, sin dependencias externas ni paso de compilación.
 
 | # | Sección | Contenido |
 |---|---|---|
@@ -85,19 +86,23 @@ Un sitio estático de **14 secciones**, sin dependencias externas ni paso de com
 | 09 | **Auditoría interna** | ISO 19011, programa basado en riesgo, redacción de hallazgos, causa raíz |
 | 10 | **Medición, mejora y ESG** | Indicadores reactivos y predictivos, revisión por la dirección, puente SIG → ESG |
 | 11 | **Casuística aplicada** | 5 casos completos con análisis cláusula por cláusula y hallazgo redactado |
-| 12 | **Rutas de certificación** | Empresa vs. persona, cadena de acreditación, proveedores, precios referenciales |
-| 13 | **Ayuda memoria** | 10 reglas duras, 10 fórmulas, 10 preguntas de auditoría, glosario de 32 términos |
-| 14 | **Fuentes y recursos** | Enlaces oficiales verificables y avisos sustantivos |
+| 12 | **Modo campo** | 8 fichas de actuación: qué pedir, a quién preguntar, qué observar, qué producir y cómo saber que está bien |
+| 13 | **Rutas de certificación** | Empresa vs. persona, cadena de acreditación, proveedores, precios referenciales |
+| 14 | **Ayuda memoria** | 10 reglas duras, 10 fórmulas, 10 preguntas de auditoría, glosario de 32 términos |
+| 15 | **Fuentes y recursos** | Enlaces oficiales verificables y avisos sustantivos |
 
 ### Los diagramas
 
-**19 diagramas SVG originales**, escritos a mano, sin librerías. Siguen las reglas del sistema editorial de [`cathrynlavery/diagram-design`](https://github.com/cathrynlavery/diagram-design):
+**19 diagramas SVG originales e interactivos**, escritos a mano, sin librerías. Cada elemento se puede pulsar (clic, `Enter` o `Espacio`) para abrir un panel que explica qué es, qué exige y dónde falla en la práctica — **151 puntos activables en total**. Todos se amplían a pantalla completa.
+
+Siguen las reglas del sistema editorial de [`cathrynlavery/diagram-design`](https://github.com/cathrynlavery/diagram-design):
 
 - Toda coordenada, ancho y separación es **múltiplo de 4**
 - Filetes de **1 px**, radio máximo **10 px**, **sin sombras**
 - **Un solo acento focal** por diagrama
 - Cada SVG lleva `<title>`, `<desc>` y `aria-labelledby` resuelto
 - **Validación geométrica automatizada**: ninguna etiqueta se sale del `viewBox` ni se solapa con otra
+- **Contraste WCAG AA verificado**: un auditor compone el fondo real de cada texto y calcula la ratio en ambos temas — 0 fallos
 
 <details>
 <summary><strong>Ver los 19 diagramas</strong></summary>
@@ -186,7 +191,8 @@ El repositorio incluye el workflow de GitHub Pages. Actívalo en **Settings → 
 
 ## Características
 
-- **Búsqueda global** (`/` o `Ctrl`/`Cmd`+`K`) sobre cláusulas, términos, fórmulas, casos, diagramas y proveedores, con navegación por teclado
+- **Diagramas interactivos**: 151 puntos activables por clic o teclado, con panel de detalle; ampliación a pantalla completa
+- **Búsqueda global** (`/` o `Ctrl`/`Cmd`+`K`) sobre cláusulas, términos, fórmulas, casos, fichas de campo, puntos de diagrama y proveedores
 - **Tema claro, oscuro y automático**, respetando la preferencia del sistema
 - **Checklists persistentes** en `localStorage` — el progreso de estudio se conserva entre sesiones
 - **Responsive** desde 390 px, sin desbordamiento horizontal en ninguna vista

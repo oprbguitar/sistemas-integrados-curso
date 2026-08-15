@@ -81,7 +81,7 @@ ${sec(String(i + 1).padStart(2, '0'), r.t, '')}
 ${sec('09', 'Cronograma de referencia si vas a implementar', 'Estudiar es una cosa; implementar es otra. Este es el plazo realista para una organización mediana.')}
 
 ${fig('ganttImpl', '05', 'De la decisión al certificado en catorce meses',
-  'Diecisiete actividades en cuatro fases. Fíjate en la barra de «rodaje del sistema»: son tres meses de generar registros reales. Es la fase que todos quieren saltarse y la única que no se puede saltar, porque sin registros no hay nada que auditar.')}
+  'Diecisiete actividades en cuatro fases. Fíjate en la barra de «rodaje del sistema»: son tres meses de generar registros reales. Es la fase que todos quieren saltarse y la única que no se puede saltar, porque sin registros no hay nada que auditar.', { interactive: true })}
 
 ${callout('trap', 'El error de cronograma más caro',
   `<p class="mb0">Programar la auditoría de certificación Etapa 2 inmediatamente después de terminar la documentación.

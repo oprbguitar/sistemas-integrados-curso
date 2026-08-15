@@ -8,12 +8,14 @@ import { programa, ruta } from './views/programa.js';
 import { integracion, normas, documental } from './views/normas.js';
 import { procesos, riesgos, auditoria, medicion, casos } from './views/practica.js';
 import { certificacion, memoria, recursos } from './views/recursos.js';
+import { campo } from './views/campo.js';
 
 import { MODULOS, RUTA, CAMBIOS_2026 } from './data/curso.js';
 import { COMUNES, PROPIAS, FALSOS_AMIGOS } from './data/normas.js';
 import { CASOS, REGLAS, FORMULAS, GLOSARIO, PREGUNTAS_ORO } from './data/practica.js';
 import { PROVEEDORES, ESQUEMAS } from './data/certificacion.js';
 import { HOTSPOTS, INTERACTIVOS } from './data/hotspots.js';
+import { FICHAS, EVIDENCIA } from './data/campo.js';
 
 /* ------------------------------------------------------------------
    Rutas
@@ -30,6 +32,7 @@ const ROUTES = {
   auditoria:     { t: 'Auditoría interna', g: 'Núcleo técnico', render: auditoria },
   medicion:      { t: 'Medición, mejora y ESG', g: 'Núcleo técnico', render: medicion },
   casos:         { t: 'Casuística aplicada', g: 'Aplicar', render: casos },
+  campo:         { t: 'Modo campo', g: 'Aplicar', render: campo },
   certificacion: { t: 'Rutas de certificación', g: 'Aplicar', render: certificacion },
   memoria:       { t: 'Ayuda memoria', g: 'Aplicar', render: memoria },
   recursos:      { t: 'Fuentes y recursos', g: 'Aplicar', render: recursos }
@@ -96,8 +99,13 @@ function markActive(route) {
    ------------------------------------------------------------------ */
 const INDEX = [];
 /* Vista donde vive cada diagrama interactivo */
-const DG_VIEW = { annexSL: 'panel', pdcaLoop: 'panel', riskMatrix: 'riesgos',
-  controlHierarchy: 'riesgos', auditCycle: 'auditoria', docPyramid: 'documental' };
+const DG_VIEW = {
+  annexSL: 'panel', pdcaLoop: 'panel', normsTimeline: 'panel', correspondenceGrid: 'integracion',
+  integrationLevels: 'integracion', maturityRadar: 'integracion', stakeholderQuadrant: 'integracion',
+  processMap: 'procesos', turtle: 'procesos', riskMatrix: 'riesgos', controlHierarchy: 'riesgos',
+  bowtie: 'riesgos', lifecycle: 'riesgos', docPyramid: 'documental', auditCycle: 'auditoria',
+  ncAnatomy: 'auditoria', costIceberg: 'medicion', ganttImpl: 'ruta', certRoute: 'certificacion'
+};
 const strip = (s) => String(s).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 const add = (t, c, v, extra = '') => INDEX.push({ t: strip(t), c: strip(c), v, key: strip(`${t} ${c} ${extra}`).toLowerCase() });
 
@@ -117,6 +125,11 @@ function buildIndex() {
   REGLAS.forEach((r) => add(r.t, `Regla dura · ${strip(r.d)}`, 'memoria'));
   PREGUNTAS_ORO.forEach((p) => add(p.p, `Pregunta de auditoría · ${p.porq}`, 'memoria'));
   CASOS.forEach((c) => add(c.t, `Caso · ${c.sector}`, 'casos', `${c.ctx} ${c.leccion}`));
+  FICHAS.forEach((f) => {
+    add(f.t, `Ficha de actuación ${f.n} · ${f.iso}`, 'campo', `${f.cuando} ${f.obj} ${f.falla}`);
+    f.preguntar.forEach((q) => add(q.q, `Pregunta de campo · a ${q.a}`, 'campo'));
+  });
+  EVIDENCIA.forEach((e) => add(`Evidencia — ${e.t}`, `Fuerza de la evidencia · ${e.cl}`, 'campo', `débil media fuerte ${e.debil} ${e.media} ${e.fuerte}`));
   CAMBIOS_2026.forEach(([c, t, d]) => add(`${c} — ${t}`, `ISO 9001:2026 · ${strip(d)}`, 'programa'));
   PROVEEDORES.forEach((p) => add(p.n, `Proveedor · ${p.tipo}`, 'certificacion', p.of));
   ESQUEMAS.forEach((e) => add(e.n, `Esquema de registro · ${e.org}`, 'certificacion', e.normas));

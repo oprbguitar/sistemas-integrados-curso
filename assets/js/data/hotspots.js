@@ -100,7 +100,111 @@ export const HOTSPOTS = {
       d: 'Cómo se hace exactamente. Deben estar <strong>en el punto de uso y en un formato usable ahí</strong>: un PDF en un servidor no sirve en un frente de obra sin señal. Es donde se verifica de verdad el control documental, no en la lista maestra.' },
     n4: { t: 'Nivel 4 — Registros', n: 'Lo único que audita un auditor',
       d: 'La prueba de que ocurrió. Los tres niveles superiores describen intención; <strong>solo este demuestra ejecución</strong>. En Perú, además, los registros de SST tienen plazos de retención fijados por ley (D.S. 005-2012-TR), no por tu conveniencia: exámenes médicos 5 años tras el cese, accidentes 10 años, enfermedades ocupacionales 20 años. La norma ISO no los fija; la ley sí.' }
+  },
+
+  /* ---------------- Línea de tiempo ---------------- */
+  normsTimeline: {
+    m4: { t: '2012 — Anexo SL', n: 'El punto de inflexión', d: 'ISO decide que todas sus normas de sistemas de gestión compartirán diez capítulos, texto común y vocabulario común. <strong>Sin esta decisión el SIG no existiría</strong> como concepto operativo: antes, integrar era traducir permanentemente entre tres lógicas distintas.' },
+    m8: { t: '2024 — Enmienda de cambio climático', n: 'Auditable sin transición', d: 'Modifica dos puntos en más de 30 normas: la cl. 4.1 exige determinar si el cambio climático es una cuestión pertinente, y la cl. 4.2 añade una nota sobre requisitos climáticos de las partes interesadas. <strong>Auditable desde el 23/02/2024, sin período de gracia.</strong> Si tu análisis de contexto no lo menciona, es hallazgo hoy.' },
+    m9: { t: '2025-2026 — La ola de revisiones', n: 'Dónde estás parado', d: '<strong>ISO 37001:2025</strong> ya publicada (la de 2016 está retirada). <strong>ISO 14001:2026</strong> publicada el 15/04/2026, con transición hasta el 14/04/2029. <strong>ISO 9001</strong> 6.ª edición prevista para septiembre de 2026. <strong>ISO 45001</strong> en revisión, publicación esperada en 2027. Construye hoy con el capítulo 4 y el 6 sólidos: ahí se anclan todos los cambios.' }
+  },
+
+  /* ---------------- Mapa de procesos ---------------- */
+  processMap: {
+    est: { t: 'Procesos estratégicos', n: 'Dirigen, no ejecutan', d: 'Dirección y contexto, gestión del SIG, mejora y revisión. Definen el rumbo y asignan recursos. <strong>Error frecuente:</strong> ponerlos como adorno y que la alta dirección no aparezca en ninguna evidencia. La cl. 5.1 exige que integre los requisitos en los procesos de negocio, no que los delegue.' },
+    val: { t: 'Cadena de valor', n: 'Donde se gana el dinero', d: 'La secuencia que transforma el requisito del cliente en satisfacción. <strong>Prueba de calidad del mapa:</strong> si tu cadena de valor podría pertenecer a cualquier empresa del rubro, está copiada. Los mejores mapas reflejan el flujo real de trabajo; los peores imitan la estructura de la norma.' },
+    sop: { t: 'Procesos de soporte', n: 'Habilitan al resto', d: 'RR. HH., compras, mantenimiento, TI y documentación. Sirven a la cadena de valor. <strong>Los más auditados</strong> por el vínculo directo con cláusulas: 7.2 competencia, 8.4 proveedores externos, 7.1.3 infraestructura, 7.5 información documentada.' },
+    ret: { t: 'La flecha de retroalimentación', n: 'Cap. 9 cerrando el ciclo', d: 'No es decorativa. Es el capítulo 9 devolviendo información de desempeño al inicio. <strong>Un mapa sin ese retorno describe una fábrica, no un sistema de gestión</strong>, y delata que la medición no alimenta ninguna decisión.' }
+  },
+
+  /* ---------------- Tortuga ---------------- */
+  turtle: {
+    p1: { t: '¿Con qué? — Recursos', n: 'Cl. 7.1', d: 'Infraestructura, equipos, software y ambiente de trabajo. <strong>El olvido clásico es el ambiente de trabajo</strong> (cl. 7.1.4): factores físicos, sociales y psicológicos. En un SIG conecta directo con los peligros psicosociales de ISO 45001.' },
+    p2: { t: '¿Con quién? — Personas', n: 'Cl. 7.2', d: 'Competencia requerida, responsable, matriz RACI. No basta con nombrar el cargo: hay que definir <strong>qué competencia</strong> se necesita y cómo se verifica. Si aquí solo hay un nombre, falta la mitad del requisito.' },
+    p3: { t: '¿Cómo? — Método', n: 'Cl. 8.1', d: 'Procedimiento, instructivo y criterios de aceptación. La cl. 4.4.1 exige determinar <em>los criterios y los métodos necesarios</em>. <strong>Sin criterio declarado no hay nada que auditar</strong>: no se puede juzgar conformidad contra un estándar que no existe.' },
+    p4: { t: '¿Cuán bien? — Medición', n: 'Cl. 9.1', d: 'Indicador, meta, frecuencia y riesgo asociado. Es la pata que más veces queda vacía y la que genera la no conformidad más limpia. <strong>Si una pata queda vacía, el hallazgo ya está escrito:</strong> 4.4.1 no determina los criterios ni los métodos necesarios.' }
+  },
+
+  /* ---------------- Ruta de certificación ---------------- */
+  certRoute: {
+    s1: { t: 'Diagnóstico (GAP)', n: 'Mes 0', d: 'Comparación entre lo que exige la norma y lo que la organización ya hace. <strong>Rara vez se parte de cero:</strong> casi toda empresa en marcha cumple informalmente un 30-50 % sin saberlo. El GAP evita rehacer lo que ya funciona y enfoca el presupuesto donde hay brecha real.' },
+    s2: { t: 'Implementación', n: 'Meses 1-10', d: 'Diseño de procesos, matrices, controles y documentación. <strong>Decisión de alcance crítica:</strong> intentar 30-50 procesos a la vez produce sistemas de conformidad, no de mejora. Es más rentable elegir unos pocos procesos clave y hacerlos excelentes, dejando el resto en cumplimiento.' },
+    s3: { t: 'Auditoría interna', n: 'Mes 10 · cl. 9.2', d: 'Autodiagnóstico honesto antes de que venga alguien de fuera. <strong>Si tu auditoría interna reporta cero hallazgos, no estás listo: estás ciego.</strong> Un sistema sano encuentra más internamente que externamente.' },
+    s4: { t: 'Revisión por la dirección', n: 'Mes 11 · cl. 9.3', d: 'La alta dirección revisa las entradas obligatorias y decide. El organismo certificador la pedirá en la Etapa 1. <strong>Un acta que informa pero no decide incumple la cl. 9.3.3</strong>, por completa que sea la información presentada.' },
+    s5: { t: 'Etapa 1 — Revisión documental', n: 'Mes 12', d: 'El certificador revisa documentación, alcance y preparación, normalmente en sitio. Sirve para confirmar que la Etapa 2 es viable. <strong>Salir con muchas observaciones aquí es barato; salir con ellas en Etapa 2 es caro.</strong>' },
+    s6: { t: 'Etapa 2 — Auditoría de eficacia', n: 'Mes 13', d: 'Auditoría in situ contra evidencia real de operación. <strong>Exige al menos un ciclo completo</strong> de auditoría interna y revisión por la dirección con registros reales. Sin tres meses de rodaje se convierte en una auditoría de documentos que termina en NC mayores y en una segunda visita que se paga aparte.' }
+  },
+
+  /* ---------------- Corbatín ---------------- */
+  bowtie: {
+    knot: { t: 'El evento tope', n: 'Pérdida de control', d: 'El momento exacto en que se pierde el control del peligro. <strong>Debe redactarse como un evento, no como una consecuencia:</strong> «ignición de vapores inflamables», no «incendio». Confundirlos colapsa las dos mitades del análisis y hace que las barreras se asignen mal.' },
+    prev: { t: 'Barreras preventivas', n: 'Reducen la probabilidad', d: 'Actúan antes del evento, sobre las causas: permiso de trabajo, medición de LEL, retiro de combustible. <strong>Cada barrera necesita dueño, verificación y factor de degradación.</strong> Una barrera sin verificación es una barrera de papel: existe en el procedimiento y no en la realidad.' },
+    mit: { t: 'Barreras mitigadoras', n: 'Reducen la severidad', d: 'Actúan después del evento, sobre las consecuencias: detección, rociadores, brigada, kit antiderrame. <strong>Prueba de auditoría en campo:</strong> «si este control falla, ¿qué lo detecta?». El silencio ante esa pregunta es el hallazgo.' }
+  },
+
+  /* ---------------- Niveles de integración ---------------- */
+  integrationLevels: {
+    l1: { t: 'Nivel 1 — Coordinación', n: 'Madurez baja', d: 'Política integrada única, un solo control documental, auditorías internas combinadas. Los sistemas operativos siguen separados. <strong>Es el nivel correcto para una primera certificación</strong>: intentar más produce un sistema elegante en papel que la operación abandona.' },
+    l2: { t: 'Nivel 2 — Integración de procesos', n: 'Madurez media', d: 'Mapa de procesos único, objetivos e indicadores comunes, gestión de riesgos unificada a nivel de sistema, una sola revisión por la dirección. Requiere estar ya certificado en dos o más normas y tener los procesos realmente definidos.' },
+    l3: { t: 'Nivel 3 — Integración estratégica', n: 'Madurez alta', d: 'El SIG deja de ser un sistema paralelo y pasa a ser <strong>el sistema de gestión del negocio</strong>. Riesgo integrado con ERM (ISO 31000), indicadores atados a la estrategia y a ESG. Aquí ya no se habla de cumplimiento sino de cultura.' }
+  },
+
+  /* ---------------- Partes interesadas ---------------- */
+  stakeholderQuadrant: {
+    q1: { t: 'Mantener satisfecho', n: 'Alto poder · bajo interés', d: 'Accionistas, municipalidad. No siguen el día a día, pero pueden detenerlo. <strong>Estrategia:</strong> informar de forma resumida y periódica, sin saturar. El riesgo típico es descubrir tarde que cambiaron una condición que sí te afecta.' },
+    q2: { t: 'Gestionar de cerca', n: 'Alto poder · alto interés', d: 'SUNAFIL, OEFA, cliente ancla, sindicato. <strong>Aquí vive casi todo tu riesgo de cumplimiento.</strong> Estrategia: relación activa, requisitos documentados y seguimiento nominal. Sus requisitos casi siempre se convierten en obligaciones de cumplimiento.' },
+    q3: { t: 'Monitorear', n: 'Bajo poder · bajo interés', d: 'Medios, público general. Bajo esfuerzo, pero revisar periódicamente: <strong>un actor de este cuadrante puede saltar al de arriba de un día para otro</strong> tras un incidente. La matriz es una foto, no una verdad permanente.' },
+    q4: { t: 'Mantener informado', n: 'Bajo poder · alto interés', d: 'Comunidad, ONG, proveedores menores. Les afecta mucho lo que haces y tienen poca capacidad formal de forzarte. <strong>Ignorarlos es el origen clásico del conflicto social</strong>, que después sí les da poder. Estrategia: comunicación proactiva y canal de queja real.' },
+    flow: { t: 'De la expectativa al requisito', n: 'El paso que casi nadie da', d: 'La cl. 4.2 no pide una lista: pide <strong>decidir</strong> qué expectativas se adoptan como obligaciones. Si no se puede contactar a una parte interesada, la norma admite deducir sus necesidades poniéndose en su lugar — pero hay que dejar constancia del método. Solo lo adoptado se vuelve auditable.' }
+  },
+
+  /* ---------------- Ciclo de vida ---------------- */
+  lifecycle: {
+    ctrl: { t: 'Etapas bajo control', n: 'Requisito operacional', d: 'Diseño, compras y producción: la organización decide directamente. Generan <strong>controles operacionales</strong> de la cl. 8.1 — especificaciones, criterios de aceptación, parámetros de proceso.' },
+    infl: { t: 'Etapas bajo influencia', n: 'Requisito de comunicación', d: 'Materias primas, distribución, uso y fin de vida. No las controlas, pero las condicionas: eliges proveedor, defines embalaje, redactas el contrato. Generan requisitos de <strong>comunicación e información</strong> a proveedores y usuarios. Delegar por contrato no elimina el requisito normativo.' },
+    aclara: { t: 'Ciclo de vida ≠ ACV', n: 'La confusión más cara', d: 'La cl. 6.1.2 exige <strong>perspectiva</strong> de ciclo de vida, no un Análisis de Ciclo de Vida cuantitativo (ISO 14040). No hace falta calcular huella: hace falta demostrar que se consideraron las etapas. Confundirlos lleva a proyectos caros e innecesarios; ignorarlos, al hallazgo más fácil de abrir en el Perú.' }
+  },
+
+  /* ---------------- Gantt ---------------- */
+  ganttImpl: {
+    f1: { t: 'Fase 1 — Diagnóstico y diseño base', n: 'Meses 1-4', d: 'GAP, contexto, partes interesadas, alcance y mapa de procesos. <strong>Es la fase que más condiciona el resultado y la que más se recorta por prisa.</strong> Un contexto de plantilla aquí obliga a rehacer los capítulos 6, 9 y 10 más adelante.' },
+    f2: { t: 'Fase 2 — Riesgo y planificación', n: 'Meses 3-6', d: 'IPERC, aspectos ambientales, riesgos del sistema, requisitos legales, política y objetivos. Las tres matrices se construyen <strong>en paralelo pero separadas</strong>, cada una con su metodología y escala.' },
+    f3: { t: 'Fase 3 — Operación y rodaje', n: 'Meses 6-11', d: 'Control operacional, emergencias, competencia, comunicación y documentación. Incluye los tres meses de <strong>rodaje</strong>: operar generando registros reales. Es la fase que todos quieren saltarse y la única que no se puede saltar.' },
+    f4: { t: 'Fase 4 — Verificación y certificación', n: 'Meses 10-14', d: 'Auditoría interna, acciones correctivas, revisión por la dirección y las dos etapas de certificación. <strong>Regla dura:</strong> la Etapa 2 exige al menos un ciclo completo de auditoría interna y revisión con datos reales.' },
+    hito: { t: 'Los tres hitos de control', n: 'Cómo saber si vas bien', d: '<strong>Mes 5 — sistema diseñado:</strong> existe en papel y es coherente. <strong>Mes 11 — sistema operando con evidencia:</strong> hay registros reales de al menos un trimestre. <strong>Mes 14 — certificado.</strong> Si llegas al mes 11 sin registros, mover la fecha de certificación es más barato que ir y fallar.' }
+  },
+
+  /* ---------------- Radar de madurez ---------------- */
+  maturityRadar: {
+    perfil: { t: 'Leer el perfil, no el promedio', n: 'Diagnóstico', d: 'El índice global (2,9) esconde lo importante: <strong>el perfil es dentado</strong>. Liderazgo y control operacional en 4, competencia y medición en 2. Un promedio parejo de 2,9 y este perfil exigen planes de acción completamente distintos.' },
+    fuerte: { t: 'Los ejes fuertes', n: 'Palancas', d: 'Liderazgo 4 y control operacional 4: la dirección empuja y lo operativo funciona. <strong>Úsalo como palanca</strong> — con liderazgo alto, un plan de mejora bien argumentado consigue presupuesto. Con liderazgo bajo, ningún plan avanza por bueno que sea.' },
+    debil: { t: 'Los ejes débiles', n: 'Riesgo de colapso', d: 'Competencia 2 (formación sin evaluar eficacia), medición 2 (indicadores que nadie usa) y mejora 2 (acciones correctivas sin causa raíz). <strong>Un perfil dentado certifica igual que uno parejo, pero colapsa en la primera auditoría de seguimiento</strong>, cuando ya no basta con tener documentos y hay que demostrar que el sistema se mantuvo vivo.' }
+  },
+
+  /* ---------------- Iceberg ---------------- */
+  costIceberg: {
+    vis: { t: 'La punta visible', n: '1×', d: 'Multa, reproceso, chatarra, días perdidos, seguro, atención médica. Es lo que la contabilidad registra y <strong>el argumento más débil que puedes llevar a un gerente financiero</strong>, porque suele parecer asumible frente al costo del sistema.' },
+    ocu: { t: 'La masa sumergida', n: '4× a 10×', d: 'Investigación, productividad perdida, retrasos y penalidades, reclutamiento y curva de aprendizaje, prima SCTR, litigio, daño reputacional, licencia social. <strong>Aquí está el argumento que sí mueve presupuesto</strong>, porque convierte la seguridad y la calidad en una decisión económica en lugar de moral.' },
+    uso: { t: 'Cómo usarlo en la práctica', n: 'Fórmula de tablero', d: 'Costo total ≈ (multas + reprocesos) × factor de ocultamiento. <strong>Documenta el factor que usas</strong> — la literatura va de 4× a 10× — y sustitúyelo por tus propios datos en cuanto los tengas. Un factor sin fuente es tan atacable como no tener el cálculo.' }
+  },
+
+  /* ---------------- Anatomía del hallazgo ---------------- */
+  ncAnatomy: {
+    a1: { t: '1 · Requisito', n: 'Contra qué comparas', d: 'La cláusula, el artículo legal o el documento propio de la organización. <strong>Si no puedes citarlo, no hay hallazgo.</strong> Y audita contra el criterio declarado, no contra tu opinión de cómo debería hacerse: si la organización cumple su procedimiento y su procedimiento cumple la norma, no hay desviación aunque a ti te parezca mejorable.' },
+    a2: { t: '2 · Evidencia', n: 'Hecho verificable', d: 'Con trazabilidad: código de documento, fecha, identificación del registro, ubicación. <strong>Otro auditor debería llegar al mismo lugar con tu descripción.</strong> Y triangula siempre — entrevista, documento, registro y observación en campo; una sola fuente no sostiene un hallazgo.' },
+    a3: { t: '3 · Desviación', n: 'La declaración explícita', d: 'La frase que conecta requisito y evidencia: «por tanto, no se evidencia que…». Parece redundante y no lo es: <strong>es la pieza que el auditado discute en la reunión de cierre</strong>, y sin ella el hallazgo se lee como una opinión sobre un hecho.' },
+    c1: { t: 'NC mayor', n: 'Bloquea la certificación', d: 'Ausencia total de un requisito, fallo sistémico, o riesgo de incumplimiento legal. Obliga a acción inmediata y normalmente a verificación presencial antes de emitir el certificado.' },
+    c2: { t: 'NC menor', n: 'Plan de acción con plazo', d: 'Fallo aislado que no compromete la capacidad del sistema para lograr sus resultados. <strong>Cuidado con el efecto acumulación:</strong> varias NC menores sobre la misma cláusula dejan de ser aisladas y se convierten en una mayor.' },
+    c3: { t: 'Observación / OM', n: 'No exige acción formal', d: 'Cumple, pero hay riesgo de degradación o espacio de mejora. <strong>No la uses para evitar el conflicto de abrir una NC real</strong>: es la forma más común de que una auditoría interna se vuelva complaciente y de que la externa encuentre lo que tú callaste.' }
+  },
+
+  /* ---------------- Matriz de correspondencia ---------------- */
+  correspondenceGrid: {
+    integ: { t: 'Integrable', n: 'Aquí está el ahorro', d: 'Requisito sustancialmente idéntico en las cuatro normas: un solo documento, un solo proceso, una sola evidencia. Nueve de diecisiete filas caen aquí. <strong>Es donde se justifica económicamente el SIG</strong> y donde el IAF reconoce reducción de días-auditor en auditoría combinada.' },
+    matiz: { t: 'Común con matiz', n: 'Cuidado al redactar', d: 'El requisito existe en todas, pero cada norma añade algo propio. Ejemplo: la cl. 5.1 de liderazgo es común, pero ISO 45001 exige además proteger a los trabajadores de represalias al reportar. <strong>Se integra el documento, no se recorta el matiz</strong> — recortarlo es la forma silenciosa de perder un requisito.' },
+    propio: { t: 'Propio — no integrable', n: 'La identidad de cada norma', d: 'IPERC, aspectos ambientales, riesgo de soborno, consulta y participación, diseño y desarrollo. <strong>Responden preguntas distintas con escalas distintas.</strong> Fusionarlos en una sola matriz destruye las tres metodologías y produce números que parecen gestión sin serlo.' }
   }
+
 };
 
 /** Diagramas que hoy tienen puntos interactivos. */
