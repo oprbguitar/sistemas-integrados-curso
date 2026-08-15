@@ -1,0 +1,104 @@
+LICENCIA DE ESTUDIO SIG LAB
+Sistemas Integrados de Gestión — Guía de estudio avanzada
+Copyright (c) 2026 oprbguitar
+
+===============================================================================
+1. QUÉ CUBRE ESTA LICENCIA
+===============================================================================
+
+Esta licencia se aplica al material original contenido en este repositorio:
+textos explicativos, interpretaciones, diagramas SVG, casuística, tablas de
+síntesis, código fuente (HTML, CSS, JavaScript) y estructura del sitio.
+
+NO se aplica —porque no son propiedad de este proyecto— a:
+
+  · El texto de las normas ISO, propiedad de la International Organization
+    for Standardization (ISO). Este material las parafrasea e interpreta con
+    fines educativos; no reproduce su texto.
+  · Las Normas Técnicas Peruanas, distribuidas por el INACAL.
+  · La legislación peruana citada, de dominio público estatal.
+  · Las marcas, nombres comerciales, temarios y materiales de Bureau Veritas
+    o de cualquier otro proveedor de formación mencionado.
+  · Las marcas ISO, IAF, CQI/IRCA, Exemplar Global, PECB e INACAL.
+
+===============================================================================
+2. USOS PERMITIDOS
+===============================================================================
+
+Se concede permiso gratuito y perpetuo para:
+
+  a) ESTUDIAR el material, copiarlo y almacenarlo para uso personal.
+  b) ENSEÑAR con él en contextos académicos y de capacitación interna,
+     incluyendo su proyección, impresión y distribución a estudiantes.
+  c) ADAPTAR y modificar el material, traducirlo y crear obras derivadas.
+  d) REDISTRIBUIR el material original o adaptado, por cualquier medio.
+  e) DESPLEGAR el sitio en cualquier servidor propio.
+
+===============================================================================
+3. CONDICIONES
+===============================================================================
+
+  a) ATRIBUCIÓN. Toda copia, adaptación o redistribución debe conservar este
+     aviso de licencia y acreditar el origen, indicando la URL del proyecto
+     y señalando si el material fue modificado.
+
+  b) MISMO ESPÍRITU. Las obras derivadas que se distribuyan públicamente
+     deben publicarse bajo esta misma licencia o una equivalente que preserve
+     los usos permitidos en la sección 2.
+
+  c) NO COMERCIALIZACIÓN COMO PRODUCTO FORMATIVO. No se autoriza vender este
+     material como curso, programa, libro o producto formativo de pago, ni
+     revenderlo, ni incorporarlo a un producto de pago cuya propuesta de valor
+     principal sea este contenido.
+
+     Sí está permitido: usarlo como apoyo dentro de servicios de consultoría o
+     capacitación que se cobren, siempre que el material se entregue a los
+     participantes bajo esta misma licencia y con atribución.
+
+===============================================================================
+4. AVISOS SUSTANTIVOS
+===============================================================================
+
+MATERIAL EDUCATIVO, NO NORMATIVO. Este contenido interpreta requisitos con
+fines de estudio. Ninguna interpretación aquí contenida sustituye el texto
+oficial de la norma. Para trabajo profesional, adquiere el texto oficial en
+iso.org o, como Norma Técnica Peruana, en el INACAL.
+
+NO ES ASESORÍA LEGAL. Las referencias a legislación peruana están actualizadas
+a agosto de 2026 y pueden haber sido modificadas. Verifica siempre la versión
+vigente y sus modificatorias antes de aplicar cualquier plazo, monto o
+requisito.
+
+PRECIOS REFERENCIALES. Todas las cifras económicas son referenciales de agosto
+de 2026, recogidas de páginas públicas de los proveedores. Cambian con
+frecuencia. Confirma directamente con cada proveedor.
+
+SIN AFILIACIÓN. Este proyecto es material de estudio independiente. No está
+afiliado, patrocinado ni respaldado por Bureau Veritas, ISO, INACAL, IAF,
+CQI/IRCA, Exemplar Global, PECB ni por ningún organismo de certificación o
+proveedor de formación. Las menciones a estas entidades son referencias
+informativas y sus marcas pertenecen a sus respectivos titulares.
+
+CERTIFICACIÓN. Completar un curso de auditor líder satisface el requisito
+formativo para el registro ante un esquema internacional, pero no otorga
+automáticamente la certificación como auditor: los esquemas exigen además
+formación académica, experiencia laboral y auditorías efectivamente realizadas.
+
+===============================================================================
+5. EXENCIÓN DE GARANTÍA Y LIMITACIÓN DE RESPONSABILIDAD
+===============================================================================
+
+EL MATERIAL SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+IMPLÍCITA, INCLUIDAS SIN LIMITACIÓN LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD
+PARA UN PROPÓSITO PARTICULAR, EXACTITUD Y NO INFRACCIÓN.
+
+EN NINGÚN CASO EL AUTOR SERÁ RESPONSABLE DE RECLAMACIÓN, DAÑO U OTRA
+RESPONSABILIDAD, YA SEA EN UNA ACCIÓN CONTRACTUAL, EXTRACONTRACTUAL O DE OTRO
+TIPO, DERIVADA DE O EN CONEXIÓN CON EL MATERIAL O SU USO. EN PARTICULAR, EL
+AUTOR NO RESPONDE POR DECISIONES DE IMPLEMENTACIÓN, CERTIFICACIÓN, CUMPLIMIENTO
+LEGAL O INVERSIÓN TOMADAS SOBRE LA BASE DE ESTE MATERIAL.
+
+===============================================================================
+
+Proyecto: https://github.com/oprbguitar/sistemas-integrados-curso
+Sitio:    https://oprbguitar.github.io/sistemas-integrados-curso/
