@@ -131,7 +131,7 @@ ${callout('key', 'Cómo se articulan sin fusionarse',
 ${sec('02', 'Evaluación de riesgo SST', 'La metodología más regulada de las cuatro, porque en Perú tiene sustento legal propio.')}
 
 ${fig('riskMatrix', '16', 'Matriz 5 × 5 y bandas de decisión',
-  'Define las bandas ANTES de evaluar, nunca después. Definirlas después es ajustar el criterio al resultado, y un auditor experimentado lo detecta comparando la distribución de riesgos con la banda de acción.')}
+  'Define las bandas ANTES de evaluar, nunca después. Definirlas después es ajustar el criterio al resultado, y un auditor experimentado lo detecta comparando la distribución de riesgos con la banda de acción.', { interactive: true })}
 
 ${callout('warn', 'La trampa de la escala invertida',
   `<p class="mb0">El D.S. 024-2016-EM (reglamento de seguridad minera) usa una matriz donde <strong>1 es lo más grave</strong>,
@@ -151,7 +151,7 @@ ${table(
 ${sec('03', 'Jerarquía de controles', 'El requisito no es aplicar la jerarquía. Es aplicarla en orden y poder demostrarlo.')}
 
 ${fig('controlHierarchy', '17', 'Cinco niveles, eficacia decreciente',
-  'Cada nivel hacia abajo es más barato, más fácil de implementar y menos eficaz, porque depende cada vez más de que una persona haga lo correcto en el momento correcto. El EPP no es un control de riesgo: es la última barrera cuando todo lo demás falló.')}
+  'Cada nivel hacia abajo es más barato, más fácil de implementar y menos eficaz, porque depende cada vez más de que una persona haga lo correcto en el momento correcto. El EPP no es un control de riesgo: es la última barrera cuando todo lo demás falló.', { interactive: true })}
 
 ${callout('trap', 'El salto al EPP',
   `<p class="mb0">El hallazgo más frecuente en obra y planta: el IPERC determina «uso de EPP» como control único, sin ningún
@@ -237,7 +237,7 @@ ${head('Módulo 5', 'Auditoría interna<br><em>del sistema integrado</em>',
 ${sec('01', 'El ciclo completo', 'Seis fases. El 70 % de los hallazgos débiles nacen de una fase 2 mal hecha.')}
 
 ${fig('auditCycle', '20', 'Las seis fases de ISO 19011 cl. 6',
-  'Cada fase tiene una salida característica y verificable. La fase 6.7 pertenece al auditado, no al auditor: el auditor verifica la eficacia de la acción correctiva, no la ejecuta ni la propone. Confundir esto compromete la imparcialidad exigida por la cl. 9.2.')}
+  'Cada fase tiene una salida característica y verificable. La fase 6.7 pertenece al auditado, no al auditor: el auditor verifica la eficacia de la acción correctiva, no la ejecuta ni la propone. Confundir esto compromete la imparcialidad exigida por la cl. 9.2.', { interactive: true })}
 
 ${sec('02', 'Programa basado en riesgo', 'Un programa plano — todo una vez al año — es un hallazgo defendible del auditor externo.')}
 

@@ -136,7 +136,7 @@ ${fig('lifecycle', '10', 'Perspectiva de ciclo de vida — ISO 14001',
   'La distinción entre «controlar» e «influir» es todo el requisito. Las etapas bajo control generan requisitos operacionales; las etapas bajo influencia generan requisitos de comunicación y de especificación contractual. Ninguna de las dos puede quedar vacía.')}
 
 ${fig('controlHierarchy', '11', 'Jerarquía de controles — ISO 45001',
-  'El requisito no es «aplicar la jerarquía»: es aplicarla <em>en orden</em> y poder demostrar por qué cada nivel superior no fue viable. Un IPERC que solo dice «EPP» sin ese rastro es el hallazgo más frecuente en obra.')}
+  'El requisito no es «aplicar la jerarquía»: es aplicarla <em>en orden</em> y poder demostrar por qué cada nivel superior no fue viable. Un IPERC que solo dice «EPP» sin ese rastro es el hallazgo más frecuente en obra.', { interactive: true })}
 
 ${fig('bowtie', '12', 'Análisis de corbatín para riesgos críticos',
   'Herramienta avanzada que ISO no exige pero que todo consultor experimentado usa en los riesgos de alta consecuencia. Divide el análisis en prevención (izquierda, reduce probabilidad) y mitigación (derecha, reduce severidad), y obliga a nombrar cada barrera con su dueño y su verificación.')}
@@ -158,7 +158,7 @@ ${head('Módulo 4', 'Información<br><em>documentada</em>',
 ${sec('01', 'La arquitectura', 'Cuatro niveles. El volumen crece hacia abajo; la autoridad de aprobación, hacia arriba.')}
 
 ${fig('docPyramid', '13', 'Pirámide documental del sistema integrado',
-  'El nivel 4 es el único que un auditor audita realmente. Los tres superiores describen intención; los registros prueban que ocurrió. Un sistema con mucha pirámide superior y poco registro es un sistema de papel.')}
+  'El nivel 4 es el único que un auditor audita realmente. Los tres superiores describen intención; los registros prueban que ocurrió. Un sistema con mucha pirámide superior y poco registro es un sistema de papel.', { interactive: true })}
 
 ${callout('key', 'El cambio de 2015 que casi nadie aprovechó',
   `<p class="mb0">Desapareció la obligación del manual de calidad y de los seis procedimientos documentados.

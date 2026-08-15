@@ -13,6 +13,7 @@ import { MODULOS, RUTA, CAMBIOS_2026 } from './data/curso.js';
 import { COMUNES, PROPIAS, FALSOS_AMIGOS } from './data/normas.js';
 import { CASOS, REGLAS, FORMULAS, GLOSARIO, PREGUNTAS_ORO } from './data/practica.js';
 import { PROVEEDORES, ESQUEMAS } from './data/certificacion.js';
+import { HOTSPOTS, INTERACTIVOS } from './data/hotspots.js';
 
 /* ------------------------------------------------------------------
    Rutas
@@ -94,6 +95,9 @@ function markActive(route) {
    Índice de búsqueda
    ------------------------------------------------------------------ */
 const INDEX = [];
+/* Vista donde vive cada diagrama interactivo */
+const DG_VIEW = { annexSL: 'panel', pdcaLoop: 'panel', riskMatrix: 'riesgos',
+  controlHierarchy: 'riesgos', auditCycle: 'auditoria', docPyramid: 'documental' };
 const strip = (s) => String(s).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 const add = (t, c, v, extra = '') => INDEX.push({ t: strip(t), c: strip(c), v, key: strip(`${t} ${c} ${extra}`).toLowerCase() });
 
@@ -116,6 +120,8 @@ function buildIndex() {
   CAMBIOS_2026.forEach(([c, t, d]) => add(`${c} — ${t}`, `ISO 9001:2026 · ${strip(d)}`, 'programa'));
   PROVEEDORES.forEach((p) => add(p.n, `Proveedor · ${p.tipo}`, 'certificacion', p.of));
   ESQUEMAS.forEach((e) => add(e.n, `Esquema de registro · ${e.org}`, 'certificacion', e.normas));
+  Object.entries(HOTSPOTS).forEach(([dg, keys]) =>
+    Object.values(keys).forEach((h) => add(h.t, `Diagrama interactivo · ${h.n || ''}`, DG_VIEW[dg] || 'panel', h.d)));
   [['Diagrama de tortuga', 'procesos'], ['Mapa de procesos', 'procesos'], ['Matriz de riesgo 5×5', 'riesgos'],
    ['Jerarquía de controles', 'riesgos'], ['Análisis de corbatín', 'riesgos'], ['Perspectiva de ciclo de vida', 'riesgos'],
    ['Pirámide documental', 'documental'], ['Ciclo de auditoría', 'auditoria'], ['Anatomía de un hallazgo', 'auditoria'],
@@ -179,6 +185,75 @@ function moveSel(d) {
 }
 
 /* ------------------------------------------------------------------
+   Diagramas interactivos: puntos activables y ampliación
+   ------------------------------------------------------------------ */
+function showHotspot(figure, node) {
+  const dg = figure.dataset.dg, k = node.dataset.k;
+  const info = HOTSPOTS[dg] && HOTSPOTS[dg][k];
+  const panel = figure.querySelector('.dg-panel');
+  if (!info || !panel) return;
+
+  figure.querySelectorAll('.dg-hot[data-sel="true"]').forEach((n) => n.removeAttribute('data-sel'));
+  node.setAttribute('data-sel', 'true');
+
+  panel.innerHTML = `<div class="p-head">
+      <span class="p-t">${info.t}</span>
+      ${info.n ? `<span class="p-n">${info.n}</span>` : ''}
+      <button class="p-close" data-act="close" aria-label="Cerrar el detalle">×</button>
+    </div><p class="p-d">${info.d}</p>`;
+  panel.hidden = false;
+}
+
+function closePanel(figure) {
+  const panel = figure.querySelector('.dg-panel');
+  if (panel) { panel.hidden = true; panel.innerHTML = ''; }
+  figure.querySelectorAll('.dg-hot[data-sel="true"]').forEach((n) => n.removeAttribute('data-sel'));
+}
+
+function toggleZoom(figure, on) {
+  const scrim = document.getElementById('dg-scrim');
+  if (on) { figure.dataset.zoom = '1'; scrim.hidden = false; }
+  else { delete figure.dataset.zoom; scrim.hidden = true; }
+  const btn = figure.querySelector('[data-act="zoom"]');
+  if (btn) btn.textContent = on ? 'Cerrar' : 'Ampliar';
+}
+
+function initDiagrams() {
+  const main = document.getElementById('main');
+
+  main.addEventListener('click', (e) => {
+    const zoomBtn = e.target.closest('[data-act="zoom"]');
+    if (zoomBtn) {
+      const fg = zoomBtn.closest('figure.diagram');
+      toggleZoom(fg, fg.dataset.zoom !== '1');
+      return;
+    }
+    if (e.target.closest('[data-act="close"]')) {
+      closePanel(e.target.closest('figure.diagram'));
+      return;
+    }
+    const node = e.target.closest('.dg-hot');
+    if (node) {
+      const fg = node.closest('figure.diagram');
+      if (node.getAttribute('data-sel') === 'true') closePanel(fg);
+      else showHotspot(fg, node);
+    }
+  });
+
+  main.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const node = e.target.closest('.dg-hot');
+    if (!node) return;
+    e.preventDefault();
+    showHotspot(node.closest('figure.diagram'), node);
+  });
+
+  document.getElementById('dg-scrim').addEventListener('click', () => {
+    document.querySelectorAll('figure.diagram[data-zoom="1"]').forEach((f) => toggleZoom(f, false));
+  });
+}
+
+/* ------------------------------------------------------------------
    Checklists persistentes
    ------------------------------------------------------------------ */
 function hydrateChecklists() {
@@ -211,6 +286,7 @@ function render() {
   const main = document.getElementById('main');
   main.innerHTML = `<div class="view">${ROUTES[route].render()}</div>${footer()}`;
   markActive(route);
+  document.getElementById('dg-scrim').hidden = true;
   hydrateChecklists();
   document.title = `${ROUTES[route].t} · SIG Lab — Sistemas Integrados de Gestión`;
   document.querySelector('.sidebar')?.setAttribute('data-open', 'false');
@@ -248,6 +324,7 @@ function init() {
   document.getElementById('nav').innerHTML = buildNav();
   buildIndex();
   render();
+  initDiagrams();
 
   window.addEventListener('hashchange', render);
 
@@ -270,7 +347,13 @@ function init() {
     if ((e.key === '/' && !inField) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
       e.preventDefault(); openSearch(); return;
     }
-    if (modal.hidden) return;
+    if (modal.hidden) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('figure.diagram[data-zoom="1"]').forEach((f) => toggleZoom(f, false));
+        document.querySelectorAll('figure.diagram').forEach((f) => closePanel(f));
+      }
+      return;
+    }
     if (e.key === 'Escape') { e.preventDefault(); closeSearch(); }
     if (e.key === 'ArrowDown') { e.preventDefault(); moveSel(1); }
     if (e.key === 'ArrowUp') { e.preventDefault(); moveSel(-1); }

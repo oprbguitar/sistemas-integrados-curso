@@ -14,10 +14,10 @@ export const NORMAS = {
     cifra: 'La norma de gestión más certificada del mundo — más de un millón de certificados vigentes.'
   },
   '14001': {
-    k: '14001', n: 'ISO 14001:2015', t: 'Sistemas de gestión ambiental',
+    k: '14001', n: 'ISO 14001:2026', t: 'Sistemas de gestión ambiental',
     obj: 'Proteger el medio ambiente, prevenir la contaminación y cumplir obligaciones de cumplimiento, con perspectiva de ciclo de vida.',
     riesgo: 'El objeto de protección es el <strong>medio ambiente y el entorno</strong>. El impacto se mide sobre un tercero que no participa en el proceso.',
-    ntp: 'NTP-ISO 14001:2015 (INACAL)',
+    ntp: 'Publicada el 15/04/2026. Reemplaza a ISO 14001:2015; transición hasta el 14/04/2029.',
     propio: ['Aspectos e impactos ambientales', 'Perspectiva de ciclo de vida', 'Obligaciones de cumplimiento', 'Preparación y respuesta ante emergencias ambientales'],
     cifra: 'Única de las cuatro que exige mirar más allá de los límites físicos de la organización.'
   },
@@ -30,10 +30,10 @@ export const NORMAS = {
     cifra: 'La única con un capítulo de participación obligatoria: el trabajador no es objeto del sistema, es sujeto.'
   },
   '37001': {
-    k: '37001', n: 'ISO 37001:2016', t: 'Sistemas de gestión antisoborno',
+    k: '37001', n: 'ISO 37001:2025', t: 'Sistemas de gestión antisoborno',
     obj: 'Prevenir, detectar y responder al soborno, y cumplir la legislación antisoborno aplicable.',
     riesgo: 'El objeto de protección es la <strong>integridad de la organización y del mercado</strong>.',
-    ntp: 'En Perú se articula con la Ley 30424 sobre responsabilidad administrativa de la persona jurídica.',
+    ntp: 'Publicada el 02/03/2025; reemplaza a ISO 37001:2016 (retirada) e incorpora la Amd 1:2024. En Perú se articula con la Ley 30424.',
     propio: ['Función de cumplimiento antisoborno', 'Debida diligencia sobre socios de negocio', 'Controles financieros y no financieros', 'Regalos, hospitalidad y donaciones', 'Denuncia e investigación'],
     cifra: 'Exige un órgano de gobierno independiente para la función de cumplimiento — no puede reportar a quien audita.'
   }

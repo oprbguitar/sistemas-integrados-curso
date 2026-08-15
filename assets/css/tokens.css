@@ -12,13 +12,13 @@
   --ink:          #16161A;   /* jet          */
   --ink-2:        #3A3D45;
   --muted:        #62697A;   /* blue slate   */
-  --muted-2:      #8B92A1;
+  --muted-2:      #656C7C;
   --hairline:     #DEDFE3;   /* silver       */
   --hairline-2:   #ECEDEF;
 
   /* --- Acento focal (1-2 elementos por diagrama) --- */
   --accent:       #FF6B35;   /* atomic tangerine */
-  --accent-ink:   #B23F13;
+  --accent-ink:   #9E3810;
   --accent-wash:  #FFF0E9;
 
   /* --- Color semantico por norma (nunca decorativo) --- */
@@ -34,19 +34,36 @@
   --c-esg-wash:   #E3F4F5;
   --c-sig:        #16161A;   /* Integrado    */
 
+  /* --- Tinta de TEXTO por norma (mas oscura que el color de trazo) --- */
+  --c-9001-ink:  #1A5299;
+  --c-14001-ink: #0F6344;
+  --c-45001-ink: #8A4B04;
+  --c-37001-ink: #5E3F91;
+  --c-esg-ink:   #0A5F67;
+
+  /* --- Banda solida + tinta garantizada (contraste WCAG AA en ambos temas) --- */
+  --solid-9001:  #1A5299;  --on-9001:  #FFFFFF;
+  --solid-14001: #0F6B49;  --on-14001: #FFFFFF;
+  --solid-45001: #9A5405;  --on-45001: #FFFFFF;
+  --solid-37001: #5E3F91;  --on-37001: #FFFFFF;
+  --solid-accent:#FF6B35;  --on-accent:#16161A;
+
+  /* Gris de apoyo en diagramas: mas oscuro que --muted para pasar AA sobre washes */
+  --dg-sub: #4E5566;
+
   /* --- Estados --- */
   --ok:           #17845A;
   --ok-wash:      #E5F5EE;
   --warn:         #D97706;
   --warn-wash:    #FDF3E3;
-  --risk:         #C2321B;
+  --risk:         #B02D18;
   --risk-wash:    #FCEBE7;
   --info:         #1D5FB0;
   --info-wash:    #E8F0FB;
 
   /* --- Escala de riesgo 5x5 --- */
   --r1: #E8F5EC;  --r2: #D6F0DC;  --r3: #FFF3CC;
-  --r4: #FFD9A8;  --r5: #FBB9A0;  --r6: #EF8A6B;  --r7: #D2452A;
+  --r4: #FFD9A8;  --r5: #FBB9A0;  --r6: #F5A488;  --r7: #EE7C63;
 
   /* --- Tipografia --- */
   --font-title: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
@@ -99,13 +116,27 @@
   --ink:          #EDEEF2;
   --ink-2:        #C4C8D2;
   --muted:        #98A0B0;
-  --muted-2:      #6E7686;
+  --muted-2:      #99A0AF;
   --hairline:     #2A2D38;
   --hairline-2:   #22242E;
 
   --accent:       #FF8557;
   --accent-ink:   #FFB394;
   --accent-wash:  #2C1A12;
+
+  --solid-9001:  #6BA6F0;  --on-9001:  #0E1016;
+  --solid-14001: #4FC894;  --on-14001: #0E1016;
+  --solid-45001: #F0A93C;  --on-45001: #0E1016;
+  --solid-37001: #A98BE0;  --on-37001: #0E1016;
+  --solid-accent:#FF8557;  --on-accent:#0E1016;
+
+  --dg-sub: #A7AEBD;
+
+  --c-9001-ink:  #8FBEF5;
+  --c-14001-ink: #6FD5A9;
+  --c-45001-ink: #F5BE68;
+  --c-37001-ink: #BFA6EA;
+  --c-esg-ink:   #6FD0D9;
 
   --c-9001:       #6BA6F0;  --c-9001-wash:  #14203A;
   --c-14001:      #4FC894;  --c-14001-wash: #10281F;
@@ -134,13 +165,33 @@
     --ink:          #EDEEF2;
     --ink-2:        #C4C8D2;
     --muted:        #98A0B0;
-    --muted-2:      #6E7686;
+    --muted-2:      #99A0AF;
     --hairline:     #2A2D38;
     --hairline-2:   #22242E;
 
     --accent:       #FF8557;
     --accent-ink:   #FFB394;
     --accent-wash:  #2C1A12;
+
+    --solid-9001:  #6BA6F0;  --on-9001:  #0E1016;
+    --solid-14001: #4FC894;  --on-14001: #0E1016;
+    --solid-45001: #F0A93C;  --on-45001: #0E1016;
+    --solid-37001: #A98BE0;  --on-37001: #0E1016;
+    --solid-accent:#FF8557;  --on-accent:#0E1016;
+
+    --dg-sub: #A7AEBD;
+
+    --c-9001-ink:  #8FBEF5;
+    --c-14001-ink: #6FD5A9;
+    --c-45001-ink: #F5BE68;
+    --c-37001-ink: #BFA6EA;
+    --c-esg-ink:   #6FD0D9;
+
+  --c-9001-ink:  #8FBEF5;
+  --c-14001-ink: #6FD5A9;
+  --c-45001-ink: #F5BE68;
+  --c-37001-ink: #BFA6EA;
+  --c-esg-ink:   #6FD0D9;
 
     --c-9001:       #6BA6F0;  --c-9001-wash:  #14203A;
     --c-14001:      #4FC894;  --c-14001-wash: #10281F;

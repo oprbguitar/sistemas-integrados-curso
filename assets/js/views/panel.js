@@ -1,7 +1,7 @@
 /* ============================================================
    SIG Lab — Vista: Panel de inicio
    ============================================================ */
-import { META, KPIS, MODULOS, HITOS } from '../data/curso.js';
+import { META, KPIS, MODULOS, HITOS, ESTADO_NORMAS } from '../data/curso.js';
 import { fig } from '../viz.js';
 import { head, sec, callout, card, kpi, badge, table, timeline, pager } from './ui.js';
 
@@ -43,10 +43,10 @@ sitio insiste mucho en esa distinción porque es donde fracasan la mayoría de l
 </div>
 
 ${fig('annexSL', '01', 'La estructura que hace posible el SIG',
-  'Los capítulos 1 a 3 no son auditables. Del 4 al 10 son requisitos, y son los mismos en las cuatro normas salvo por los añadidos propios de cada disciplina. La columna derecha muestra el cuadrante PHVA al que pertenece cada capítulo.')}
+  'Los capítulos 1 a 3 no son auditables. Del 4 al 10 son requisitos, y son los mismos en las cuatro normas salvo por los añadidos propios de cada disciplina. La columna derecha muestra el cuadrante PHVA al que pertenece cada capítulo.', { interactive: true })}
 
 ${fig('pdcaLoop', '02', 'El ciclo que ordena los capítulos',
-  'El PHVA no es un adorno pedagógico: es el criterio con el que se ordenaron los capítulos. Entender que 4-5-6 son planificación explica por qué no se puede auditar el capítulo 9 de una organización que no cerró el 6.')}
+  'El PHVA no es un adorno pedagógico: es el criterio con el que se ordenaron los capítulos. Entender que 4-5-6 son planificación explica por qué no se puede auditar el capítulo 9 de una organización que no cerró el 6.', { interactive: true })}
 
 ${sec('02', 'Qué cubre este material', 'Seis módulos del programa, ampliados con la capa que un consultor necesita y que un temario no alcanza a incluir.')}
 
@@ -66,6 +66,21 @@ ${MODULOS.map((m) => card(`
 
 ${sec('03', 'Dónde está parada la norma hoy', 'Agosto de 2026. Hay una enmienda ya auditable y una revisión mayor en curso: estudiar la edición 2015 sin esto es estudiar incompleto.')}
 
+<div class="grid g2">
+${ESTADO_NORMAS.map((n) => card(`
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <h3 style="margin:0">${n.n} <span class="mono muted" style="font-size:var(--fs-sm)">${n.ed}</span></h3>
+    ${n.est === 'nueva' ? badge('nueva edición', 'sig') : badge('vigente', 'ok')}
+  </div>
+  <p class="small muted" style="margin:12px 0 0">${n.d}</p>`, { norm: n.col })).join('')}
+</div>
+
+${callout('trap', 'Dos ediciones cambiaron y mucha gente no se enteró',
+  `<p class="mb0"><strong>ISO 14001:2015 y ISO 37001:2016 ya no son las ediciones vigentes.</strong> Si tu manual, tu matriz
+  legal o tu política citan esas ediciones, estás citando normas reemplazadas — y en el caso de ISO 37001:2016,
+  una norma <em>retirada</em>. Es de los hallazgos más fáciles de abrir y de los más incómodos de explicar.
+  Revisa hoy: alcance, política, procedimientos, matriz legal y plantillas de auditoría.</p>`)}
+
 ${fig('normsTimeline', '03', 'Cuarenta años en una línea',
   'Dos puntos importan más que el resto: 2012, cuando el Anexo SL hizo estructuralmente posible la integración; y 2024-2026, la ventana de cambio que estás atravesando ahora mismo.')}
 
@@ -82,9 +97,9 @@ ${table(
   ['Norma', 'Qué protege', 'Su requisito irrepetible', '~Certificable'],
   [
     ['<strong>ISO 9001:2015</strong><br><span class="small muted">Calidad</span>', 'El cliente y la conformidad del producto o servicio.', 'Diseño y desarrollo (cl. 8.3) · Satisfacción del cliente', 'Sí'],
-    ['<strong>ISO 14001:2015</strong><br><span class="small muted">Ambiente</span>', 'El medio ambiente — un tercero que no participa del proceso.', 'Perspectiva de ciclo de vida (cl. 6.1.2)', 'Sí'],
+    ['<strong>ISO 14001:2026</strong><br><span class="small muted">Ambiente</span>', 'El medio ambiente — un tercero que no participa del proceso.', 'Perspectiva de ciclo de vida (cl. 6.1.2)', 'Sí'],
     ['<strong>ISO 45001:2018</strong><br><span class="small muted">SST</span>', 'El trabajador, incluidos contratistas y visitantes.', 'Consulta y participación de los trabajadores (cl. 5.4)', 'Sí'],
-    ['<strong>ISO 37001:2016</strong><br><span class="small muted">Antisoborno</span>', 'La integridad de la organización y del mercado.', 'Función de cumplimiento con acceso al órgano de gobierno', 'Sí']
+    ['<strong>ISO 37001:2025</strong><br><span class="small muted">Antisoborno</span>', 'La integridad de la organización y del mercado.', 'Función de cumplimiento con acceso al órgano de gobierno', 'Sí']
   ])}
 
 ${fig('correspondenceGrid', '04', 'Dónde se funden y dónde divergen',

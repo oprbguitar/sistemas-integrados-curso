@@ -32,13 +32,21 @@ const box = (x, y, w, h, o = {}) => `<rect x="${x}" y="${y}" width="${w}" height
 
 /** Texto. `a` = anchor, `c` = clase. */
 const txt = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.a || 'middle'}"
-  class="${o.c || 'd-label'}"${o.fill ? ` fill="${o.fill}"` : ''}${o.w ? ` font-weight="${o.w}"` : ''}${o.size ? ` font-size="${o.size}"` : ''}>${s}</text>`;
+  class="${o.c || 'd-label'}"${o.fill || o.w || o.size ? ` style="${o.fill ? `fill:${o.fill};` : ''}${o.w ? `font-weight:${o.w};` : ''}${o.size ? `font-size:${o.size}px;` : ''}"` : ''}>${s}</text>`;
 
 /** Texto multilinea centrado verticalmente en un bloque. */
 function lines(x, y, arr, o = {}) {
   const lh = o.lh || 14;
   return arr.map((s, i) => txt(x, y + i * lh, s, o)).join('\n  ');
 }
+
+/** Envuelve un nodo en un grupo interactivo (clic / Enter / Espacio).
+    `r` = [x, y, w, h] del area sensible: sin ella, los huecos entre formas
+    no responden al clic y el nodo parece roto. */
+const hot = (k, body, label, r) => {
+  const hit = r ? `<rect class="dg-hit" x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}" rx="8" fill="transparent"/>` : '';
+  return `<g class="dg-hot" data-k="${k}" tabindex="0" role="button" aria-label="${label.replace(/"/g, '&quot;')}">${hit}${body}</g>`;
+};
 
 /** Marcador de flecha reutilizable, uno por diagrama. */
 function arrowDefs(id, color = 'var(--muted-2)') {
@@ -48,6 +56,28 @@ function arrowDefs(id, color = 'var(--muted-2)') {
 
 const arrow = (d, mid, o = {}) => `<path d="${d}" fill="none" stroke="${o.stroke || 'var(--muted-2)'}"
   stroke-width="${o.sw || 1}"${o.dash ? ` stroke-dasharray="${o.dash}"` : ''} marker-end="url(#${mid})"/>`;
+
+/* Bandas solidas y su tinta obligatoria. Nunca uses una sin la otra:
+   en claro la banda es oscura con tinta blanca; en oscuro se invierte. */
+const S = {
+  q:   { bg: 'var(--solid-9001)',  ink: 'var(--on-9001)'  },
+  e:   { bg: 'var(--solid-14001)', ink: 'var(--on-14001)' },
+  s:   { bg: 'var(--solid-45001)', ink: 'var(--on-45001)' },
+  a:   { bg: 'var(--solid-37001)', ink: 'var(--on-37001)' },
+  acc: { bg: 'var(--solid-accent)', ink: 'var(--on-accent)' }
+};
+
+/* Tinta de TEXTO. Un color de trazo nunca se usa directamente como texto:
+   se pasa por ink() para obtener su variante legible. */
+const INK = {
+  'var(--c-9001)':  'var(--c-9001-ink)',
+  'var(--c-14001)': 'var(--c-14001-ink)',
+  'var(--c-45001)': 'var(--c-45001-ink)',
+  'var(--c-37001)': 'var(--c-37001-ink)',
+  'var(--c-esg)':   'var(--c-esg-ink)',
+  'var(--accent)':  'var(--accent-ink)'
+};
+const ink = (c) => INK[c] || c;
 
 /* Paleta semantica accesible desde JS */
 const C = {
@@ -87,15 +117,16 @@ export function annexSL() {
     const y = 72 + i * (rowH + 4);
     const fill = aud ? C.paper : 'var(--paper-3)';
     const stroke = aud ? C.hair : C.hair;
-    b += box(x, y, w, rowH, { fill, stroke, r: 8, dash: aud ? null : '3 3' });
-    b += txt(x + 20, y + 27, `${n}.`, { a: 'end', c: 'd-sub', fill: aud ? C.acci : 'var(--muted-2)' });
-    b += txt(x + 28, y + 27, name, { a: 'start', c: 'd-label', fill: aud ? 'var(--ink)' : 'var(--muted)' });
+    let g = box(x, y, w, rowH, { fill, stroke, r: 8, dash: aud ? null : '3 3' });
+    g += txt(x + 20, y + 27, `${n}.`, { a: 'end', c: 'd-sub', fill: aud ? C.acci : 'var(--muted-2)' });
+    g += txt(x + 28, y + 27, name, { a: 'start', c: 'd-label', fill: aud ? 'var(--ink)' : 'var(--muted)' });
+    b += hot(n, g, `Capítulo ${n}: ${name}`, [x - 8, y, w + 72, rowH]);
 
     // Columna PHVA a la derecha
     if (aud) {
-      const pc = { P: C.q, H: C.s, V: C.e, A: C.a }[tag];
-      b += box(x + w + 16, y + 12, 20, 20, { fill: pc, stroke: 'none', r: 4 });
-      b += txt(x + w + 26, y + 26, tag, { c: 'd-sub', fill: 'var(--paper-2)', w: 700, size: 11 });
+      const pc = { P: S.q, H: S.s, V: S.e, A: S.a }[tag];
+      b += box(x + w + 16, y + 12, 20, 20, { fill: pc.bg, stroke: 'none', r: 4 });
+      b += txt(x + w + 26, y + 26, tag, { c: 'd-sub', fill: pc.ink, w: 700, size: 11 });
     } else {
       b += txt(x + w + 16, y + 27, tag, { a: 'start', c: 'd-sub' });
     }
@@ -141,27 +172,29 @@ export function pdcaLoop() {
     const ri = R - 52;
     const x2 = cx + ri * Math.cos(a1 - gap), y2 = cy + ri * Math.sin(a1 - gap);
     const x3 = cx + ri * Math.cos(a0 + gap), y3 = cy + ri * Math.sin(a0 + gap);
-    b += `<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}
+    let g = `<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}
       L${x2.toFixed(1)} ${y2.toFixed(1)} A${ri} ${ri} 0 0 0 ${x3.toFixed(1)} ${y3.toFixed(1)} Z"
       fill="${q.col}" fill-opacity="0.14" stroke="${q.col}" stroke-width="1"/>`;
 
     const am = a0 + Math.PI / 4, rm = R - 26;
     const mx = cx + rm * Math.cos(am), my = cy + rm * Math.sin(am);
-    b += txt(mx, my - 2, q.t, { c: 'd-label', fill: q.col, w: 700, size: 11 });
-    b += txt(mx, my + 14, q.cl, { c: 'd-sub', fill: q.col });
+    g += txt(mx, my - 2, q.t, { c: 'd-label', fill: ink(q.col), w: 700, size: 11 });
+    g += txt(mx, my + 14, q.cl, { c: 'd-sub', fill: ink(q.col) });
+    b += hot(q.t[0], g, `${q.t}, capítulos ${q.cl}`);
 
     // Leyenda lateral
     const ly = 116 + i * 84;
     b += box(504, ly, 4, 60, { fill: q.col, stroke: 'none', r: 2 });
-    b += txt(520, ly + 14, q.t, { a: 'start', c: 'd-label', fill: q.col, w: 700, size: 11 });
+    b += txt(520, ly + 14, q.t, { a: 'start', c: 'd-label', fill: ink(q.col), w: 700, size: 11 });
     b += lines(520, ly + 32, q.d.split('\n'), { a: 'start', c: 'd-sub', lh: 14 });
   });
 
   // Núcleo
-  b += `<circle cx="${cx}" cy="${cy}" r="${R - 60}" fill="var(--paper-2)" stroke="${C.hair}"/>`;
-  b += txt(cx, cy - 8, 'MEJORA', { c: 'd-label', fill: C.acci, w: 700, size: 13 });
-  b += txt(cx, cy + 10, 'CONTINUA', { c: 'd-label', fill: C.acci, w: 700, size: 13 });
-  b += txt(cx, cy + 28, 'una sola vuelta', { c: 'd-anno', size: 11 });
+  let core = `<circle cx="${cx}" cy="${cy}" r="${R - 60}" fill="var(--paper-2)" stroke="${C.hair}"/>`;
+  core += txt(cx, cy - 8, 'MEJORA', { c: 'd-label', fill: C.acci, w: 700, size: 13 });
+  core += txt(cx, cy + 10, 'CONTINUA', { c: 'd-label', fill: C.acci, w: 700, size: 13 });
+  core += txt(cx, cy + 28, 'una sola vuelta', { c: 'd-anno', size: 11 });
+  b += hot('core', core, 'Mejora continua: una sola vuelta');
 
   // Flecha de giro
   b += `<path d="M${cx + R + 16} ${cy - 24} A${R + 16} ${R + 16} 0 0 1 ${cx + R + 4} ${cy + 40}"
@@ -205,7 +238,7 @@ export function normsTimeline() {
     b += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0 + dir * stem}" stroke="${m.hot ? C.acc : C.hair}" stroke-width="1"/>`;
     b += `<circle cx="${x}" cy="${y0}" r="${m.hot ? 5 : 3.5}" fill="${m.hot ? C.acc : m.col}" stroke="var(--paper-2)" stroke-width="1.5"/>`;
     const ty = y0 + dir * (stem + (m.up ? 8 : 16));
-    b += txt(x, ty, m.y, { c: 'd-label', fill: m.col, w: 650, size: 11.5 });
+    b += txt(x, ty, m.y, { c: 'd-label', fill: ink(m.col), w: 650, size: 11.5 });
     b += txt(x, ty + dir * 0 + 14, m.s, { c: 'd-sub', fill: m.hot ? C.acci : 'var(--muted-2)' });
     b += lines(x, ty + 30, m.d.split('\n'), { c: 'd-sub', lh: 12, size: 9.5 });
   });
@@ -243,7 +276,7 @@ export function processMap() {
 
   bands.forEach((bd) => {
     b += box(136, bd.y, 588, bd.h, { fill: 'none', stroke: bd.col, r: 8, dash: '4 4' });
-    b += txt(140, bd.y - 6, bd.label, { a: 'start', c: 'd-sub', fill: bd.col, w: 600 });
+    b += txt(140, bd.y - 6, bd.label, { a: 'start', c: 'd-sub', fill: ink(bd.col), w: 600 });
     if (bd.items.length) {
       const cw = Math.floor(556 / bd.items.length);
       bd.items.forEach((it, i) => {
@@ -313,7 +346,7 @@ export function turtle() {
   ];
   legs.forEach((l) => {
     b += box(l.x, l.y, 180, 68, { r: 8, stroke: l.col });
-    b += txt(l.x + 90, l.y + 24, l.t, { c: 'd-label', fill: l.col, w: 700, size: 11 });
+    b += txt(l.x + 90, l.y + 24, l.t, { c: 'd-label', fill: ink(l.col), w: 700, size: 11 });
     b += lines(l.x + 90, l.y + 42, l.d, { c: 'd-sub', lh: 13 });
     const fromY = l.y < py ? l.y + 68 : l.y;
     const toY = l.y < py ? py : py + ph;
@@ -377,13 +410,14 @@ export function riskMatrix() {
   b += box(464, y0 - 8, 312, 5 * 40 + 8, { fill: 'var(--paper-3)', r: 8 });
   leg.forEach((l, i) => {
     const y = y0 + i * 40;
-    b += box(480, y, 16, 16, { fill: l[3], stroke: C.hair, r: 3 });
-    b += txt(504, y + 8, l[0], { a: 'start', c: 'd-sub', fill: 'var(--muted-2)' });
-    b += txt(504, y + 22, l[1], { a: 'start', c: 'd-label', size: 11, w: 650 });
-    b += txt(504, y + 34, l[2], { a: 'start', c: 'd-sub', size: 9 });
+    let g = box(480, y, 16, 16, { fill: l[3], stroke: C.hair, r: 3 });
+    g += txt(504, y + 8, l[0], { a: 'start', c: 'd-sub', fill: 'var(--muted-2)' });
+    g += txt(504, y + 22, l[1], { a: 'start', c: 'd-label', size: 11, w: 650 });
+    g += txt(504, y + 34, l[2], { a: 'start', c: 'd-sub', size: 9 });
+    b += hot(`b${i + 1}`, g, `Banda ${l[0]}: ${l[1]}`, [472, y - 4, 296, 40]);
   });
 
-  b += txt(24, H - 12, 'D.S. 024-2016-EM invierte la escala (1 = más grave). Nunca mezcles ambas convenciones en un mismo IPERC.', { a: 'start', c: 'd-anno' });
+  b += hot('esc', txt(24, H - 12, 'D.S. 024-2016-EM invierte la escala (1 = más grave). Nunca mezcles ambas convenciones en un mismo IPERC.', { a: 'start', c: 'd-anno' }), 'La trampa de la escala invertida', [24, H - 26, W - 48, 22]);
 
   return frame(W, H, 'Matriz de riesgo de cinco por cinco',
     'Cuadrícula que cruza cinco niveles de severidad contra cinco de probabilidad, con el producto en cada celda y cinco bandas de decisión desde trivial hasta intolerable.', b);
@@ -411,12 +445,13 @@ export function controlHierarchy() {
     const wTop = topW + ((botW - topW) * i) / levels.length;
     const wBot = topW + ((botW - topW) * (i + 1)) / levels.length;
     const y = y0 + i * (rowH + 4);
-    b += `<path d="M${(cx - wTop / 2).toFixed(0)} ${y} H${(cx + wTop / 2).toFixed(0)} L${(cx + wBot / 2).toFixed(0)} ${y + rowH} H${(cx - wBot / 2).toFixed(0)} Z"
+    let g = `<path d="M${(cx - wTop / 2).toFixed(0)} ${y} H${(cx + wTop / 2).toFixed(0)} L${(cx + wBot / 2).toFixed(0)} ${y + rowH} H${(cx - wBot / 2).toFixed(0)} Z"
       fill="${l.col}" fill-opacity="${0.2 - i * 0.02}" stroke="${l.col}" stroke-width="1"/>`;
-    b += txt(cx, y + 24, l.t, { c: 'd-label', fill: l.col, w: 700, size: 12 });
-    b += txt(cx, y + 40, l.d, { c: 'd-sub', size: 9.5 });
-    b += txt(616, y + 26, l.ex, { a: 'start', c: 'd-sub', size: 9.5 });
-    b += txt(616, y + 38, `eficacia ${l.ef}`, { a: 'start', c: 'd-sub', size: 9, fill: 'var(--muted-2)' });
+    g += txt(cx, y + 24, l.t, { c: 'd-label', fill: ink(l.col), w: 700, size: 12 });
+    g += txt(cx, y + 40, l.d, { c: 'd-sub', size: 9.5 });
+    g += txt(616, y + 26, l.ex, { a: 'start', c: 'd-sub', size: 9.5 });
+    g += txt(616, y + 38, `eficacia ${l.ef}`, { a: 'start', c: 'd-sub', size: 9, fill: 'var(--muted-2)' });
+    b += hot(`h${i + 1}`, g, `Nivel ${i + 1}: ${l.t}`, [24, y, W - 48, rowH]);
   });
 
   b += `<path d="M40 ${y0 + 8} V${y0 + 5 * (rowH + 4) - 12}" stroke="${C.acc}" stroke-width="1.5"/>`;
@@ -451,11 +486,12 @@ export function docPyramid() {
     const wTop = 152 + i * 112, wBot = 152 + (i + 1) * 112;
     const y = y0 + i * (rowH + 4);
     const focal = i === 3;
-    b += `<path d="M${cx - wTop / 2} ${y} H${cx + wTop / 2} L${cx + wBot / 2} ${y + rowH} H${cx - wBot / 2} Z"
+    let g = `<path d="M${cx - wTop / 2} ${y} H${cx + wTop / 2} L${cx + wBot / 2} ${y + rowH} H${cx - wBot / 2} Z"
       fill="${t.col}" fill-opacity="${focal ? 0.2 : 0.1}" stroke="${t.col}" stroke-width="${focal ? 1.5 : 1}"/>`;
-    b += txt(cx, y + 26, t.t, { c: 'd-label', fill: t.col, w: 650, size: 11.5 });
-    b += txt(cx, y + 42, t.d, { c: 'd-sub', size: 9.5 });
-    b += txt(600, y + 34, t.n, { a: 'start', c: 'd-sub', size: 9.5, fill: focal ? C.acci : 'var(--muted)' });
+    g += txt(cx, y + 26, t.t, { c: 'd-label', fill: ink(t.col), w: 650, size: 11.5 });
+    g += txt(cx, y + 42, t.d, { c: 'd-sub', size: 9.5 });
+    g += txt(600, y + 34, t.n, { a: 'start', c: 'd-sub', size: 9.5, fill: focal ? C.acci : 'var(--muted)' });
+    b += hot(`n${i + 1}`, g, `Nivel ${i + 1}: ${t.t}`, [24, y, W - 48, rowH]);
   });
 
   b += `<path d="M580 ${y0 + 3 * (rowH + 4) + 30} h-40" stroke="${C.acc}" stroke-width="1"/>`;
@@ -489,13 +525,14 @@ export function auditCycle() {
   phases.forEach((p, i) => {
     const x = 24 + i * (bw + gap);
     const focal = i === 2;
-    b += box(x, y, bw, 132, { fill: focal ? C.accw : 'var(--paper-2)', stroke: focal ? C.acc : C.hair, r: 8, sw: focal ? 1.5 : 1 });
-    b += box(x, y, bw, 24, { fill: focal ? C.acc : 'var(--paper-3)', stroke: 'none', r: 8 });
-    b += `<rect x="${x}" y="${y + 16}" width="${bw}" height="8" fill="${focal ? C.acc : 'var(--paper-3)'}"/>`;
-    b += txt(x + bw / 2, y + 17, `${p.n} · ${p.t}`, { c: 'd-label', size: 10.5, w: 700, fill: focal ? 'var(--paper-2)' : 'var(--ink)' });
-    b += lines(x + bw / 2, y + 46, p.d, { c: 'd-sub', lh: 14, size: 9.5 });
-    b += `<line x1="${x + 12}" y1="${y + 104}" x2="${x + bw - 12}" y2="${y + 104}" stroke="${C.hair}"/>`;
-    b += txt(x + bw / 2, y + 120, p.out, { c: 'd-sub', size: 9, fill: C.acci });
+    let g = box(x, y, bw, 132, { fill: focal ? C.accw : 'var(--paper-2)', stroke: focal ? C.acc : C.hair, r: 8, sw: focal ? 1.5 : 1 });
+    g += box(x, y, bw, 24, { fill: focal ? S.acc.bg : 'var(--paper-3)', stroke: 'none', r: 8 });
+    g += `<rect x="${x}" y="${y + 16}" width="${bw}" height="8" fill="${focal ? S.acc.bg : 'var(--paper-3)'}"/>`;
+    g += txt(x + bw / 2, y + 17, `${p.n} · ${p.t}`, { c: 'd-label', size: 10.5, w: 700, fill: focal ? S.acc.ink : 'var(--ink)' });
+    g += lines(x + bw / 2, y + 46, p.d, { c: 'd-sub', lh: 14, size: 9.5 });
+    g += `<line x1="${x + 12}" y1="${y + 104}" x2="${x + bw - 12}" y2="${y + 104}" stroke="${C.hair}"/>`;
+    g += txt(x + bw / 2, y + 120, p.out, { c: 'd-sub', size: 9, fill: C.acci });
+    b += hot(`f${i + 1}`, g, `Fase ${p.n}: ${p.t}`, [x, y, bw, 132]);
     if (i < phases.length - 1) b += arrow(`M${x + bw + 2} ${y + 66} H${x + bw + gap - 4}`, 'ac-a');
   });
 
@@ -526,7 +563,7 @@ export function certRoute() {
   ];
   lanes.forEach((l) => {
     b += `<line x1="192" y1="${l.y - 8}" x2="940" y2="${l.y - 8}" stroke="${C.hair}"/>`;
-    b += txt(184, l.y + 32, l.t, { a: 'end', c: 'd-sub', fill: l.col, w: 600 });
+    b += txt(184, l.y + 32, l.t, { a: 'end', c: 'd-sub', fill: ink(l.col), w: 600 });
   });
   b += `<line x1="192" y1="376" x2="940" y2="376" stroke="${C.hair}"/>`;
   b += `<line x1="192" y1="76" x2="192" y2="376" stroke="${C.hair}"/>`;
@@ -555,9 +592,9 @@ export function certRoute() {
 
   // Acreditación
   b += box(696, 292, 232, 64, { fill: C.aw, stroke: C.a, r: 8 });
-  b += txt(812, 316, 'INACAL-DA · IAF MLA', { c: 'd-label', size: 10.5, fill: C.a, w: 650 });
+  b += txt(812, 316, 'INACAL-DA · IAF MLA', { c: 'd-label', size: 10.5, fill: ink(C.a), w: 650 });
   b += txt(812, 332, 'acredita bajo ISO/IEC 17021-1', { c: 'd-sub', size: 9 });
-  b += txt(812, 344, 'sin esto no vale fuera del país', { c: 'd-sub', size: 9, fill: C.a });
+  b += txt(812, 344, 'sin esto no vale fuera del país', { c: 'd-sub', size: 9, fill: ink(C.a) });
   b += arrow('M812 288 V264', 'cr-a', { stroke: C.a, dash: '3 3' });
 
   // Certificado + ciclo
@@ -629,9 +666,9 @@ export function bowtie() {
     b += `<path d="M${cx + 60} ${y + 22} H672" stroke="${C.hair}" stroke-width="1"/>`;
   });
 
-  b += txt(240, 348, 'BARRERAS PREVENTIVAS', { c: 'd-sub', fill: C.e, w: 600 });
+  b += txt(240, 348, 'BARRERAS PREVENTIVAS', { c: 'd-sub', fill: ink(C.e), w: 600 });
   b += txt(240, 364, 'reducen la probabilidad', { c: 'd-anno', size: 10 });
-  b += txt(660, 348, 'BARRERAS MITIGADORAS', { c: 'd-sub', fill: C.q, w: 600 });
+  b += txt(660, 348, 'BARRERAS MITIGADORAS', { c: 'd-sub', fill: ink(C.q), w: 600 });
   b += txt(660, 364, 'reducen la severidad', { c: 'd-anno', size: 10 });
 
   b += txt(24, H - 8, 'Cada barrera debe tener dueño, verificación y factor de degradación identificado. Barrera sin verificación = barrera de papel.', { a: 'start', c: 'd-anno' });
@@ -652,19 +689,19 @@ export function integrationLevels() {
   const lv = [
     {
       t: 'BÁSICO', sub: 'Coordinación',
-      col: C.q, w: 232,
+      col: C.q, sol: S.q, w: 232,
       items: ['Política integrada única', 'Un solo control documental', 'Auditorías internas combinadas', 'Sistemas operativos aún separados'],
       when: 'Madurez baja. Primera certificación.'
     },
     {
       t: 'MEDIO', sub: 'Integración de procesos',
-      col: C.s, w: 232,
+      col: C.s, sol: S.s, w: 232,
       items: ['Mapa de procesos único', 'Objetivos e indicadores comunes', 'Gestión de riesgos unificada', 'Una revisión por la dirección'],
       when: 'Ya certificado en 2+ normas. Procesos definidos.'
     },
     {
       t: 'AVANZADO', sub: 'Integración estratégica',
-      col: C.acc, w: 232,
+      col: C.acc, sol: S.acc, w: 232,
       items: ['SIG = sistema de gestión del negocio', 'Riesgo integrado con ERM (ISO 31000)', 'Indicadores atados a la estrategia y ESG', 'Cultura, no cumplimiento'],
       when: 'Organización madura. Enfoque de excelencia.'
     }
@@ -676,15 +713,15 @@ export function integrationLevels() {
     const h = 176 + i * 0;
     const y = 156 - i * 24;
     b += box(x, y, l.w, 168, { fill: focal ? C.accw : 'var(--paper-2)', stroke: l.col, r: 10, sw: focal ? 1.5 : 1 });
-    b += box(x, y, l.w, 28, { fill: l.col, stroke: 'none', r: 10 });
-    b += `<rect x="${x}" y="${y + 18}" width="${l.w}" height="10" fill="${l.col}"/>`;
-    b += txt(x + l.w / 2, y + 19, `${i + 1}. ${l.t} — ${l.sub}`, { c: 'd-label', size: 10.5, w: 700, fill: 'var(--paper-2)' });
+    b += box(x, y, l.w, 28, { fill: l.sol.bg, stroke: 'none', r: 10 });
+    b += `<rect x="${x}" y="${y + 18}" width="${l.w}" height="10" fill="${l.sol.bg}"/>`;
+    b += txt(x + l.w / 2, y + 19, `${i + 1}. ${l.t} — ${l.sub}`, { c: 'd-label', size: 10.5, w: 700, fill: l.sol.ink });
     l.items.forEach((it, j) => {
       b += `<circle cx="${x + 16}" cy="${y + 48 + j * 22}" r="2" fill="${l.col}"/>`;
       b += txt(x + 26, y + 52 + j * 22, it, { a: 'start', c: 'd-sub', size: 9.5 });
     });
     b += `<line x1="${x + 12}" y1="${y + 138}" x2="${x + l.w - 12}" y2="${y + 138}" stroke="${C.hair}"/>`;
-    b += txt(x + l.w / 2, y + 154, l.when, { c: 'd-sub', size: 9, fill: l.col });
+    b += txt(x + l.w / 2, y + 154, l.when, { c: 'd-sub', size: 9, fill: ink(l.col) });
     if (i < 2) b += arrow(`M${x + l.w + 4} ${y + 84} H${x + l.w + 40}`, 'il-a');
   });
 
@@ -717,7 +754,7 @@ export function stakeholderQuadrant() {
   q.forEach((c) => {
     const x = x0 + c.qx * (size / 2), y = y0 + c.qy * (size / 2);
     if (c.focal) b += box(x + 4, y + 4, size / 2 - 8, size / 2 - 8, { fill: C.accw, stroke: C.acc, r: 6, sw: 1.5 });
-    b += txt(x + size / 4, y + 48, c.t, { c: 'd-label', size: 10.5, w: 700, fill: c.col });
+    b += txt(x + size / 4, y + 48, c.t, { c: 'd-label', size: 10.5, w: 700, fill: ink(c.col) });
     b += txt(x + size / 4, y + 66, c.d, { c: 'd-sub', size: 9 });
     const ws = c.ex.split(' · ');
     b += lines(x + size / 4, y + 92, ws, { c: 'd-sub', size: 9, lh: 13, fill: 'var(--muted-2)' });
@@ -774,13 +811,13 @@ export function lifecycle() {
     b += txt(x + bw / 2, y + 24, s.t, { c: 'd-label', size: 10.5, w: 650, fill: s.focal ? C.acci : 'var(--ink)' });
     b += lines(x + bw / 2, y + 44, s.d.split('\n'), { c: 'd-sub', lh: 12, size: 9 });
     b += `<line x1="${x + 12}" y1="${y + 68}" x2="${x + bw - 12}" y2="${y + 68}" stroke="${C.hair}"/>`;
-    b += txt(x + bw / 2, y + 84, s.ctrl.toUpperCase(), { c: 'd-sub', size: 8.5, fill: s.ctrl === 'Controlar' ? C.e : 'var(--muted-2)' });
+    b += txt(x + bw / 2, y + 84, s.ctrl.toUpperCase(), { c: 'd-sub', size: 8.5, fill: s.ctrl === 'Controlar' ? ink(C.e) : 'var(--muted-2)' });
     if (i < stages.length - 1) b += arrow(`M${x + bw + 1} ${y + 46} H${x + bw + gap - 3}`, 'lc-a');
   });
 
   const cSt = 24 + 1 * (bw + gap), cEn = 24 + 4 * (bw + gap) - gap;
   b += `<path d="M${cSt} ${y - 12} H${cEn}" stroke="${C.e}" stroke-width="1.5"/>`;
-  b += txt((cSt + cEn) / 2, y - 18, 'CONTROL DIRECTO — requisito operacional', { c: 'd-sub', fill: C.e, w: 600 });
+  b += txt((cSt + cEn) / 2, y - 18, 'CONTROL DIRECTO — requisito operacional', { c: 'd-sub', fill: ink(C.e), w: 600 });
 
   b += `<path d="M24 ${y + 112} H${24 + 6 * (bw + gap) + bw}" stroke="${C.hair}" stroke-width="1" stroke-dasharray="4 4"/>`;
   b += txt(450, y + 128, 'INFLUENCIA — requisito de comunicación e información a proveedores y usuarios', { c: 'd-anno' });
@@ -935,7 +972,7 @@ export function costIceberg() {
 
   const wl = 208;
   b += `<line x1="24" y1="${wl}" x2="696" y2="${wl}" stroke="${C.q}" stroke-width="1.5"/>`;
-  b += txt(696, wl - 8, 'línea de flotación contable', { a: 'end', c: 'd-anno', fill: C.q, size: 10 });
+  b += txt(696, wl - 8, 'línea de flotación contable', { a: 'end', c: 'd-anno', fill: ink(C.q), size: 10 });
 
   // Punta visible
   b += `<path d="M280 ${wl} L360 96 L440 ${wl} Z" fill="${C.acc}" fill-opacity="0.22" stroke="${C.acc}" stroke-width="1.5"/>`;
@@ -947,7 +984,7 @@ export function costIceberg() {
   // Masa sumergida
   b += `<path d="M280 ${wl} L440 ${wl} L560 300 L520 372 L200 372 L152 296 Z"
     fill="${C.q}" fill-opacity="0.1" stroke="${C.q}" stroke-width="1" stroke-dasharray="4 4"/>`;
-  b += txt(360, wl + 32, '4× a 10× OCULTO', { c: 'd-label', size: 12, fill: C.q, w: 700 });
+  b += txt(360, wl + 32, '4× a 10× OCULTO', { c: 'd-label', size: 12, fill: ink(C.q), w: 700 });
 
   const hidden = [
     ['Tiempo de investigación y gestión', 'Sobretiempo de reemplazo'],
@@ -994,7 +1031,7 @@ export function ncAnatomy() {
   parts.forEach((p, i) => {
     const y = 84 + i * 76;
     b += box(24, y, 152, 60, { fill: p.focal ? C.accw : 'var(--paper-2)', stroke: p.col, r: 8, sw: p.focal ? 1.5 : 1 });
-    b += txt(100, y + 26, p.t, { c: 'd-label', size: 11, fill: p.col, w: 700 });
+    b += txt(100, y + 26, p.t, { c: 'd-label', size: 11, fill: ink(p.col), w: 700 });
     b += txt(100, y + 44, `${i + 1} de 3`, { c: 'd-sub', size: 9 });
     b += txt(196, y + 20, p.d, { a: 'start', c: 'd-sub', size: 9.5, fill: 'var(--ink)' });
     const words = p.ex.match(/.{1,74}(\s|$)/g) || [p.ex];
@@ -1012,9 +1049,9 @@ export function ncAnatomy() {
   cls.forEach((c, i) => {
     const x = 24 + i * 276;
     b += box(x, 332, 256, 64, { r: 8, stroke: c.col });
-    b += txt(x + 12, 350, c.t, { a: 'start', c: 'd-label', size: 10.5, fill: c.col, w: 700 });
+    b += txt(x + 12, 350, c.t, { a: 'start', c: 'd-label', size: 10.5, fill: ink(c.col), w: 700 });
     b += lines(x + 12, 366, c.d.split('\n'), { a: 'start', c: 'd-sub', lh: 11, size: 9 });
-    b += txt(x + 12, 390, c.a, { a: 'start', c: 'd-sub', size: 9, fill: c.col, w: 600 });
+    b += txt(x + 12, 390, c.a, { a: 'start', c: 'd-sub', size: 9, fill: ink(c.col), w: 600 });
   });
 
   return frame(W, H, 'Anatomía de un hallazgo de auditoría',
@@ -1031,16 +1068,16 @@ export function correspondenceGrid() {
   b += txt(24, 52, 'sólido = requisito común integrable · rayado = requisito propio no integrable', { a: 'start', c: 'd-anno' });
 
   const cols = [
-    { t: 'ISO 9001', s: 'Calidad', col: C.q },
-    { t: 'ISO 14001', s: 'Ambiente', col: C.e },
-    { t: 'ISO 45001', s: 'SST', col: C.s },
-    { t: 'ISO 37001', s: 'Antisoborno', col: C.a }
+    { t: 'ISO 9001', s: 'Calidad', col: C.q, sol: S.q },
+    { t: 'ISO 14001', s: 'Ambiente', col: C.e, sol: S.e },
+    { t: 'ISO 45001', s: 'SST', col: C.s, sol: S.s },
+    { t: 'ISO 37001', s: 'Antisoborno', col: C.a, sol: S.a }
   ];
   cols.forEach((c, i) => {
     const x = x0 + i * colW;
-    b += box(x, y0 - 44, colW - 8, 36, { fill: c.col, stroke: 'none', r: 6 });
-    b += txt(x + (colW - 8) / 2, y0 - 28, c.t, { c: 'd-label', size: 11, fill: 'var(--paper-2)', w: 700 });
-    b += txt(x + (colW - 8) / 2, y0 - 14, c.s, { c: 'd-sub', size: 9, fill: 'var(--paper-2)' });
+    b += box(x, y0 - 44, colW - 8, 36, { fill: c.sol.bg, stroke: 'none', r: 6 });
+    b += txt(x + (colW - 8) / 2, y0 - 28, c.t, { c: 'd-label', size: 11, fill: c.sol.ink, w: 700 });
+    b += txt(x + (colW - 8) / 2, y0 - 14, c.s, { c: 'd-sub', size: 9, fill: c.sol.ink });
   });
 
   // 1 = comun, 0.5 = comun con matiz, 0 = propio
@@ -1069,14 +1106,14 @@ export function correspondenceGrid() {
     b += txt(256, y + 16, r[0], { a: 'end', c: 'd-sub', size: 9.5, fill: 'var(--ink)' });
     for (let c = 0; c < 4; c++) {
       const x = x0 + c * colW, v = r[c + 1];
-      const col = cols[c].col;
+      const col = cols[c].col, sol = cols[c].sol;
       if (v === 1) {
-        b += box(x, y + 3, colW - 8, rowH - 10, { fill: col, stroke: 'none', r: 4 });
-        b += txt(x + (colW - 8) / 2, y + 17, 'integrable', { c: 'd-sub', size: 8.5, fill: 'var(--paper-2)' });
+        b += box(x, y + 3, colW - 8, rowH - 10, { fill: sol.bg, stroke: 'none', r: 4 });
+        b += txt(x + (colW - 8) / 2, y + 17, 'integrable', { c: 'd-sub', size: 8.5, fill: sol.ink });
       } else if (v === 0.5) {
         b += box(x, y + 3, colW - 8, rowH - 10, { fill: col, stroke: col, r: 4 });
         b += `<rect x="${x}" y="${y + 3}" width="${colW - 8}" height="${rowH - 10}" rx="4" fill="var(--paper-2)" fill-opacity="0.72"/>`;
-        b += txt(x + (colW - 8) / 2, y + 17, 'común + matiz', { c: 'd-sub', size: 8.5, fill: col });
+        b += txt(x + (colW - 8) / 2, y + 17, 'común + matiz', { c: 'd-sub', size: 8.5, fill: ink(col) });
       } else {
         b += box(x, y + 3, colW - 8, rowH - 10, { fill: 'none', stroke: C.hair, r: 4, dash: '3 3' });
         b += txt(x + (colW - 8) / 2, y + 17, 'propio', { c: 'd-sub', size: 8.5, fill: 'var(--muted-2)' });
@@ -1103,15 +1140,21 @@ export const DIAGRAMS = {
 };
 
 /** Envuelve un diagrama en su <figure> con numeración y pie. */
-export function fig(name, num, title, caption) {
+export function fig(name, num, title, caption, opts = {}) {
   const fn = DIAGRAMS[name];
   if (!fn) return '';
-  return `<figure class="diagram">
+  const inter = !!opts.interactive;
+  return `<figure class="diagram" data-dg="${name}"${inter ? ' data-interactive="1"' : ''}>
   <div class="dg-head">
     <span class="dg-num">Diagrama ${num}</span>
     <span class="dg-title">${title}</span>
+    <span class="dg-tools">
+      ${inter ? '<span class="dg-hint">Pulsa cualquier elemento</span>' : ''}
+      <button class="dg-btn" data-act="zoom" aria-label="Ampliar el diagrama a pantalla completa">Ampliar</button>
+    </span>
   </div>
   <div class="dg-canvas">${fn()}</div>
+  <div class="dg-panel" hidden aria-live="polite"></div>
   ${caption ? `<figcaption>${caption}</figcaption>` : ''}
 </figure>`;
 }
