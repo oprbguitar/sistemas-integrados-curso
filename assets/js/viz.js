@@ -231,16 +231,19 @@ export function normsTimeline() {
   b += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" stroke="${C.hair}" stroke-width="1"/>`;
   b += arrow(`M${x1 - 24} ${y0} H${x1}`, 'tl-a');
 
-  marks.forEach((m) => {
+  marks.forEach((m, mi) => {
     const x = Math.round(x0 + m.x * (x1 - x0 - 32));
+    const hk = { 4: 'm4', 8: 'm8', 9: 'm9' }[mi];
+    let g = '';
     const dir = m.up ? -1 : 1;
     const stem = m.up ? 40 : 36;
-    b += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0 + dir * stem}" stroke="${m.hot ? C.acc : C.hair}" stroke-width="1"/>`;
-    b += `<circle cx="${x}" cy="${y0}" r="${m.hot ? 5 : 3.5}" fill="${m.hot ? C.acc : m.col}" stroke="var(--paper-2)" stroke-width="1.5"/>`;
+    g += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0 + dir * stem}" stroke="${m.hot ? C.acc : C.hair}" stroke-width="1"/>`;
+    g += `<circle cx="${x}" cy="${y0}" r="${m.hot ? 5 : 3.5}" fill="${m.hot ? C.acc : m.col}" stroke="var(--paper-2)" stroke-width="1.5"/>`;
     const ty = y0 + dir * (stem + (m.up ? 8 : 16));
-    b += txt(x, ty, m.y, { c: 'd-label', fill: ink(m.col), w: 650, size: 11.5 });
-    b += txt(x, ty + dir * 0 + 14, m.s, { c: 'd-sub', fill: m.hot ? C.acci : 'var(--muted-2)' });
-    b += lines(x, ty + 30, m.d.split('\n'), { c: 'd-sub', lh: 12, size: 9.5 });
+    g += txt(x, ty, m.y, { c: 'd-label', fill: ink(m.col), w: 650, size: 11.5 });
+    g += txt(x, ty + dir * 0 + 14, m.s, { c: 'd-sub', fill: m.hot ? C.acci : 'var(--muted-2)' });
+    g += lines(x, ty + 30, m.d.split('\n'), { c: 'd-sub', lh: 12, size: 9.5 });
+    b += hk ? hot(hk, g, `${m.s} — ${m.y}`, [x - 40, m.up ? ty - 14 : y0 + 8, 80, 72]) : g;
   });
 
   b += txt(24, H - 12, 'Hoy: la Enmienda 1:2024 ya es auditable sin periodo de transición. La revisión 2026 sí lo tendrá.', { a: 'start', c: 'd-anno' });
@@ -274,17 +277,19 @@ export function processMap() {
     { y: 288, h: 56, label: 'PROCESOS DE SOPORTE', col: C.e, items: ['RR. HH. y competencia', 'Compras y proveedores', 'Mantenimiento', 'TI y documentación'] }
   ];
 
-  bands.forEach((bd) => {
-    b += box(136, bd.y, 588, bd.h, { fill: 'none', stroke: bd.col, r: 8, dash: '4 4' });
-    b += txt(140, bd.y - 6, bd.label, { a: 'start', c: 'd-sub', fill: ink(bd.col), w: 600 });
+  const bandKeys = ['est', 'val', 'sop'];
+  bands.forEach((bd, bi) => {
+    let g = box(136, bd.y, 588, bd.h, { fill: 'none', stroke: bd.col, r: 8, dash: '4 4' });
+    g += txt(140, bd.y - 6, bd.label, { a: 'start', c: 'd-sub', fill: ink(bd.col), w: 600 });
     if (bd.items.length) {
       const cw = Math.floor(556 / bd.items.length);
       bd.items.forEach((it, i) => {
         const x = 152 + i * cw;
-        b += box(x, bd.y + 12, cw - 16, bd.h - 24, { fill: 'var(--paper-2)', stroke: bd.col, r: 6 });
-        b += txt(x + (cw - 16) / 2, bd.y + bd.h / 2 + 4, it, { c: 'd-label', size: 10.5 });
+        g += box(x, bd.y + 12, cw - 16, bd.h - 24, { fill: 'var(--paper-2)', stroke: bd.col, r: 6 });
+        g += txt(x + (cw - 16) / 2, bd.y + bd.h / 2 + 4, it, { c: 'd-label', size: 10.5 });
       });
     }
+    b += hot(bandKeys[bi], g, bd.label, [136, bd.y - 14, 588, bd.h + 14]);
   });
 
   // Cadena de valor con flechas encadenadas
@@ -303,7 +308,7 @@ export function processMap() {
 
   // Retroalimentación
   b += `<path d="M788 280 V376 H72 V280" fill="none" stroke="${C.acc}" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#pm-a)"/>`;
-  b += txt(430, 372, 'retroalimentación · cap. 9 evaluación del desempeño', { c: 'd-anno', fill: C.acci });
+  b += hot('ret', txt(430, 372, 'retroalimentación · cap. 9 evaluación del desempeño', { c: 'd-anno', fill: C.acci }), 'La flecha de retroalimentación', [232, 360, 400, 20]);
 
   b += txt(24, H - 12, 'Regla del auditor: si un proceso del mapa no tiene dueño, indicador y riesgo asociado, no es un proceso — es un dibujo.', { a: 'start', c: 'd-anno' });
 
@@ -344,10 +349,11 @@ export function turtle() {
     { x: 168, y: 288, t: '¿CÓMO?', d: ['Procedimiento,', 'instructivo, criterios'], col: C.e },
     { x: 452, y: 288, t: '¿CUÁN BIEN?', d: ['Indicador, meta,', 'frecuencia, riesgo'], col: C.a }
   ];
-  legs.forEach((l) => {
-    b += box(l.x, l.y, 180, 68, { r: 8, stroke: l.col });
-    b += txt(l.x + 90, l.y + 24, l.t, { c: 'd-label', fill: ink(l.col), w: 700, size: 11 });
-    b += lines(l.x + 90, l.y + 42, l.d, { c: 'd-sub', lh: 13 });
+  legs.forEach((l, li) => {
+    let g = box(l.x, l.y, 180, 68, { r: 8, stroke: l.col });
+    g += txt(l.x + 90, l.y + 24, l.t, { c: 'd-label', fill: ink(l.col), w: 700, size: 11 });
+    g += lines(l.x + 90, l.y + 42, l.d, { c: 'd-sub', lh: 13 });
+    b += hot(`p${li + 1}`, g, l.t, [l.x, l.y, 180, 68]);
     const fromY = l.y < py ? l.y + 68 : l.y;
     const toY = l.y < py ? py : py + ph;
     const fx = l.x + 90;
@@ -579,10 +585,11 @@ export function certRoute() {
   steps.forEach((s, i) => {
     const y = lanes[s.lane].y;
     const focal = i === 5;
-    b += box(s.x - 52, y, 104, 64, { fill: focal ? C.accw : 'var(--paper-2)', stroke: focal ? C.acc : C.hair, r: 8, sw: focal ? 1.5 : 1 });
-    b += txt(s.x, y + 22, s.t, { c: 'd-label', size: 10.5, w: 650 });
-    b += lines(s.x, y + 38, s.d.split('\n'), { c: 'd-sub', lh: 11, size: 9 });
-    b += txt(s.x, y - 14, s.m, { c: 'd-sub', size: 9, fill: 'var(--muted-2)' });
+    let g = box(s.x - 52, y, 104, 64, { fill: focal ? C.accw : 'var(--paper-2)', stroke: focal ? C.acc : C.hair, r: 8, sw: focal ? 1.5 : 1 });
+    g += txt(s.x, y + 22, s.t, { c: 'd-label', size: 10.5, w: 650 });
+    g += lines(s.x, y + 38, s.d.split('\n'), { c: 'd-sub', lh: 11, size: 9 });
+    g += txt(s.x, y - 14, s.m, { c: 'd-sub', size: 9, fill: 'var(--muted-2)' });
+    b += hot(`s${i + 1}`, g, `${s.t} — ${s.m}`, [s.x - 52, y - 22, 104, 88]);
     if (i < steps.length - 1) {
       const n = steps[i + 1], ny = lanes[n.lane].y;
       if (n.lane === s.lane) b += arrow(`M${s.x + 54} ${y + 32} H${n.x - 56}`, 'cr-a');
@@ -624,10 +631,11 @@ export function bowtie() {
 
   // Nudo
   b += `<path d="M${cx - 56} ${cy - 44} h112 v88 h-112 z" fill="${C.accw}" stroke="${C.acc}" stroke-width="1.5" rx="8"/>`;
-  b += box(cx - 56, cy - 44, 112, 88, { fill: C.accw, stroke: C.acc, r: 10, sw: 1.5 });
-  b += txt(cx, cy - 16, 'EVENTO TOPE', { c: 'd-label', fill: C.acci, w: 700, size: 11 });
-  b += txt(cx, cy + 2, 'Pérdida de', { c: 'd-sub' });
-  b += txt(cx, cy + 16, 'control del peligro', { c: 'd-sub' });
+  let knot = box(cx - 56, cy - 44, 112, 88, { fill: C.accw, stroke: C.acc, r: 10, sw: 1.5 });
+  knot += txt(cx, cy - 16, 'EVENTO TOPE', { c: 'd-label', fill: C.acci, w: 700, size: 11 });
+  knot += txt(cx, cy + 2, 'Pérdida de', { c: 'd-sub' });
+  knot += txt(cx, cy + 16, 'control del peligro', { c: 'd-sub' });
+  b += hot('knot', knot, 'Evento tope', [cx - 56, cy - 44, 112, 88]);
   b += txt(24, 70, 'PELIGRO ANALIZADO — trabajo en caliente en planta con solventes', { a: 'start', c: 'd-sub', fill: C.acci, w: 600 });
 
   const causes = [
@@ -666,10 +674,10 @@ export function bowtie() {
     b += `<path d="M${cx + 60} ${y + 22} H672" stroke="${C.hair}" stroke-width="1"/>`;
   });
 
-  b += txt(240, 348, 'BARRERAS PREVENTIVAS', { c: 'd-sub', fill: ink(C.e), w: 600 });
-  b += txt(240, 364, 'reducen la probabilidad', { c: 'd-anno', size: 10 });
-  b += txt(660, 348, 'BARRERAS MITIGADORAS', { c: 'd-sub', fill: ink(C.q), w: 600 });
-  b += txt(660, 364, 'reducen la severidad', { c: 'd-anno', size: 10 });
+  b += hot('prev', txt(240, 348, 'BARRERAS PREVENTIVAS', { c: 'd-sub', fill: ink(C.e), w: 600 }) +
+    txt(240, 364, 'reducen la probabilidad', { c: 'd-anno', size: 10 }), 'Barreras preventivas', [140, 336, 200, 36]);
+  b += hot('mit', txt(660, 348, 'BARRERAS MITIGADORAS', { c: 'd-sub', fill: ink(C.q), w: 600 }) +
+    txt(660, 364, 'reducen la severidad', { c: 'd-anno', size: 10 }), 'Barreras mitigadoras', [560, 336, 200, 36]);
 
   b += txt(24, H - 8, 'Cada barrera debe tener dueño, verificación y factor de degradación identificado. Barrera sin verificación = barrera de papel.', { a: 'start', c: 'd-anno' });
 
@@ -710,18 +718,18 @@ export function integrationLevels() {
   lv.forEach((l, i) => {
     const x = 24 + i * 280;
     const focal = i === 2;
-    const h = 176 + i * 0;
     const y = 156 - i * 24;
-    b += box(x, y, l.w, 168, { fill: focal ? C.accw : 'var(--paper-2)', stroke: l.col, r: 10, sw: focal ? 1.5 : 1 });
-    b += box(x, y, l.w, 28, { fill: l.sol.bg, stroke: 'none', r: 10 });
-    b += `<rect x="${x}" y="${y + 18}" width="${l.w}" height="10" fill="${l.sol.bg}"/>`;
-    b += txt(x + l.w / 2, y + 19, `${i + 1}. ${l.t} — ${l.sub}`, { c: 'd-label', size: 10.5, w: 700, fill: l.sol.ink });
+    let g = box(x, y, l.w, 168, { fill: focal ? C.accw : 'var(--paper-2)', stroke: l.col, r: 10, sw: focal ? 1.5 : 1 });
+    g += box(x, y, l.w, 28, { fill: l.sol.bg, stroke: 'none', r: 10 });
+    g += `<rect x="${x}" y="${y + 18}" width="${l.w}" height="10" fill="${l.sol.bg}"/>`;
+    g += txt(x + l.w / 2, y + 19, `${i + 1}. ${l.t} — ${l.sub}`, { c: 'd-label', size: 10.5, w: 700, fill: l.sol.ink });
     l.items.forEach((it, j) => {
-      b += `<circle cx="${x + 16}" cy="${y + 48 + j * 22}" r="2" fill="${l.col}"/>`;
-      b += txt(x + 26, y + 52 + j * 22, it, { a: 'start', c: 'd-sub', size: 9.5 });
+      g += `<circle cx="${x + 16}" cy="${y + 48 + j * 22}" r="2" fill="${l.col}"/>`;
+      g += txt(x + 26, y + 52 + j * 22, it, { a: 'start', c: 'd-sub', size: 9.5 });
     });
-    b += `<line x1="${x + 12}" y1="${y + 138}" x2="${x + l.w - 12}" y2="${y + 138}" stroke="${C.hair}"/>`;
-    b += txt(x + l.w / 2, y + 154, l.when, { c: 'd-sub', size: 9, fill: ink(l.col) });
+    g += `<line x1="${x + 12}" y1="${y + 138}" x2="${x + l.w - 12}" y2="${y + 138}" stroke="${C.hair}"/>`;
+    g += txt(x + l.w / 2, y + 154, l.when, { c: 'd-sub', size: 9, fill: ink(l.col) });
+    b += hot(`l${i + 1}`, g, `Nivel ${i + 1}: ${l.t}`, [x, y, l.w, 168]);
     if (i < 2) b += arrow(`M${x + l.w + 4} ${y + 84} H${x + l.w + 40}`, 'il-a');
   });
 
@@ -751,13 +759,15 @@ export function stakeholderQuadrant() {
     { qx: 0, qy: 1, t: 'MONITOREAR', d: 'Bajo poder · Bajo interés', ex: 'Medios · Público general', col: 'var(--muted)' },
     { qx: 1, qy: 1, t: 'MANTENER INFORMADO', d: 'Bajo poder · Alto interés', ex: 'Comunidad · ONG · Proveedores menores', col: C.e }
   ];
-  q.forEach((c) => {
+  q.forEach((c, qi) => {
     const x = x0 + c.qx * (size / 2), y = y0 + c.qy * (size / 2);
-    if (c.focal) b += box(x + 4, y + 4, size / 2 - 8, size / 2 - 8, { fill: C.accw, stroke: C.acc, r: 6, sw: 1.5 });
-    b += txt(x + size / 4, y + 48, c.t, { c: 'd-label', size: 10.5, w: 700, fill: ink(c.col) });
-    b += txt(x + size / 4, y + 66, c.d, { c: 'd-sub', size: 9 });
+    let g = '';
+    if (c.focal) g += box(x + 4, y + 4, size / 2 - 8, size / 2 - 8, { fill: C.accw, stroke: C.acc, r: 6, sw: 1.5 });
+    g += txt(x + size / 4, y + 48, c.t, { c: 'd-label', size: 10.5, w: 700, fill: ink(c.col) });
+    g += txt(x + size / 4, y + 66, c.d, { c: 'd-sub', size: 9 });
     const ws = c.ex.split(' · ');
-    b += lines(x + size / 4, y + 92, ws, { c: 'd-sub', size: 9, lh: 13, fill: 'var(--muted-2)' });
+    g += lines(x + size / 4, y + 92, ws, { c: 'd-sub', size: 9, lh: 13, fill: 'var(--muted-2)' });
+    b += hot(`q${qi + 1}`, g, c.t, [x + 4, y + 4, size / 2 - 8, size / 2 - 8]);
   });
 
   b += `<text transform="translate(${x0 - 32},${y0 + size / 2}) rotate(-90)" text-anchor="middle" class="d-sub" fill="${C.acci}">PODER / INFLUENCIA →</text>`;
@@ -767,8 +777,8 @@ export function stakeholderQuadrant() {
   b += txt(x0 + 4, y0 + size + 14, 'bajo', { a: 'start', c: 'd-sub', size: 9 });
   b += txt(x0 + size - 4, y0 + size + 14, 'alto', { a: 'end', c: 'd-sub', size: 9 });
 
-  b += box(468, y0, 308, 200, { fill: 'var(--paper-3)', r: 8 });
-  b += txt(484, y0 + 24, 'De la matriz al requisito', { a: 'start', c: 'd-label', size: 11, w: 650 });
+  let fl = box(468, y0, 308, 200, { fill: 'var(--paper-3)', r: 8 });
+  fl += txt(484, y0 + 24, 'De la matriz al requisito', { a: 'start', c: 'd-label', size: 11, w: 650 });
   const flow = [
     '1 · Identificar la parte interesada',
     '2 · Determinar su necesidad/expectativa',
@@ -777,7 +787,8 @@ export function stakeholderQuadrant() {
     '5 · Si es voluntario → compromiso asumido',
     '6 · Enlazar a un riesgo del cap. 6.1'
   ];
-  flow.forEach((f, i) => b += txt(484, y0 + 52 + i * 22, f, { a: 'start', c: 'd-sub', size: 9.5 }));
+  flow.forEach((f, i) => fl += txt(484, y0 + 52 + i * 22, f, { a: 'start', c: 'd-sub', size: 9.5 }));
+  b += hot('flow', fl, 'De la expectativa al requisito', [468, y0, 308, 200]);
 
   b += txt(24, H - 12, 'Solo los requisitos que la organización decide adoptar se vuelven obligaciones de cumplimiento auditables.', { a: 'start', c: 'd-anno' });
 
@@ -816,14 +827,17 @@ export function lifecycle() {
   });
 
   const cSt = 24 + 1 * (bw + gap), cEn = 24 + 4 * (bw + gap) - gap;
-  b += `<path d="M${cSt} ${y - 12} H${cEn}" stroke="${C.e}" stroke-width="1.5"/>`;
-  b += txt((cSt + cEn) / 2, y - 18, 'CONTROL DIRECTO — requisito operacional', { c: 'd-sub', fill: ink(C.e), w: 600 });
+  b += hot('ctrl', `<path d="M${cSt} ${y - 12} H${cEn}" stroke="${C.e}" stroke-width="1.5"/>` +
+    txt((cSt + cEn) / 2, y - 18, 'CONTROL DIRECTO — requisito operacional', { c: 'd-sub', fill: ink(C.e), w: 600 }),
+    'Etapas bajo control directo', [cSt, y - 30, cEn - cSt, 24]);
 
   b += `<path d="M24 ${y + 112} H${24 + 6 * (bw + gap) + bw}" stroke="${C.hair}" stroke-width="1" stroke-dasharray="4 4"/>`;
-  b += txt(450, y + 128, 'INFLUENCIA — requisito de comunicación e información a proveedores y usuarios', { c: 'd-anno' });
+  b += hot('infl', txt(450, y + 128, 'INFLUENCIA — requisito de comunicación e información a proveedores y usuarios', { c: 'd-anno' }),
+    'Etapas bajo influencia', [120, y + 116, 660, 20]);
 
   b += txt(24, H - 32, 'La norma exige determinar aspectos ambientales en las etapas que la organización pueda controlar y en las que pueda influir.', { a: 'start', c: 'd-anno' });
-  b += txt(24, H - 12, 'Prueba de auditoría: pedir la matriz de aspectos y buscar una sola fila de una etapa aguas arriba o aguas abajo.', { a: 'start', c: 'd-anno', fill: C.acci });
+  b += hot('aclara', txt(24, H - 12, 'Prueba de auditoría: pedir la matriz de aspectos y buscar una sola fila de una etapa aguas arriba o aguas abajo.', { a: 'start', c: 'd-anno', fill: C.acci }),
+    'Ciclo de vida no es ACV', [24, H - 26, W - 48, 22]);
 
   return frame(W, H, 'Perspectiva de ciclo de vida en ISO 14001',
     'Cadena de siete etapas desde materias primas hasta fin de vida, distinguiendo las etapas bajo control directo de la organización de aquellas donde solo puede ejercer influencia.', b);
@@ -865,9 +879,13 @@ export function ganttImpl() {
   ];
 
   const rowH = 17;
+  const phaseAt = {};
+  tasks.forEach((t, i) => { if (t.ph) phaseAt[t.ph] = i; });
+  const phaseKeys = { 'Fase 1': 'f1', 'Fase 2': 'f2', 'Fase 3': 'f3', 'Fase 4': 'f4' };
   tasks.forEach((t, i) => {
     const y = y0 + i * rowH;
-    if (t.ph) b += txt(24, y + 11, t.ph, { a: 'start', c: 'd-sub', size: 9, fill: C.acci, w: 600 });
+    if (t.ph) b += hot(phaseKeys[t.ph], txt(24, y + 11, t.ph, { a: 'start', c: 'd-sub', size: 9, fill: C.acci, w: 600 }),
+      t.ph, [16, y, 56, 16]);
     b += txt(308, y + 11, t.t, { a: 'end', c: 'd-sub', size: 9.5, fill: t.focal ? 'var(--ink)' : 'var(--muted)' });
     const bx = x0 + t.s * colW, bw = (t.e - t.s) * colW - 4;
     b += `<rect x="${bx + 2}" y="${y + 3}" width="${bw}" height="10" rx="3"
@@ -882,8 +900,9 @@ export function ganttImpl() {
   ];
   mile.forEach((mi) => {
     const x = x0 + mi.m * colW;
-    b += `<path d="M${x} ${y0 + 296} l6 8 l-6 8 l-6 -8 z" fill="${C.acc}"/>`;
-    b += txt(x, y0 + 326, mi.t, { c: 'd-sub', size: 9, fill: C.acci, w: 600 });
+    b += hot('hito', `<path d="M${x} ${y0 + 296} l6 8 l-6 8 l-6 -8 z" fill="${C.acc}"/>` +
+      txt(x, y0 + 326, mi.t, { c: 'd-sub', size: 9, fill: C.acci, w: 600 }),
+      `Hito: ${mi.t}`, [x - 60, y0 + 292, 120, 42]);
   });
 
   b += txt(24, H - 12, 'Regla dura: la Etapa 2 exige al menos un ciclo completo de auditoría interna y revisión por la dirección con registros reales. Sin tres meses de rodaje, no hay evidencia que auditar.', { a: 'start', c: 'd-anno' });
@@ -929,7 +948,8 @@ export function maturityRadar() {
     const r = (R * ax.v) / 5;
     return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
   }).join(' ');
-  b += `<polygon points="${pts}" fill="${C.acc}" fill-opacity="0.16" stroke="${C.acc}" stroke-width="1.5"/>`;
+  b += hot('perfil', `<polygon points="${pts}" fill="${C.acc}" fill-opacity="0.16" stroke="${C.acc}" stroke-width="1.5"/>`,
+    'Leer el perfil, no el promedio');
   axes.forEach((ax, i) => {
     const a = (i / n) * 2 * Math.PI - Math.PI / 2;
     const r = (R * ax.v) / 5;
@@ -976,15 +996,17 @@ export function costIceberg() {
 
   // Punta visible
   b += `<path d="M280 ${wl} L360 96 L440 ${wl} Z" fill="${C.acc}" fill-opacity="0.22" stroke="${C.acc}" stroke-width="1.5"/>`;
-  b += txt(360, 132, '1× VISIBLE', { c: 'd-label', size: 11, fill: C.acci, w: 700 });
-  b += txt(360, 150, 'Multa · Reproceso', { c: 'd-sub', size: 9 });
-  b += txt(360, 164, 'Chatarra · Días perdidos', { c: 'd-sub', size: 9 });
-  b += txt(360, 182, 'Seguro · Atención médica', { c: 'd-sub', size: 9 });
+  b += hot('vis', txt(360, 132, '1× VISIBLE', { c: 'd-label', size: 11, fill: C.acci, w: 700 }) +
+    txt(360, 150, 'Multa · Reproceso', { c: 'd-sub', size: 9 }) +
+    txt(360, 164, 'Chatarra · Días perdidos', { c: 'd-sub', size: 9 }) +
+    txt(360, 182, 'Seguro · Atención médica', { c: 'd-sub', size: 9 }),
+    'La punta visible del iceberg', [284, 120, 152, 76]);
 
   // Masa sumergida
   b += `<path d="M280 ${wl} L440 ${wl} L560 300 L520 372 L200 372 L152 296 Z"
     fill="${C.q}" fill-opacity="0.1" stroke="${C.q}" stroke-width="1" stroke-dasharray="4 4"/>`;
-  b += txt(360, wl + 32, '4× a 10× OCULTO', { c: 'd-label', size: 12, fill: ink(C.q), w: 700 });
+  b += hot('ocu', txt(360, wl + 32, '4× a 10× OCULTO', { c: 'd-label', size: 12, fill: ink(C.q), w: 700 }),
+    'La masa sumergida', [232, wl + 16, 256, 24]);
 
   const hidden = [
     ['Tiempo de investigación y gestión', 'Sobretiempo de reemplazo'],
@@ -1030,12 +1052,13 @@ export function ncAnatomy() {
   ];
   parts.forEach((p, i) => {
     const y = 84 + i * 76;
-    b += box(24, y, 152, 60, { fill: p.focal ? C.accw : 'var(--paper-2)', stroke: p.col, r: 8, sw: p.focal ? 1.5 : 1 });
-    b += txt(100, y + 26, p.t, { c: 'd-label', size: 11, fill: ink(p.col), w: 700 });
-    b += txt(100, y + 44, `${i + 1} de 3`, { c: 'd-sub', size: 9 });
-    b += txt(196, y + 20, p.d, { a: 'start', c: 'd-sub', size: 9.5, fill: 'var(--ink)' });
+    let g = box(24, y, 152, 60, { fill: p.focal ? C.accw : 'var(--paper-2)', stroke: p.col, r: 8, sw: p.focal ? 1.5 : 1 });
+    g += txt(100, y + 26, p.t, { c: 'd-label', size: 11, fill: ink(p.col), w: 700 });
+    g += txt(100, y + 44, `${i + 1} de 3`, { c: 'd-sub', size: 9 });
+    g += txt(196, y + 20, p.d, { a: 'start', c: 'd-sub', size: 9.5, fill: 'var(--ink)' });
     const words = p.ex.match(/.{1,74}(\s|$)/g) || [p.ex];
-    b += lines(196, y + 38, words.map(w => w.trim()), { a: 'start', c: 'd-anno', lh: 13, size: 9.5 });
+    g += lines(196, y + 38, words.map(w => w.trim()), { a: 'start', c: 'd-anno', lh: 13, size: 9.5 });
+    b += hot(`a${i + 1}`, g, `${i + 1}. ${p.t}`, [24, y, 812, 62]);
     if (i < 2) b += arrow(`M100 ${y + 62} V${y + 74}`, 'nc-a', { stroke: p.col });
   });
 
@@ -1048,10 +1071,11 @@ export function ncAnatomy() {
   ];
   cls.forEach((c, i) => {
     const x = 24 + i * 276;
-    b += box(x, 332, 256, 64, { r: 8, stroke: c.col });
-    b += txt(x + 12, 350, c.t, { a: 'start', c: 'd-label', size: 10.5, fill: ink(c.col), w: 700 });
-    b += lines(x + 12, 366, c.d.split('\n'), { a: 'start', c: 'd-sub', lh: 11, size: 9 });
-    b += txt(x + 12, 390, c.a, { a: 'start', c: 'd-sub', size: 9, fill: ink(c.col), w: 600 });
+    let g = box(x, 332, 256, 64, { r: 8, stroke: c.col });
+    g += txt(x + 12, 350, c.t, { a: 'start', c: 'd-label', size: 10.5, fill: ink(c.col), w: 700 });
+    g += lines(x + 12, 366, c.d.split('\n'), { a: 'start', c: 'd-sub', lh: 11, size: 9 });
+    g += txt(x + 12, 390, c.a, { a: 'start', c: 'd-sub', size: 9, fill: ink(c.col), w: 600 });
+    b += hot(`c${i + 1}`, g, c.t, [x, 332, 256, 64]);
   });
 
   return frame(W, H, 'Anatomía de un hallazgo de auditoría',
@@ -1107,17 +1131,22 @@ export function correspondenceGrid() {
     for (let c = 0; c < 4; c++) {
       const x = x0 + c * colW, v = r[c + 1];
       const col = cols[c].col, sol = cols[c].sol;
+      let g = '', hk = '';
       if (v === 1) {
-        b += box(x, y + 3, colW - 8, rowH - 10, { fill: sol.bg, stroke: 'none', r: 4 });
-        b += txt(x + (colW - 8) / 2, y + 17, 'integrable', { c: 'd-sub', size: 8.5, fill: sol.ink });
+        hk = 'integ';
+        g += box(x, y + 3, colW - 8, rowH - 10, { fill: sol.bg, stroke: 'none', r: 4 });
+        g += txt(x + (colW - 8) / 2, y + 17, 'integrable', { c: 'd-sub', size: 8.5, fill: sol.ink });
       } else if (v === 0.5) {
-        b += box(x, y + 3, colW - 8, rowH - 10, { fill: col, stroke: col, r: 4 });
-        b += `<rect x="${x}" y="${y + 3}" width="${colW - 8}" height="${rowH - 10}" rx="4" fill="var(--paper-2)" fill-opacity="0.72"/>`;
-        b += txt(x + (colW - 8) / 2, y + 17, 'común + matiz', { c: 'd-sub', size: 8.5, fill: ink(col) });
+        hk = 'matiz';
+        g += box(x, y + 3, colW - 8, rowH - 10, { fill: col, stroke: col, r: 4 });
+        g += `<rect x="${x}" y="${y + 3}" width="${colW - 8}" height="${rowH - 10}" rx="4" fill="var(--paper-2)" fill-opacity="0.72"/>`;
+        g += txt(x + (colW - 8) / 2, y + 17, 'común + matiz', { c: 'd-sub', size: 8.5, fill: ink(col) });
       } else {
-        b += box(x, y + 3, colW - 8, rowH - 10, { fill: 'none', stroke: C.hair, r: 4, dash: '3 3' });
-        b += txt(x + (colW - 8) / 2, y + 17, 'propio', { c: 'd-sub', size: 8.5, fill: 'var(--muted-2)' });
+        hk = 'propio';
+        g += box(x, y + 3, colW - 8, rowH - 10, { fill: 'none', stroke: C.hair, r: 4, dash: '3 3' });
+        g += txt(x + (colW - 8) / 2, y + 17, 'propio', { c: 'd-sub', size: 8.5, fill: 'var(--muted-2)' });
       }
+      b += hot(hk, g, `${r[0]} en ${cols[c].t}`, [x, y + 3, colW - 8, rowH - 10]);
     }
   });
 

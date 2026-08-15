@@ -36,10 +36,10 @@ ${callout('key', 'La frase que resume todo el módulo 4',
 ${sec('02', 'Los tres niveles y cómo elegir el tuyo', 'Adaptado del enfoque de UNE 66177. El nivel alcanzable lo determina la madurez, no el entusiasmo del equipo.')}
 
 ${fig('integrationLevels', '06', 'Escalera de integración',
-  'Cada nivel supone el anterior consolidado. Saltar del nivel 1 al 3 produce sistemas documentalmente elegantes y operativamente muertos — el patrón exacto del caso 5 de la sección de casuística.')}
+  'Cada nivel supone el anterior consolidado. Saltar del nivel 1 al 3 produce sistemas documentalmente elegantes y operativamente muertos — el patrón exacto del caso 5 de la sección de casuística.', { interactive: true })}
 
 ${fig('maturityRadar', '07', 'El diagnóstico que decide el nivel',
-  'Ocho ejes en escala de 1 a 5. Un índice global bajo 3 significa que el nivel avanzado no es sostenible todavía. Un perfil dentado — cuatros y doses alternados — certifica igual que uno parejo, pero colapsa en la primera auditoría de seguimiento.')}
+  'Ocho ejes en escala de 1 a 5. Un índice global bajo 3 significa que el nivel avanzado no es sostenible todavía. Un perfil dentado — cuatros y doses alternados — certifica igual que uno parejo, pero colapsa en la primera auditoría de seguimiento.', { interactive: true })}
 
 ${table(
   ['Índice de madurez', 'Nivel alcanzable', 'Qué priorizar primero'],
@@ -53,7 +53,7 @@ ${table(
 ${sec('03', 'Qué se funde y qué no', 'La matriz de correspondencia responde esto requisito por requisito.')}
 
 ${fig('correspondenceGrid', '08', 'Diecisiete requisitos contra cuatro normas',
-  'Sólido = plenamente integrable. Rayado con color = común pero con matiz propio de la norma, que hay que respetar en la redacción. Punteado = requisito propio no integrable. Nueve filas plenamente integrables es donde vive el ahorro real del SIG.')}
+  'Sólido = plenamente integrable. Rayado con color = común pero con matiz propio de la norma, que hay que respetar en la redacción. Punteado = requisito propio no integrable. Nueve filas plenamente integrables es donde vive el ahorro real del SIG.', { interactive: true })}
 
 <div class="grid g2">
 ${card(`<h4>Se integra sin pérdida</h4><ul class="small" style="color:var(--muted);margin-bottom:0">
@@ -88,7 +88,7 @@ ${callout('trap', 'Por qué las escalas no se pueden unificar',
 ${sec('04', 'Partes interesadas: de la lista a la obligación', 'La cláusula 4.2 no pide un listado. Pide una decisión sobre qué expectativas se convierten en obligaciones.')}
 
 ${fig('stakeholderQuadrant', '09', 'Poder, interés y el paso que casi nadie da',
-  'El cuadrante es la parte fácil. El flujo de seis pasos de la derecha es lo que realmente exige la cláusula: identificar, determinar la expectativa, decidir si se adopta, clasificarla como legal o voluntaria, y enlazarla a un riesgo.')}
+  'El cuadrante es la parte fácil. El flujo de seis pasos de la derecha es lo que realmente exige la cláusula: identificar, determinar la expectativa, decidir si se adopta, clasificarla como legal o voluntaria, y enlazarla a un riesgo.', { interactive: true })}
 
 ${sec('05', 'Vocabulario: los errores que cuestan puntos', 'Los pares que se confunden en examen y en auditoría.')}
 
@@ -133,13 +133,13 @@ ${PROPIAS.map((c) => acc(c.cl, `${c.t} <span class="badge" data-norm="${c.norm}"
 ${sec('04', 'Diagramas de apoyo', 'Los tres conceptos propios que más se malinterpretan, en forma visual.')}
 
 ${fig('lifecycle', '10', 'Perspectiva de ciclo de vida — ISO 14001',
-  'La distinción entre «controlar» e «influir» es todo el requisito. Las etapas bajo control generan requisitos operacionales; las etapas bajo influencia generan requisitos de comunicación y de especificación contractual. Ninguna de las dos puede quedar vacía.')}
+  'La distinción entre «controlar» e «influir» es todo el requisito. Las etapas bajo control generan requisitos operacionales; las etapas bajo influencia generan requisitos de comunicación y de especificación contractual. Ninguna de las dos puede quedar vacía.', { interactive: true })}
 
 ${fig('controlHierarchy', '11', 'Jerarquía de controles — ISO 45001',
   'El requisito no es «aplicar la jerarquía»: es aplicarla <em>en orden</em> y poder demostrar por qué cada nivel superior no fue viable. Un IPERC que solo dice «EPP» sin ese rastro es el hallazgo más frecuente en obra.', { interactive: true })}
 
 ${fig('bowtie', '12', 'Análisis de corbatín para riesgos críticos',
-  'Herramienta avanzada que ISO no exige pero que todo consultor experimentado usa en los riesgos de alta consecuencia. Divide el análisis en prevención (izquierda, reduce probabilidad) y mitigación (derecha, reduce severidad), y obliga a nombrar cada barrera con su dueño y su verificación.')}
+  'Herramienta avanzada que ISO no exige pero que todo consultor experimentado usa en los riesgos de alta consecuencia. Divide el análisis en prevención (izquierda, reduce probabilidad) y mitigación (derecha, reduce severidad), y obliga a nombrar cada barrera con su dueño y su verificación.', { interactive: true })}
 
 ${pager(['integracion', 'Anexo SL e integración'], ['procesos', 'Gestión por procesos'])}
 `;

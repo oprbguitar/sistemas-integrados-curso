@@ -18,7 +18,7 @@ ${head('Módulo 2', 'Gestión<br><em>por procesos</em>',
 ${sec('01', 'El mapa de procesos', 'Tres bandas, una dirección de flujo, y una regla que descarta el 70 % de los mapas que se ven en campo.')}
 
 ${fig('processMap', '14', 'Mapa de procesos de nivel 0',
-  'Procesos estratégicos arriba, cadena de valor al centro, soporte abajo. La flecha de retroalimentación no es decorativa: es el capítulo 9 cerrando el ciclo. Un mapa sin ese retorno describe una fábrica, no un sistema de gestión.')}
+  'Procesos estratégicos arriba, cadena de valor al centro, soporte abajo. La flecha de retroalimentación no es decorativa: es el capítulo 9 cerrando el ciclo. Un mapa sin ese retorno describe una fábrica, no un sistema de gestión.', { interactive: true })}
 
 ${callout('key', 'La regla que descarta mapas',
   `<p class="mb0">Si un proceso del mapa no tiene <strong>dueño con nombre</strong>, <strong>indicador</strong> y
@@ -38,7 +38,7 @@ ${card(`<div class="card-kicker">Nivel 2</div><h4>Actividades y flujos</h4>
 ${sec('02', 'Caracterizar un proceso', 'Cuatro preguntas. Si una queda sin responder, el hallazgo ya está escrito.')}
 
 ${fig('turtle', '15', 'Diagrama de tortuga',
-  'Las cuatro patas son exactamente las cuatro preguntas que un auditor formula frente a cualquier proceso. Responderlas por anticipado es la forma más eficiente de prepararse para una auditoría — y la forma más honesta de descubrir que un proceso no está bajo control.')}
+  'Las cuatro patas son exactamente las cuatro preguntas que un auditor formula frente a cualquier proceso. Responderlas por anticipado es la forma más eficiente de prepararse para una auditoría — y la forma más honesta de descubrir que un proceso no está bajo control.', { interactive: true })}
 
 ${table(
   ['Elemento', 'Qué debe contener', 'Error frecuente'],
@@ -162,7 +162,7 @@ ${callout('trap', 'El salto al EPP',
 ${sec('04', 'Aspectos ambientales', 'Donde ISO 14001 exige mirar fuera del cerco.')}
 
 ${fig('lifecycle', '18', 'Perspectiva de ciclo de vida',
-  'La distinción entre controlar e influir define dos tipos de requisito: operacional para lo que se controla, de comunicación y especificación para lo que se influye. Una matriz de aspectos sin una sola fila fuera del perímetro es el hallazgo más fácil de abrir en el Perú.')}
+  'La distinción entre controlar e influir define dos tipos de requisito: operacional para lo que se controla, de comunicación y especificación para lo que se influye. Una matriz de aspectos sin una sola fila fuera del perímetro es el hallazgo más fácil de abrir en el Perú.', { interactive: true })}
 
 <div class="grid g2">
 ${card(`<h4>Las tres condiciones operativas</h4>
@@ -186,7 +186,7 @@ ${card(`<h4>Criterio de significancia</h4>
 ${sec('05', 'Riesgos críticos: análisis de corbatín', 'Herramienta que ISO no exige y que todo consultor experimentado usa.')}
 
 ${fig('bowtie', '19', 'Corbatín aplicado a trabajo en caliente',
-  'Obliga a nombrar cada barrera individualmente, con su dueño y su verificación. Una barrera sin verificación es una barrera de papel: existe en el procedimiento y no en la realidad — y es exactamente lo que un auditor busca cuando pregunta «¿y si este control falla, qué lo detecta?».')}
+  'Obliga a nombrar cada barrera individualmente, con su dueño y su verificación. Una barrera sin verificación es una barrera de papel: existe en el procedimiento y no en la realidad — y es exactamente lo que un auditor busca cuando pregunta «¿y si este control falla, qué lo detecta?».', { interactive: true })}
 
 ${callout('tip', 'Factores de degradación',
   `<p class="mb0">El refinamiento que separa un corbatín real de un dibujo: por cada barrera, identificar qué la degrada
@@ -255,7 +255,7 @@ ${table(
 ${sec('03', 'Redacción de hallazgos', 'Tres piezas obligatorias. Sin una de ellas, no tienes hallazgo: tienes una opinión.')}
 
 ${fig('ncAnatomy', '21', 'Anatomía de un hallazgo',
-  'Requisito, evidencia y desviación. La evidencia debe incluir trazabilidad — código de documento, fecha, identificación del registro — porque en la reunión de cierre el auditado va a pedir exactamente eso. Abajo, la clasificación con su consecuencia real.')}
+  'Requisito, evidencia y desviación. La evidencia debe incluir trazabilidad — código de documento, fecha, identificación del registro — porque en la reunión de cierre el auditado va a pedir exactamente eso. Abajo, la clasificación con su consecuencia real.', { interactive: true })}
 
 <div class="grid g2">
 ${card(`<h4>Cómo NO se escribe</h4>
@@ -407,7 +407,7 @@ ${callout('trap', 'Actas que informan pero no deciden',
 ${sec('03', 'El argumento económico', 'Cómo se defiende el presupuesto del SIG ante quien firma los cheques.')}
 
 ${fig('costIceberg', '22', 'Lo visible y lo sumergido',
-  'El argumento débil es la multa evitada. El argumento que mueve presupuesto es el costo oculto: investigación, productividad perdida, rotación, prima de seguro, licitaciones perdidas y licencia social. Documenta el factor de ocultamiento que uses — entre 4× y 10× según la literatura — y sostenlo con tus propios datos.')}
+  'El argumento débil es la multa evitada. El argumento que mueve presupuesto es el costo oculto: investigación, productividad perdida, rotación, prima de seguro, licitaciones perdidas y licencia social. Documenta el factor de ocultamiento que uses — entre 4× y 10× según la literatura — y sostenlo con tus propios datos.', { interactive: true })}
 
 ${sec('04', 'Del SIG al reporte de sostenibilidad', 'Un sistema maduro ya produce el 60 % de lo que exige un marco ESG. La mayoría de las organizaciones no lo sabe.')}
 

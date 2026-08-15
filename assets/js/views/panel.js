@@ -82,7 +82,7 @@ ${callout('trap', 'Dos ediciones cambiaron y mucha gente no se enteró',
   Revisa hoy: alcance, política, procedimientos, matriz legal y plantillas de auditoría.</p>`)}
 
 ${fig('normsTimeline', '03', 'Cuarenta años en una línea',
-  'Dos puntos importan más que el resto: 2012, cuando el Anexo SL hizo estructuralmente posible la integración; y 2024-2026, la ventana de cambio que estás atravesando ahora mismo.')}
+  'Dos puntos importan más que el resto: 2012, cuando el Anexo SL hizo estructuralmente posible la integración; y 2024-2026, la ventana de cambio que estás atravesando ahora mismo.', { interactive: true })}
 
 ${timeline(HITOS)}
 
@@ -103,7 +103,7 @@ ${table(
   ])}
 
 ${fig('correspondenceGrid', '04', 'Dónde se funden y dónde divergen',
-  'Nueve de diecisiete requisitos comunes son plenamente integrables. Las filas marcadas como «propio» son las que ninguna estrategia de integración debe tocar: ahí vive la razón de ser de cada norma.')}
+  'Nueve de diecisiete requisitos comunes son plenamente integrables. Las filas marcadas como «propio» son las que ninguna estrategia de integración debe tocar: ahí vive la razón de ser de cada norma.', { interactive: true })}
 
 ${sec('05', 'Advertencias antes de empezar', 'Lo que este material es y lo que no es.')}
 
