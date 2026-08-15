@@ -6,7 +6,7 @@ export const META = {
   programa: 'Programa de Especialización en Sistemas Integrados de Gestión',
   proveedor: 'Bureau Veritas Perú — Capacitaciones',
   url: 'https://capacitaciones.bureauveritas.com.pe/online/programa-de-especializacion-en-sistemas-integrados-de-gestion',
-  normas: ['ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018', 'ISO 37001:2016'],
+  normas: ['ISO 9001:2015', 'ISO 14001:2026', 'ISO 45001:2018', 'ISO 37001:2025'],
   actualizado: 'Agosto 2026'
 };
 
@@ -245,17 +245,37 @@ export const RUTA = [
 /* ------------------------------------------------------------------
    Hitos normativos vigentes y en curso
    ------------------------------------------------------------------ */
+/* Estado de cada norma a la fecha de actualizacion. Fuente: iso.org */
+export const ESTADO_NORMAS = [
+  { n: 'ISO 9001', ed: '2015', est: 'vigente', col: '9001',
+    d: 'Edición vigente. La <strong>6.ª edición se espera en septiembre de 2026</strong>: el DIS se publicó el 27/08/2025 y fue aprobado por los organismos miembros. Se prevé transición de 3 años.' },
+  { n: 'ISO 14001', ed: '2026', est: 'nueva', col: '14001',
+    d: '<strong>Publicada el 15 de abril de 2026</strong>, reemplaza a ISO 14001:2015. Refuerza el clima, el pensamiento de ciclo de vida, la gestión del cambio y el desempeño ambiental. <strong>Transición de 36 meses: los certificados 2015 caducan el 14/04/2029.</strong>' },
+  { n: 'ISO 45001', ed: '2018 + Amd 1:2024', est: 'vigente', col: '45001',
+    d: 'Edición vigente con la enmienda de cambio climático. En revisión: el CD se publicó en julio de 2025, el DIS se preparó en abril de 2026 y su balotaje corre del <strong>16/06 al 08/09/2026</strong>. Publicación prevista para <strong>2027</strong>.' },
+  { n: 'ISO 37001', ed: '2025', est: 'nueva', col: '37001',
+    d: '<strong>Publicada el 2 de marzo de 2025</strong>, 2.ª edición. Cancela y reemplaza a ISO 37001:2016, que queda <strong>retirada</strong>. Incorpora la Amd 1:2024 y refuerza cultura de cumplimiento, conflictos de interés y el rol del órgano de gobierno.' }
+];
+
 export const HITOS = [
   {
     d: 'Feb 2024', t: 'Enmienda 1 — Cambio climático', hot: true,
     b: 'ISO publicó la <strong>Amendment 1:2024</strong> sobre acción climática en más de 30 normas de sistemas de gestión, incluidas ISO 9001, ISO 14001 e ISO 45001. Modifica dos puntos: la cl. 4.1 exige determinar si el cambio climático es una cuestión pertinente, y la cl. 4.2 añade una nota sobre requisitos de las partes interesadas relacionados con el clima. <strong>Es auditable desde el 23/02/2024, sin período de transición.</strong>'
   },
   {
-    d: 'Ago 2025', t: 'ISO/DIS 9001 — Borrador Internacional',
-    b: 'Se publica el borrador de norma internacional de la nueva ISO 9001, abriendo el proceso formal de revisión y el período de comentarios de los comités nacionales.'
+    d: 'Mar 2025', t: 'ISO 37001:2025 — publicada', hot: true,
+    b: 'Se publica la <strong>2.ª edición de ISO 37001</strong>, que cancela y reemplaza a la de 2016 e incorpora la Amd 1:2024. Refuerza la cultura de cumplimiento, los conflictos de interés y el papel del órgano de gobierno. Si tu sistema antisoborno cita la edición 2016, cita una norma retirada.'
   },
   {
-    d: '2026', t: 'FDIS y publicación prevista de ISO 9001:2026', hot: true,
+    d: 'Ago 2025', t: 'ISO/DIS 9001 — Borrador Internacional',
+    b: 'Se publica el borrador de norma internacional de la nueva ISO 9001 (27/08/2025), abriendo el proceso formal de revisión y el período de comentarios de los comités nacionales.'
+  },
+  {
+    d: 'Abr 2026', t: 'ISO 14001:2026 — publicada', hot: true,
+    b: 'El <strong>15 de abril de 2026</strong> se publica la nueva ISO 14001, que reemplaza a la edición 2015. Es una actualización evolutiva, no un rediseño: refuerza el clima, el pensamiento de ciclo de vida, la gestión del cambio y el desempeño ambiental. <strong>Arranca una transición de 36 meses que vence el 14/04/2029.</strong>'
+  },
+  {
+    d: 'Sep 2026', t: 'Publicación prevista de ISO 9001', hot: true,
     b: 'Tras el FDIS, la publicación de la nueva edición se espera dentro de 2026. Mantiene la base de 2015 y la Estructura Armonizada, e incorpora <strong>cultura de calidad, conducta ética, gestión del conocimiento y planificación de la resiliencia</strong>. ISO 14001 e ISO 45001 avanzan en revisiones coordinadas.'
   },
   {

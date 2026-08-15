@@ -21,9 +21,9 @@ Un **Sistema Integrado de Gestión (SIG)** es un único sistema de gestión que 
 | Norma | Disciplina | Qué protege | Su requisito irrepetible |
 |---|---|---|---|
 | **ISO 9001:2015** | Calidad | El cliente y la conformidad del producto o servicio | Diseño y desarrollo (cl. 8.3) |
-| **ISO 14001:2015** | Ambiente | El medio ambiente — un tercero que no participa del proceso | Perspectiva de ciclo de vida (cl. 6.1.2) |
+| **ISO 14001:2026** | Ambiente | El medio ambiente — un tercero que no participa del proceso | Perspectiva de ciclo de vida (cl. 6.1.2) |
 | **ISO 45001:2018** | Seguridad y salud | El trabajador, incluidos contratistas y visitantes | Consulta y participación de los trabajadores (cl. 5.4) |
-| **ISO 37001:2016** | Antisoborno | La integridad de la organización y del mercado | Función de cumplimiento con acceso al órgano de gobierno |
+| **ISO 37001:2025** | Antisoborno | La integridad de la organización y del mercado | Función de cumplimiento con acceso al órgano de gobierno |
 
 ### Por qué se pueden integrar: el Anexo SL
 
@@ -132,8 +132,11 @@ Un sitio estático de **14 secciones**, sin dependencias externas ni paso de com
 
 Estudiar la edición 2015 sin esto es estudiar incompleto:
 
+- **ISO 14001:2026 — publicada.** El 15 de abril de 2026, reemplazando a ISO 14001:2015. Actualización evolutiva: refuerza el clima, el pensamiento de ciclo de vida, la gestión del cambio y el desempeño ambiental. **Transición de 36 meses — los certificados 2015 caducan el 14/04/2029.**
+- **ISO 37001:2025 — publicada.** El 2 de marzo de 2025, 2.ª edición, que cancela y reemplaza a ISO 37001:2016 (**retirada**) e incorpora la Amd 1:2024.
+- **ISO 45001:2018 + Amd 1:2024 — vigente.** En revisión: balotaje del DIS del 16/06 al 08/09/2026, publicación prevista para **2027**.
 - **Enmienda 1:2024 — Cambio climático.** ISO publicó en febrero de 2024 una enmienda sobre acción climática en más de 30 normas de sistemas de gestión. La cl. 4.1 exige determinar si el cambio climático es una cuestión pertinente y la cl. 4.2 añade una nota sobre requisitos de partes interesadas relacionados con el clima. **Es auditable desde el 23/02/2024, sin período de transición.**
-- **ISO 9001:2026 en curso.** El ISO/DIS se publicó en agosto de 2025; la nueva edición se espera dentro de 2026. Mantiene la base de 2015 y la Estructura Armonizada, e incorpora **cultura de calidad, conducta ética, gestión del conocimiento y planificación de la resiliencia**. ISO 14001 e ISO 45001 avanzan en revisiones coordinadas.
+- **ISO 9001:2015 — vigente.** El DIS se publicó el 27/08/2025 y fue aprobado; la 6.ª edición se espera en **septiembre de 2026**, con transición de 3 años. Mantiene la base de 2015 y la Estructura Armonizada, e incorpora **cultura de calidad, conducta ética, gestión del conocimiento y planificación de la resiliencia**. ISO 14001 e ISO 45001 avanzan en revisiones coordinadas.
 
 **Consecuencia práctica:** los cambios se anclan en los capítulos 4, 5, 6 y 7. Un sistema construido hoy con contexto y planificación bien resueltos migra con esfuerzo marginal; uno hecho con plantilla habrá que rehacerlo.
 
