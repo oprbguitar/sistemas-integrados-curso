@@ -6,7 +6,8 @@
 import { panel } from './views/panel.js';
 import { programa, ruta } from './views/programa.js';
 import { integracion, normas, documental } from './views/normas.js';
-import { procesos, riesgos, auditoria, medicion, casos } from './views/practica.js';
+import { riesgos, auditoria, medicion, casos } from './views/practica.js';
+import { procesos, procesosBasico, procesosIntermedio, procesosAvanzado } from './views/procesos.js';
 import { certificacion, memoria, recursos } from './views/recursos.js';
 import { campo } from './views/campo.js';
 
@@ -16,6 +17,10 @@ import { CASOS, REGLAS, FORMULAS, GLOSARIO, PREGUNTAS_ORO } from './data/practic
 import { PROVEEDORES, ESQUEMAS } from './data/certificacion.js';
 import { HOTSPOTS, INTERACTIVOS } from './data/hotspots.js';
 import { FICHAS, EVIDENCIA } from './data/campo.js';
+import {
+  NIVELES, FICHAS_PROC, VOCABULARIO, CARACTERIZACION, INDICADOR_COLS,
+  TIPOS_INDICADOR, GOBIERNO, ANTIPATRONES, PREGUNTAS_PROC, CALCULOS
+} from './data/procesos.js';
 
 /* ------------------------------------------------------------------
    Rutas
@@ -24,13 +29,16 @@ const ROUTES = {
   panel:         { t: 'Panel', g: 'Empezar', render: panel },
   programa:      { t: 'El programa', g: 'Empezar', render: programa },
   ruta:          { t: 'Ruta de estudio', g: 'Empezar', render: ruta },
-  integracion:   { t: 'Anexo SL e integración', g: 'Núcleo técnico', render: integracion },
-  normas:        { t: 'Las normas', g: 'Núcleo técnico', render: normas },
-  procesos:      { t: 'Gestión por procesos', g: 'Núcleo técnico', render: procesos },
-  riesgos:       { t: 'Riesgo y peligros', g: 'Núcleo técnico', render: riesgos },
-  documental:    { t: 'Información documentada', g: 'Núcleo técnico', render: documental },
-  auditoria:     { t: 'Auditoría interna', g: 'Núcleo técnico', render: auditoria },
-  medicion:      { t: 'Medición, mejora y ESG', g: 'Núcleo técnico', render: medicion },
+  integracion:   { t: 'Anexo SL e integración', g: 'Fundamento normativo', render: integracion },
+  normas:        { t: 'Las normas', g: 'Fundamento normativo', render: normas },
+  procesos:              { t: 'Portal de procesos', g: 'Gestión por procesos', render: procesos },
+  'procesos-basico':     { t: 'Nivel 1 · Fundamentos', g: 'Gestión por procesos', render: procesosBasico },
+  'procesos-intermedio': { t: 'Nivel 2 · Caracterizar y medir', g: 'Gestión por procesos', render: procesosIntermedio },
+  'procesos-avanzado':   { t: 'Nivel 3 · Arquitectura y desempeño', g: 'Gestión por procesos', render: procesosAvanzado },
+  riesgos:       { t: 'Riesgo y peligros', g: 'Riesgo, control y auditoría', render: riesgos },
+  documental:    { t: 'Información documentada', g: 'Riesgo, control y auditoría', render: documental },
+  auditoria:     { t: 'Auditoría interna', g: 'Riesgo, control y auditoría', render: auditoria },
+  medicion:      { t: 'Medición, mejora y ESG', g: 'Riesgo, control y auditoría', render: medicion },
   casos:         { t: 'Casuística aplicada', g: 'Aplicar', render: casos },
   campo:         { t: 'Modo campo', g: 'Aplicar', render: campo },
   certificacion: { t: 'Rutas de certificación', g: 'Aplicar', render: certificacion },
@@ -102,7 +110,12 @@ const INDEX = [];
 const DG_VIEW = {
   annexSL: 'panel', pdcaLoop: 'panel', normsTimeline: 'panel', correspondenceGrid: 'integracion',
   integrationLevels: 'integracion', maturityRadar: 'integracion', stakeholderQuadrant: 'integracion',
-  processMap: 'procesos', turtle: 'procesos', riskMatrix: 'riesgos', controlHierarchy: 'riesgos',
+  processJourney: 'procesos',
+  processAnatomy: 'procesos-basico', sipocChain: 'procesos-basico', processLevels: 'procesos-basico',
+  processMap: 'procesos-basico', turtle: 'procesos-intermedio',
+  handoffMap: 'procesos-intermedio', indicatorLoop: 'procesos-intermedio',
+  processMaturity: 'procesos-avanzado', valueStream: 'procesos-avanzado',
+  riskMatrix: 'riesgos', controlHierarchy: 'riesgos',
   bowtie: 'riesgos', lifecycle: 'riesgos', docPyramid: 'documental', auditCycle: 'auditoria',
   ncAnatomy: 'auditoria', costIceberg: 'medicion', ganttImpl: 'ruta', certRoute: 'certificacion'
 };
@@ -125,6 +138,26 @@ function buildIndex() {
   REGLAS.forEach((r) => add(r.t, `Regla dura · ${strip(r.d)}`, 'memoria'));
   PREGUNTAS_ORO.forEach((p) => add(p.p, `Pregunta de auditoría · ${p.porq}`, 'memoria'));
   CASOS.forEach((c) => add(c.t, `Caso · ${c.sector}`, 'casos', `${c.ctx} ${c.leccion}`));
+  /* Itinerario de gestión por procesos */
+  NIVELES.forEach((n) => add(`${n.n} · ${n.et} — ${n.t}`, `Gestión por procesos · ${n.lede}`, n.id, `${n.contenido.join(' ')} ${n.salida} ${n.para}`));
+  FICHAS_PROC.forEach((f) => {
+    const v = ['procesos-basico', 'procesos-intermedio', 'procesos-avanzado'][f.niv - 1];
+    add(f.t, `Ficha ${f.n} · nivel ${f.niv} · ${f.cl}`, v, `${f.def} ${f.clave} ${f.ej} ${f.ojo}`);
+  });
+  VOCABULARIO.forEach(([t, d, r, e]) => add(t, `Vocabulario de procesos · ${d}`, 'procesos-basico', `${r} ${e}`));
+  CARACTERIZACION.forEach(([t, d, err]) => add(t, `Caracterización de proceso · ${d}`, 'procesos-intermedio', err));
+  INDICADOR_COLS.forEach(([t, d, e]) => add(t, `Columna del indicador · ${d}`, 'procesos-intermedio', e));
+  TIPOS_INDICADOR.forEach((t) => add(t.t, `Tipo de indicador · ${t.d}`, 'procesos-intermedio', t.ej));
+  GOBIERNO.forEach(([d, q, r]) => add(d, `Gobierno de procesos · decide ${q}`, 'procesos-avanzado', r));
+  CALCULOS.forEach((c) => add(c.t, `Cálculo de proceso · ${c.f}`, 'procesos-avanzado', `${c.datos} ${c.paso} ${c.res} ${c.lee}`));
+  ANTIPATRONES.forEach((a) => {
+    const v = ['procesos-basico', 'procesos-intermedio', 'procesos-avanzado'][a.niv - 1];
+    add(a.t, `Antipatrón de procesos · nivel ${a.niv}`, v, `${a.d} ${a.fix}`);
+  });
+  PREGUNTAS_PROC.forEach((q) => {
+    const v = ['procesos-basico', 'procesos-intermedio', 'procesos-avanzado'][q.niv - 1];
+    add(q.q, `Pregunta de proceso · ${q.porq}`, v);
+  });
   FICHAS.forEach((f) => {
     add(f.t, `Ficha de actuación ${f.n} · ${f.iso}`, 'campo', `${f.cuando} ${f.obj} ${f.falla}`);
     f.preguntar.forEach((q) => add(q.q, `Pregunta de campo · a ${q.a}`, 'campo'));
@@ -141,7 +174,11 @@ function buildIndex() {
    ['Cronograma de implementación', 'ruta'], ['Radar de madurez', 'integracion'], ['Iceberg de costos', 'medicion'],
    ['Matriz de correspondencia', 'integracion'], ['Ruta de certificación', 'certificacion'],
    ['Cuadrante de partes interesadas', 'integracion'], ['Estructura Armonizada Anexo SL', 'integracion'],
-   ['Ciclo PHVA', 'panel'], ['Línea de tiempo de las normas', 'panel'], ['Niveles de integración', 'integracion']
+   ['Ciclo PHVA', 'panel'], ['Línea de tiempo de las normas', 'panel'], ['Niveles de integración', 'integracion'],
+   ['Itinerario de gestión por procesos', 'procesos'], ['Anatomía de un proceso', 'procesos-basico'],
+   ['Cadena SIPOC', 'procesos-basico'], ['Niveles de despliegue del mapa', 'procesos-basico'],
+   ['Carriles e interfaces', 'procesos-intermedio'], ['Bucle de control del indicador', 'procesos-intermedio'],
+   ['Madurez de la gestión por procesos', 'procesos-avanzado'], ['Eficiencia de ciclo del proceso', 'procesos-avanzado']
   ].forEach(([t, v]) => add(t, 'Diagrama', v));
 }
 
@@ -267,6 +304,76 @@ function initDiagrams() {
 }
 
 /* ------------------------------------------------------------------
+   Fichas conceptuales animadas
+   Giro (concepto / ejemplo), filtro por nivel y revelado escalonado.
+   ------------------------------------------------------------------ */
+const REDUCE = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let revealer = null;
+/** Marca como visibles los elementos que entran en pantalla, para que su
+    transición de entrada arranque cuando el lector llega a ellos. */
+function observeReveals() {
+  const nodes = [...document.querySelectorAll('[data-in="false"]')];
+  if (!nodes.length) return;
+  if (!('IntersectionObserver' in window) || REDUCE()) {
+    nodes.forEach((n) => n.setAttribute('data-in', 'true'));
+    return;
+  }
+  revealer ||= new IntersectionObserver((entries, obs) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.setAttribute('data-in', 'true');
+      obs.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  nodes.forEach((n) => revealer.observe(n));
+}
+
+function flipFicha(el) {
+  const on = el.dataset.flip !== '1';
+  el.dataset.flip = on ? '1' : '0';
+  el.setAttribute('aria-pressed', String(on));
+}
+
+/** Filtra por nivel dentro del bloque de fichas que sigue a la barra. */
+function filtrarFichas(chip) {
+  const bar = chip.closest('[data-nivelbar]');
+  const grid = bar?.parentElement.querySelector('[data-fichero]');
+  if (!grid) return;
+  const niv = chip.dataset.nivFilter;
+
+  bar.querySelectorAll('[data-niv-filter]').forEach((c) =>
+    c.setAttribute('aria-pressed', String(c === chip)));
+
+  const cards = [...grid.querySelectorAll('.ficha')];
+  let visibles = 0;
+  cards.forEach((c) => {
+    const ok = niv === '0' || c.dataset.niv === niv;
+    c.hidden = !ok;
+    if (ok) { c.style.setProperty('--i', visibles % 12); visibles++; }
+    /* Al filtrar se vuelve a la cara del concepto: mostrar el dorso de una
+       ficha que el lector no eligió girar sería desconcertante. */
+    c.dataset.flip = '0';
+    c.setAttribute('aria-pressed', 'false');
+    c.setAttribute('data-in', ok && REDUCE() ? 'true' : 'false');
+  });
+
+  const cuenta = bar.querySelector('[data-ficha-count]');
+  if (cuenta) cuenta.textContent = `${visibles} ficha${visibles === 1 ? '' : 's'}`;
+  requestAnimationFrame(observeReveals);
+}
+
+function initFichas() {
+  const main = document.getElementById('main');
+  main.addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-niv-filter]');
+    if (chip) { filtrarFichas(chip); return; }
+    const f = e.target.closest('.ficha');
+    if (f) flipFicha(f);
+  });
+}
+
+/* ------------------------------------------------------------------
    Checklists persistentes
    ------------------------------------------------------------------ */
 function hydrateChecklists() {
@@ -301,6 +408,7 @@ function render() {
   markActive(route);
   document.getElementById('dg-scrim').hidden = true;
   hydrateChecklists();
+  observeReveals();
   document.title = `${ROUTES[route].t} · SIG Lab — Sistemas Integrados de Gestión`;
   document.querySelector('.sidebar')?.setAttribute('data-open', 'false');
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
@@ -338,6 +446,7 @@ function init() {
   buildIndex();
   render();
   initDiagrams();
+  initFichas();
 
   window.addEventListener('hashchange', render);
 

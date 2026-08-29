@@ -1161,11 +1161,450 @@ export function correspondenceGrid() {
 /* ════════════════════════════════════════════════════════════
    Registro para render declarativo desde las vistas
    ════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   20 · Itinerario de gestión por procesos — tres niveles
+   ════════════════════════════════════════════════════════════ */
+export function processJourney() {
+  const W = 880, H = 340;
+  let b = arrowDefs('pj-a', C.acc);
+
+  b += txt(24, 32, 'Itinerario de gestión por procesos', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'tres niveles acumulativos: ninguno tiene sentido si el anterior no está resuelto', { a: 'start', c: 'd-anno' });
+
+  const cols = [
+    { k: 'n1', x: 24,  col: C.q, w: C.qw, n: 'NIVEL 1 · BÁSICO', t: 'Fundamentos',
+      d: ['Qué es un proceso', 'Anatomía y SIPOC', 'Tipos y mapa de nivel 0'], out: 'Sabes leer un mapa' },
+    { k: 'n2', x: 312, col: C.e, w: C.ew, n: 'NIVEL 2 · INTERMEDIO', t: 'Caracterización',
+      d: ['Ficha y tortuga', 'Flujo, carriles e interfaces', 'Indicadores y bucle de control'], out: 'Sabes caracterizar y medir' },
+    { k: 'n3', x: 600, col: C.a, w: C.aw, n: 'NIVEL 3 · AVANZADO', t: 'Arquitectura',
+      d: ['Gobierno y dueño de proceso', 'Madurez y capacidad', 'Valor, variación y rediseño'], out: 'Sabes rediseñar' }
+  ];
+
+  cols.forEach((c, i) => {
+    const y = 84, h = 168, cw = 256;
+    let g = box(c.x, y, cw, h, { fill: c.w, stroke: c.col, r: 10, sw: 1.5 });
+    g += txt(c.x + 16, y + 24, c.n, { a: 'start', c: 'd-sub', fill: ink(c.col), w: 600 });
+    g += txt(c.x + 16, y + 48, c.t, { a: 'start', c: 'd-label', size: 14, w: 600 });
+    c.d.forEach((line, j) => {
+      g += `<circle cx="${c.x + 22}" cy="${y + 74 + j * 22}" r="2.5" fill="${c.col}"/>`;
+      g += txt(c.x + 34, y + 78 + j * 22, line, { a: 'start', c: 'd-label', size: 11 });
+    });
+    g += `<path d="M${c.x + 16} ${y + 142} H${c.x + cw - 16}" stroke="${c.col}" stroke-width="1" stroke-dasharray="3 3"/>`;
+    g += txt(c.x + 16, y + 158, `Al terminar: ${c.out}`, { a: 'start', c: 'd-sub', fill: ink(c.col) });
+    b += hot(c.k, g, c.n, [c.x, y, cw, h]);
+    if (i < cols.length - 1) b += arrow(`M${c.x + cw + 4} ${y + h / 2} H${c.x + cw + 26}`, 'pj-a');
+  });
+
+  let g2 = box(24, 272, 832, 44, { fill: C.accw, stroke: C.acc, r: 8 });
+  g2 += txt(440, 300, 'Criterio de avance: no pases de nivel hasta poder demostrar el resultado del anterior con evidencia objetiva, no con lectura.', { c: 'd-label', size: 11, fill: C.acci });
+  b += hot('crit', g2, 'Criterio de avance entre niveles', [24, 272, 832, 44]);
+
+  return frame(W, H, 'Itinerario de aprendizaje de gestión por procesos en tres niveles',
+    'Tres bloques encadenados: nivel básico de fundamentos, nivel intermedio de caracterización y medición, y nivel avanzado de arquitectura y rediseño. Una banda inferior fija el criterio para avanzar de nivel.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   21 · Anatomía de un proceso (entradas, controles, recursos, salidas)
+   ════════════════════════════════════════════════════════════ */
+export function processAnatomy() {
+  const W = 860, H = 420, px = 316, py = 176, pw = 228, ph = 96;
+  let b = arrowDefs('pa-a', C.muted);
+
+  b += txt(24, 32, 'Anatomía de un proceso', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'cuatro flujos, no dos: lo que entra y sale, lo que manda y lo que habilita', { a: 'start', c: 'd-anno' });
+
+  // Nucleo
+  let core = box(px, py, pw, ph, { fill: C.accw, stroke: C.acc, r: 10, sw: 1.5 });
+  core += txt(px + pw / 2, py + 34, 'TRANSFORMACIÓN', { c: 'd-label', fill: C.acci, w: 700, size: 12 });
+  core += lines(px + pw / 2, py + 54, ['actividades que añaden', 'valor a la entrada'], { c: 'd-sub', lh: 13 });
+  core += txt(px + pw / 2, py + 86, 'aquí ocurre el trabajo real', { c: 'd-anno', size: 10 });
+  b += hot('core', core, 'La transformación', [px, py, pw, ph]);
+
+  // Entradas
+  let ent = box(24, py + 8, 216, 80, { fill: C.qw, stroke: C.q, r: 8 });
+  ent += txt(132, py + 30, 'ENTRADAS', { c: 'd-sub', fill: ink(C.q), w: 600 });
+  ent += lines(132, py + 48, ['Material, información,', 'solicitud, expediente'], { c: 'd-sub', lh: 13 });
+  ent += txt(132, py + 78, 'de un proveedor con criterio de aceptación', { c: 'd-anno', size: 9 });
+  b += hot('ent', ent, 'Entradas del proceso', [24, py + 8, 216, 80]);
+  b += arrow(`M240 ${py + 48} H${px - 8}`, 'pa-a', { stroke: C.q });
+
+  // Salidas
+  let sal = box(620, py + 8, 216, 80, { fill: C.ew, stroke: C.e, r: 8 });
+  sal += txt(728, py + 30, 'SALIDAS', { c: 'd-sub', fill: ink(C.e), w: 600 });
+  sal += lines(728, py + 48, ['Producto, servicio,', 'decisión, registro'], { c: 'd-sub', lh: 13 });
+  sal += txt(728, py + 78, 'a un cliente con criterio de conformidad', { c: 'd-anno', size: 9 });
+  b += hot('sal', sal, 'Salidas del proceso', [620, py + 8, 216, 80]);
+  b += arrow(`M${px + pw + 8} ${py + 48} H612`, 'pa-a', { stroke: C.e });
+
+  // Controles (arriba)
+  let ctrl = box(px - 40, 84, 308, 60, { fill: C.aw, stroke: C.a, r: 8 });
+  ctrl += txt(px + 114, 106, 'CONTROLES — qué manda sobre el proceso', { c: 'd-sub', fill: ink(C.a), w: 600 });
+  ctrl += txt(px + 114, 126, 'Requisito legal · política · criterio de aceptación · procedimiento', { c: 'd-sub', size: 9.5 });
+  b += hot('ctrl', ctrl, 'Controles del proceso', [px - 40, 84, 308, 60]);
+  b += arrow(`M${px + pw / 2} 148 V${py - 8}`, 'pa-a', { stroke: C.a });
+
+  // Recursos (abajo)
+  let rec = box(px - 40, 308, 308, 60, { fill: C.sw, stroke: C.s, r: 8 });
+  rec += txt(px + 114, 330, 'RECURSOS — con qué se ejecuta', { c: 'd-sub', fill: ink(C.s), w: 600 });
+  rec += txt(px + 114, 350, 'Personas competentes · equipos · software · ambiente de trabajo', { c: 'd-sub', size: 9.5 });
+  b += hot('rec', rec, 'Recursos del proceso', [px - 40, 308, 308, 60]);
+  b += arrow(`M${px + pw / 2} 304 V${py + ph + 8}`, 'pa-a', { stroke: C.s });
+
+  // Medicion
+  let med = box(620, 308, 216, 60, { fill: 'var(--paper-3)', stroke: C.hair, r: 8, dash: '4 4' });
+  med += txt(728, 330, 'MEDICIÓN', { c: 'd-sub', fill: C.acci, w: 600 });
+  med += txt(728, 350, 'indicador sobre la salida y sobre el propio proceso', { c: 'd-sub', size: 9 });
+  b += hot('med', med, 'Medición del proceso', [620, 308, 216, 60]);
+  b += `<path d="M728 ${py + 96} V300" fill="none" stroke="${C.acc}" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#pa-a)"/>`;
+
+  b += txt(24, H - 12, 'Prueba rápida: si no puedes nombrar la entrada, la salida, el control y el recurso, no estás mirando un proceso — estás mirando una actividad suelta.', { a: 'start', c: 'd-anno' });
+
+  return frame(W, H, 'Anatomía de un proceso con sus cuatro flujos',
+    'Un bloque central de transformación recibe entradas por la izquierda y produce salidas por la derecha. Desde arriba bajan los controles que gobiernan el proceso y desde abajo suben los recursos que lo habilitan. A la derecha, la medición toma dato de la salida.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   22 · Cadena SIPOC y la relación cliente-proveedor interno
+   ════════════════════════════════════════════════════════════ */
+export function sipocChain() {
+  const W = 880, H = 400;
+  let b = arrowDefs('sc-a', C.muted);
+
+  b += txt(24, 32, 'SIPOC — la fotografía de una página', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'la herramienta más rápida para delimitar un proceso antes de caracterizarlo', { a: 'start', c: 'd-anno' });
+
+  const cols = [
+    { k: 's', l: 'S', t: 'Supplier', es: 'Proveedor', d: ['Quién entrega', 'la entrada'], ej: 'Área usuaria', col: C.q },
+    { k: 'i', l: 'I', t: 'Input', es: 'Entrada', d: ['Qué se recibe', 'y con qué criterio'], ej: 'Requerimiento aprobado', col: C.q },
+    { k: 'p', l: 'P', t: 'Process', es: 'Proceso', d: ['De 4 a 7 pasos', 'de alto nivel'], ej: 'Compra de insumo', col: C.acc },
+    { k: 'o', l: 'O', t: 'Output', es: 'Salida', d: ['Qué se entrega', 'y con qué criterio'], ej: 'Insumo conforme', col: C.e },
+    { k: 'c', l: 'C', t: 'Customer', es: 'Cliente', d: ['Quién recibe', 'y a quién sirve'], ej: 'Producción', col: C.e }
+  ];
+
+  const cw = 160, gap = 8;
+  cols.forEach((c, i) => {
+    const x = 24 + i * (cw + gap), y = 80, h = 152;
+    const isP = c.k === 'p';
+    let g = box(x, y, cw, h, { fill: isP ? C.accw : 'var(--paper-2)', stroke: c.col, r: 8, sw: isP ? 1.5 : 1 });
+    g += box(x, y, cw, 30, { fill: 'none', stroke: c.col, r: 8 });
+    g += txt(x + 20, y + 21, c.l, { c: 'd-label', fill: ink(c.col), w: 700, size: 15 });
+    g += txt(x + 38, y + 20, `${c.t} · ${c.es}`, { a: 'start', c: 'd-sub', fill: ink(c.col) });
+    g += lines(x + cw / 2, y + 54, c.d, { c: 'd-label', lh: 15, size: 11 });
+    g += `<path d="M${x + 16} ${y + 92} H${x + cw - 16}" stroke="${C.hair}" stroke-width="1"/>`;
+    g += txt(x + cw / 2, y + 112, 'ejemplo', { c: 'd-sub', size: 9 });
+    g += txt(x + cw / 2, y + 132, c.ej, { c: 'd-label', size: 10.5, fill: ink(c.col) });
+    b += hot(c.k, g, `${c.t} — ${c.es}`, [x, y, cw, h]);
+    if (i < cols.length - 1) b += arrow(`M${x + cw} ${y + 76} H${x + cw + gap - 2}`, 'sc-a');
+  });
+
+  // Cadena cliente-proveedor interno
+  b += txt(24, 276, 'La consecuencia: toda organización es una cadena de clientes internos', { a: 'start', c: 'd-label', w: 600, size: 12 });
+
+  const chain = [
+    { n: 'Proceso A', r: 'proveedor' },
+    { n: 'Proceso B', r: 'cliente de A · proveedor de C' },
+    { n: 'Proceso C', r: 'cliente de B' }
+  ];
+  chain.forEach((c, i) => {
+    const x = 24 + i * 288;
+    b += box(x, 296, 256, 56, { fill: 'var(--paper-3)', stroke: C.hair, r: 8 });
+    b += txt(x + 128, 318, c.n, { c: 'd-label', size: 11.5 });
+    b += txt(x + 128, 336, c.r, { c: 'd-sub', size: 9.5 });
+    if (i < chain.length - 1) b += arrow(`M${x + 256} 324 H${x + 284}`, 'sc-a', { stroke: C.acc });
+  });
+  b += hot('interno', txt(440, 372, 'cada flecha es una interfaz: ahí se pierde el 80 % del desempeño de un proceso', { c: 'd-anno', fill: C.acci }),
+    'La cadena cliente-proveedor interno', [140, 360, 600, 20]);
+
+  return frame(W, H, 'Cadena SIPOC y relación cliente proveedor interno',
+    'Cinco columnas encadenadas: proveedor, entrada, proceso, salida y cliente, cada una con su ejemplo. Debajo, tres procesos en cadena muestran que cada proceso es cliente del anterior y proveedor del siguiente.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   23 · Niveles de despliegue del mapa de procesos
+   ════════════════════════════════════════════════════════════ */
+export function processLevels() {
+  const W = 840, H = 400;
+  let b = arrowDefs('pl-a', C.muted);
+
+  b += txt(24, 32, 'Hasta dónde desplegar el mapa', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'cuatro niveles posibles, un solo límite razonable', { a: 'start', c: 'd-anno' });
+
+  const rows = [
+    { k: 'l0', n: 'Nivel 0', t: 'Mapa general', d: 'De 8 a 15 procesos en una hoja. Lo que ve la alta dirección.', q: 'Obligatorio', col: C.a, w: C.aw, ok: true },
+    { k: 'l1', n: 'Nivel 1', t: 'Subprocesos y fichas', d: 'Despliegue de cada proceso. Aquí viven caracterización e indicadores.', q: 'Obligatorio', col: C.q, w: C.qw, ok: true },
+    { k: 'l2', n: 'Nivel 2', t: 'Actividades y flujos', d: 'Diagramas de flujo, carriles, criterios de decisión.', q: 'Según riesgo', col: C.e, w: C.ew, ok: true },
+    { k: 'l3', n: 'Nivel 3', t: 'Tareas e instructivos', d: 'Paso a paso operativo. Solo donde el error es caro o irreversible.', q: 'Excepcional', col: C.s, w: C.sw, ok: false }
+  ];
+
+  rows.forEach((r, i) => {
+    const y = 80 + i * 68, x = 24 + i * 24, w = 700 - i * 24;
+    let g = box(x, y, w, 56, { fill: r.w, stroke: r.col, r: 8, dash: r.ok ? null : '4 4' });
+    g += txt(x + 16, y + 24, r.n, { a: 'start', c: 'd-sub', fill: ink(r.col), w: 600 });
+    g += txt(x + 78, y + 24, r.t, { a: 'start', c: 'd-label', size: 12 });
+    g += txt(x + 16, y + 42, r.d, { a: 'start', c: 'd-sub', size: 9.5 });
+    g += txt(x + w - 16, y + 24, r.q, { a: 'end', c: 'd-sub', fill: ink(r.col), w: 600 });
+    b += hot(r.k, g, `${r.n} — ${r.t}`, [x, y, w, 56]);
+    if (i < rows.length - 1) b += arrow(`M${x + 40} ${y + 58} V${y + 76}`, 'pl-a');
+  });
+
+  let lim = box(748, 148, 68, 124, { fill: C.accw, stroke: C.acc, r: 8, sw: 1.5 });
+  lim += txt(782, 190, 'EL', { c: 'd-sub', fill: C.acci, w: 700 });
+  lim += txt(782, 208, 'LÍMITE', { c: 'd-sub', fill: C.acci, w: 700 });
+  lim += txt(782, 232, 'baja solo', { c: 'd-sub', size: 9 });
+  lim += txt(782, 246, 'si el riesgo', { c: 'd-sub', size: 9 });
+  lim += txt(782, 260, 'lo exige', { c: 'd-sub', size: 9 });
+  b += hot('limite', lim, 'El límite del despliegue', [748, 148, 68, 124]);
+
+  b += txt(24, 356, 'Regla de coste: cada nivel adicional multiplica por tres el esfuerzo de mantenimiento documental y no añade control si el anterior no se cumple.', { a: 'start', c: 'd-anno' });
+  b += txt(24, 378, 'La burocracia documental casi nunca nace de exigir demasiado: nace de desplegar niveles que nadie lee ni actualiza.', { a: 'start', c: 'd-anno' });
+
+  return frame(W, H, 'Niveles de despliegue del mapa de procesos',
+    'Cuatro bandas escalonadas de nivel cero a nivel tres, cada una con lo que contiene y si es obligatoria. Una marca lateral señala el límite razonable de despliegue.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   24 · Mapa de interfaces y traspasos (swimlane con puntos de fuga)
+   ════════════════════════════════════════════════════════════ */
+export function handoffMap() {
+  const W = 880, H = 400;
+  let b = arrowDefs('hm-a', C.muted);
+
+  b += txt(24, 32, 'Carriles e interfaces — proceso de compra de un insumo crítico', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'cada cambio de carril es un traspaso, y cada traspaso es un punto de fuga de control', { a: 'start', c: 'd-anno' });
+
+  const lanes = [
+    { n: 'Área usuaria', col: C.q },
+    { n: 'Logística', col: C.acc },
+    { n: 'Calidad', col: C.e },
+    { n: 'Finanzas', col: C.a }
+  ];
+  const laneH = 60, x0 = 136, laneW = 720;
+  lanes.forEach((l, i) => {
+    const y = 80 + i * laneH;
+    b += box(24, y, 108, laneH - 4, { fill: 'var(--paper-3)', stroke: C.hair, r: 6 });
+    b += txt(78, y + 34, l.n, { c: 'd-sub', fill: ink(l.col), w: 600 });
+    b += box(x0, y, laneW, laneH - 4, { fill: 'none', stroke: C.hair, r: 6, dash: '2 4' });
+  });
+
+  // Pasos: [lane, x, w, label]
+  const steps = [
+    { lane: 0, x: 152, w: 116, t: 'Solicitar', s: 'con especificación' },
+    { lane: 1, x: 292, w: 116, t: 'Cotizar', s: '3 proveedores' },
+    { lane: 3, x: 432, w: 116, t: 'Aprobar', s: 'según monto' },
+    { lane: 1, x: 572, w: 116, t: 'Emitir OC', s: 'con criterio' },
+    { lane: 2, x: 712, w: 128, t: 'Verificar', s: 'contra especificación' }
+  ];
+  steps.forEach((s, i) => {
+    const y = 80 + s.lane * laneH + 8;
+    b += box(s.x, y, s.w, 40, { fill: 'var(--paper-2)', stroke: lanes[s.lane].col, r: 6 });
+    b += txt(s.x + s.w / 2, y + 18, s.t, { c: 'd-label', size: 11 });
+    b += txt(s.x + s.w / 2, y + 32, s.s, { c: 'd-sub', size: 9 });
+  });
+
+  // Traspasos
+  const hops = [
+    { k: 'h1', from: 0, to: 1, x: 280, t: '1' },
+    { k: 'h2', from: 1, to: 3, x: 420, t: '2' },
+    { k: 'h3', from: 3, to: 1, x: 560, t: '3' },
+    { k: 'h4', from: 1, to: 2, x: 700, t: '4' }
+  ];
+  hops.forEach((h) => {
+    const y1 = 80 + h.from * laneH + 28, y2 = 80 + h.to * laneH + 28;
+    let g = `<path d="M${h.x - 12} ${y1} H${h.x} V${y2} H${h.x + 12}" fill="none" stroke="${C.acc}" stroke-width="1.5" marker-end="url(#hm-a)"/>`;
+    g += `<circle cx="${h.x}" cy="${(y1 + y2) / 2}" r="9" fill="${C.accw}" stroke="${C.acc}" stroke-width="1.5"/>`;
+    g += txt(h.x, (y1 + y2) / 2 + 4, h.t, { c: 'd-sub', fill: C.acci, w: 700 });
+    b += hot(h.k, g, `Traspaso ${h.t}`, [h.x - 16, Math.min(y1, y2) - 8, 32, Math.abs(y2 - y1) + 16]);
+  });
+
+  let z = box(24, 324, 832, 44, { fill: C.accw, stroke: C.acc, r: 8 });
+  z += txt(440, 344, 'Cuatro traspasos en un proceso de cinco pasos. Cada uno necesita: qué se entrega, a quién, con qué criterio de aceptación y en qué plazo.', { c: 'd-label', size: 11, fill: C.acci });
+  z += txt(440, 360, 'Si el traspaso no está definido, el proceso funciona por costumbre — y falla en cuanto rota la persona.', { c: 'd-sub', size: 9.5 });
+  b += hot('zona', z, 'La regla de los traspasos', [24, 324, 832, 44]);
+
+  return frame(W, H, 'Diagrama de carriles con los traspasos entre áreas',
+    'Cuatro carriles —área usuaria, logística, calidad y finanzas— recorridos por cinco pasos de un proceso de compra. Cuatro puntos numerados marcan cada traspaso entre carriles.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   25 · Bucle de control del indicador
+   ════════════════════════════════════════════════════════════ */
+export function indicatorLoop() {
+  const W = 880, H = 380;
+  let b = arrowDefs('il-a', C.muted);
+
+  b += txt(24, 32, 'Del dato a la decisión — el bucle que hace útil un indicador', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'un indicador que no cierra este bucle es decorativo, por impecable que sea la tabla', { a: 'start', c: 'd-anno' });
+
+  const nodes = [
+    { k: 'dato', x: 24,  t: 'DATO', d: ['fuente verificable,', 'no memoria'], col: C.q },
+    { k: 'ind',  x: 196, t: 'INDICADOR', d: ['fórmula estable', 'en el tiempo'], col: C.q },
+    { k: 'umb',  x: 368, t: 'UMBRAL', d: ['meta, línea base', 'y punto de reacción'], col: C.acc },
+    { k: 'dec',  x: 540, t: 'DECISIÓN', d: ['¿actúo o', 'sigo?'], col: C.a },
+    { k: 'acc',  x: 712, t: 'ACCIÓN', d: ['sobre la causa,', 'con responsable'], col: C.s }
+  ];
+  nodes.forEach((n, i) => {
+    const y = 92, w = 144, h = 84;
+    const focal = n.k === 'umb';
+    let g = box(n.x, y, w, h, { fill: focal ? C.accw : 'var(--paper-2)', stroke: n.col, r: 8, sw: focal ? 1.5 : 1 });
+    g += txt(n.x + w / 2, y + 30, n.t, { c: 'd-label', fill: ink(n.col), w: 700, size: 12 });
+    g += lines(n.x + w / 2, y + 52, n.d, { c: 'd-sub', lh: 13 });
+    g += txt(n.x + w / 2, y + 76, `paso ${i + 1}`, { c: 'd-sub', size: 9 });
+    b += hot(n.k, g, n.t, [n.x, y, w, h]);
+    if (i < nodes.length - 1) b += arrow(`M${n.x + w} ${y + 42} H${n.x + w + 24}`, 'il-a', { stroke: C.acc });
+  });
+
+  // Retorno al proceso
+  b += `<path d="M784 176 V236 H172 V196" fill="none" stroke="${C.acc}" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#il-a)"/>`;
+  b += hot('ret', txt(478, 232, 'el efecto vuelve al proceso y se vuelve a medir — verificación de eficacia (cl. 10.2)', { c: 'd-anno', fill: C.acci }),
+    'El retorno: verificación de eficacia', [220, 220, 520, 20]);
+
+  // Rupturas frecuentes
+  const breaks = [
+    { x: 24,  t: 'Dato que nadie puede reconstruir', s: 'se mide de memoria o en una hoja personal' },
+    { x: 296, t: 'Umbral que no existe', s: 'hay meta, pero nadie sabe cuándo reaccionar' },
+    { x: 568, t: 'Decisión que nunca ocurre', s: 'el indicador se reporta y se archiva' }
+  ];
+  b += txt(24, 284, 'Dónde se rompe el bucle en la práctica', { a: 'start', c: 'd-label', size: 12, w: 600 });
+  breaks.forEach((br) => {
+    b += box(br.x, 296, 264, 48, { fill: 'var(--risk-wash)', stroke: 'var(--risk)', r: 8, dash: '4 4' });
+    b += txt(br.x + 132, 316, br.t, { c: 'd-label', size: 11, fill: 'var(--risk)' });
+    b += txt(br.x + 132, 332, br.s, { c: 'd-sub', size: 9 });
+  });
+
+  b += txt(24, H - 8, 'Prueba de consultor: pide la última decisión que se tomó porque este indicador se movió. Si no existe, el bucle está roto.', { a: 'start', c: 'd-anno' });
+
+  return frame(W, H, 'Bucle de control de un indicador de proceso',
+    'Cinco nodos encadenados: dato, indicador, umbral, decisión y acción, con una flecha de retorno que devuelve el efecto al proceso para volver a medirlo. Debajo, los tres puntos donde el bucle se rompe en la práctica.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   26 · Madurez de la gestión por procesos
+   ════════════════════════════════════════════════════════════ */
+export function processMaturity() {
+  const W = 860, H = 420;
+  let b = '';
+
+  b += txt(24, 32, 'Madurez de la gestión por procesos', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'certificarse acredita el nivel 3; el valor económico aparece en el 4 y el 5', { a: 'start', c: 'd-anno' });
+
+  const levels = [
+    { k: 'm1', n: '1', t: 'Inicial', s: 'depende de la persona', d: 'El trabajo depende de quién esté ese día.', e: 'Nadie sabe describir el proceso igual dos veces.', col: 'var(--risk)', w: 'var(--risk-wash)' },
+    { k: 'm2', n: '2', t: 'Repetible', s: 'costumbre no escrita', d: 'Hay práctica común, no documentada.', e: 'Funciona hasta que rota el personal clave.', col: 'var(--warn)', w: 'var(--warn-wash)' },
+    { k: 'm3', n: '3', t: 'Definido', s: 'caracterizado y medido', d: 'Proceso caracterizado, con dueño e indicador.', e: 'Es el nivel que exige y verifica una certificación.', col: C.q, w: C.qw },
+    { k: 'm4', n: '4', t: 'Gestionado', s: 'se decide con el dato', d: 'Se decide con el dato y se controla la variación.', e: 'El indicador cambia decisiones, no solo informes.', col: C.e, w: C.ew },
+    { k: 'm5', n: '5', t: 'Optimizado', s: 'se rediseña por evidencia', d: 'El proceso se rediseña por evidencia y anticipación.', e: 'Se mejora antes de que aparezca el problema.', col: C.acc, w: C.accw }
+  ];
+
+  const bw = 148, base = 344;
+  levels.forEach((l, i) => {
+    const h = 56 + i * 44, x = 24 + i * 164, y = base - h;
+    let g = box(x, y, bw, h, { fill: l.w, stroke: l.col, r: 8, sw: i === 4 ? 1.5 : 1 });
+    g += txt(x + bw / 2, y + 26, l.n, { c: 'd-label', fill: ink(l.col), w: 700, size: 16 });
+    g += txt(x + bw / 2, y + 46, l.t, { c: 'd-label', size: 12 });
+    b += hot(l.k, g, `Nivel ${l.n} — ${l.t}`, [x, y, bw, h]);
+    b += txt(x + bw / 2, base + 20, l.s, { c: 'd-sub', size: 9 });
+  });
+
+  b += `<path d="M24 ${base + 4} H${24 + 5 * 164 - 16}" stroke="${C.hair}" stroke-width="1"/>`;
+
+  // Linea de certificacion
+  const cx = 24 + 2 * 164 + bw + 8;
+  b += `<path d="M${cx} 96 V${base}" stroke="${C.acc}" stroke-width="1" stroke-dasharray="4 4"/>`;
+  b += txt(cx + 8, 108, 'umbral de certificación', { a: 'start', c: 'd-sub', fill: C.acci });
+  b += txt(cx + 8, 124, 'a la izquierda no hay sistema auditable', { a: 'start', c: 'd-sub', size: 9 });
+
+  b += txt(24, 384, 'El salto caro no es del 2 al 3 —eso lo resuelve un consultor—, sino del 3 al 4: exige que la organización acepte decidir contra el dato aunque contradiga a la jerarquía.', { a: 'start', c: 'd-anno' });
+  b += txt(24, 404, 'Un sistema certificado y estancado en nivel 3 durante años es exactamente lo que la cl. 10.3 llama incumplimiento de mejora continua.', { a: 'start', c: 'd-anno' });
+
+  return frame(W, H, 'Escalera de madurez de la gestión por procesos',
+    'Cinco escalones ascendentes: inicial, repetible, definido, gestionado y optimizado, cada uno con su síntoma característico. Una línea vertical marca el umbral a partir del cual el sistema es certificable.', b);
+}
+
+/* ════════════════════════════════════════════════════════════
+   27 · Cadena de valor y tiempo: eficiencia de ciclo
+   ════════════════════════════════════════════════════════════ */
+export function valueStream() {
+  const W = 880, H = 412;
+  let b = arrowDefs('vs-a', C.muted);
+
+  b += txt(24, 32, 'Dónde se va el tiempo — eficiencia de ciclo del proceso', { a: 'start', c: 'd-title' });
+  b += txt(24, 52, 'mismo proceso de compra: 5 días de trabajo real dentro de 21 días de plazo', { a: 'start', c: 'd-anno' });
+
+  /* Bloques: va = valor añadido, es = espera. La barra es estrictamente
+     proporcional, asi que los tramos de medio dia quedan demasiado estrechos
+     para rotularlos: sus nombres van en la leyenda de debajo. */
+  const blocks = [
+    { t: 'Solicitar', h: 0.5, k: 'va' }, { t: 'Espera de visto bueno', h: 3, k: 'es' },
+    { t: 'Cotizar', h: 2, k: 'va' },     { t: 'Espera de aprobación', h: 6, k: 'es' },
+    { t: 'Emitir OC', h: 0.5, k: 'va' }, { t: 'Espera del proveedor', h: 5, k: 'es' },
+    { t: 'Recibir', h: 1, k: 'va' },     { t: 'Espera de verificación', h: 2, k: 'es' },
+    { t: 'Verificar', h: 1, k: 'va' }
+  ];
+  const total = blocks.reduce((a, c) => a + c.h, 0);
+  const spanW = 812;
+  const dias = (n) => String(n).replace('.', ',');
+  let x = 24;
+  blocks.forEach((bl) => {
+    const w = (bl.h / total) * spanW;
+    const isVA = bl.k === 'va';
+    const y = isVA ? 100 : 128;
+    const h = isVA ? 60 : 32;
+    b += box(x, y, w - 2, h, {
+      fill: isVA ? C.ew : 'var(--warn-wash)',
+      stroke: isVA ? C.e : 'var(--warn)', r: 6, dash: isVA ? null : '3 3'
+    });
+    if (w > 44) b += txt(x + w / 2, isVA ? y + 28 : y + 21, `${dias(bl.h)} d`, {
+      c: 'd-sub', size: 10, fill: isVA ? ink(C.e) : 'var(--warn)'
+    });
+    if (isVA && w > 68) b += txt(x + w / 2, y + 46, bl.t, { c: 'd-label', size: 10 });
+    x += w;
+  });
+
+  b += hot('va', '', 'Tiempo de valor añadido', [24, 96, spanW, 32]);
+  b += hot('es', '', 'Tiempo de espera', [24, 128, spanW, 32]);
+
+  b += txt(24, 92, 'barra alta = valor añadido · barra baja punteada = espera', { a: 'start', c: 'd-sub' });
+
+  /* Leyenda: los tramos estrechos no caben rotulados dentro de la barra. */
+  b += txt(24, 180, 'Valor añadido: Solicitar 0,5 · Cotizar 2 · Emitir OC 0,5 · Recibir 1 · Verificar 1 = 5 d', { a: 'start', c: 'd-sub', size: 10, fill: ink(C.e) });
+  b += txt(24, 196, 'Espera: visto bueno 3 · aprobación 6 · proveedor 5 · verificación 2 = 16 d', { a: 'start', c: 'd-sub', size: 10, fill: 'var(--warn)' });
+
+  // Linea de lead time
+  b += `<path d="M24 216 H836" stroke="${C.acc}" stroke-width="1" marker-end="url(#vs-a)"/>`;
+  b += `<path d="M24 210 V222 M836 210 V222" stroke="${C.acc}" stroke-width="1"/>`;
+  b += hot('lead', txt(430, 238, 'plazo total (lead time) = 21 días — lo único que percibe el cliente', { c: 'd-label', size: 11, fill: C.acci }),
+    'El plazo total', [200, 226, 460, 20]);
+
+  // Calculo
+  let calc = box(24, 256, 400, 112, { fill: C.accw, stroke: C.acc, r: 8, sw: 1.5 });
+  calc += txt(40, 280, 'Eficiencia de ciclo del proceso (PCE)', { a: 'start', c: 'd-label', fill: C.acci, w: 600, size: 12 });
+  calc += txt(40, 306, 'PCE = tiempo de valor añadido / plazo total', { a: 'start', c: 'd-sub', size: 10.5 });
+  calc += txt(40, 330, 'PCE = 5 d / 21 d = 24 %', { a: 'start', c: 'd-label', size: 14, fill: C.acci });
+  calc += txt(40, 354, 'el 76 % del plazo es espera — ahí está la mejora', { a: 'start', c: 'd-sub', size: 9.5 });
+  b += hot('pce', calc, 'Eficiencia de ciclo del proceso', [24, 256, 400, 112]);
+
+  let ref = box(444, 256, 392, 112, { fill: 'var(--paper-3)', stroke: C.hair, r: 8 });
+  ref += txt(460, 280, 'Cómo se lee', { a: 'start', c: 'd-label', size: 12, w: 600 });
+  ref += txt(460, 302, 'PCE < 10 % — proceso administrativo típico sin gestionar', { a: 'start', c: 'd-sub', size: 9.5 });
+  ref += txt(460, 322, 'PCE 10-25 % — hay control, la espera sigue dominando', { a: 'start', c: 'd-sub', size: 9.5 });
+  ref += txt(460, 342, 'PCE > 25 % — proceso gestionado con flujo trabajado', { a: 'start', c: 'd-sub', size: 9.5 });
+  ref += txt(460, 360, 'Reducir esperas rara vez cuesta dinero: cuesta decisiones.', { a: 'start', c: 'd-anno', size: 10 });
+  b += hot('ref', ref, 'Cómo leer la eficiencia de ciclo', [444, 256, 392, 112]);
+
+  b += txt(24, H - 8, 'Regla: antes de automatizar un proceso, mide su PCE. Automatizar la espera no la elimina — la digitaliza.', { a: 'start', c: 'd-anno' });
+
+  return frame(W, H, 'Cadena de tiempo de un proceso con eficiencia de ciclo',
+    'Una barra de tiempo alterna bloques altos de valor añadido con bloques bajos de espera a lo largo de veintiún días. Debajo se calcula la eficiencia de ciclo del proceso: cinco días de trabajo real sobre veintiún días de plazo, un veinticuatro por ciento.', b);
+}
+
 export const DIAGRAMS = {
   annexSL, pdcaLoop, normsTimeline, processMap, turtle, riskMatrix,
   controlHierarchy, docPyramid, auditCycle, certRoute, bowtie,
   integrationLevels, stakeholderQuadrant, lifecycle, ganttImpl,
-  maturityRadar, costIceberg, ncAnatomy, correspondenceGrid
+  maturityRadar, costIceberg, ncAnatomy, correspondenceGrid,
+  /* Itinerario de gestión por procesos */
+  processJourney, processAnatomy, sipocChain, processLevels,
+  handoffMap, indicatorLoop, processMaturity, valueStream
 };
 
 /** Envuelve un diagrama en su <figure> con numeración y pie. */

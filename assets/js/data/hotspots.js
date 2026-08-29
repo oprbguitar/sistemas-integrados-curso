@@ -203,9 +203,117 @@ export const HOTSPOTS = {
     integ: { t: 'Integrable', n: 'Aquí está el ahorro', d: 'Requisito sustancialmente idéntico en las cuatro normas: un solo documento, un solo proceso, una sola evidencia. Nueve de diecisiete filas caen aquí. <strong>Es donde se justifica económicamente el SIG</strong> y donde el IAF reconoce reducción de días-auditor en auditoría combinada.' },
     matiz: { t: 'Común con matiz', n: 'Cuidado al redactar', d: 'El requisito existe en todas, pero cada norma añade algo propio. Ejemplo: la cl. 5.1 de liderazgo es común, pero ISO 45001 exige además proteger a los trabajadores de represalias al reportar. <strong>Se integra el documento, no se recorta el matiz</strong> — recortarlo es la forma silenciosa de perder un requisito.' },
     propio: { t: 'Propio — no integrable', n: 'La identidad de cada norma', d: 'IPERC, aspectos ambientales, riesgo de soborno, consulta y participación, diseño y desarrollo. <strong>Responden preguntas distintas con escalas distintas.</strong> Fusionarlos en una sola matriz destruye las tres metodologías y produce números que parecen gestión sin serlo.' }
+  },
+
+  /* ---------------- Itinerario de procesos ---------------- */
+  processJourney: {
+    n1: { t: 'Nivel 1 — Fundamentos', n: 'Produce criterio, no documentos',
+      d: 'Qué es un proceso, en qué se diferencia de un procedimiento, SIPOC, tipos y mapa de nivel 0. <strong>No genera entregables</strong> y por eso se salta con frecuencia — con la consecuencia de que la ficha del nivel 2 se llena copiando. Un auditor detecta esa copia en dos preguntas: «¿cuál es el resultado previsto?» y «¿quién lo definió?».' },
+    n2: { t: 'Nivel 2 — Caracterizar y medir', n: 'Donde el proceso se vuelve gestionable',
+      d: 'Ficha de caracterización, tortuga, carriles, interfaces e indicadores con las seis columnas. Es el nivel que una certificación verifica de principio a fin. <strong>La ficha es fácil de llenar; lo que se audita es sostenerla en la entrevista</strong>: por qué ese dueño, por qué ese indicador, por qué ese umbral.' },
+    n3: { t: 'Nivel 3 — Arquitectura y desempeño', n: 'Donde aparece el dinero',
+      d: 'Gobierno de procesos, madurez, variación, capacidad y eficiencia de ciclo. La certificación acredita el nivel 3 de madurez; <strong>el valor económico aparece en el 4</strong>. Este nivel explica por qué tantas organizaciones certificadas llevan años con el mismo desempeño y ninguna no conformidad que lo señale.' },
+    crit: { t: 'El criterio de avance', n: 'Lo que impide saltar de nivel',
+      d: 'Cada página cierra con una lista de verificación persistente. No es un adorno pedagógico: <strong>se avanza cuando puedes demostrar el resultado con evidencia objetiva</strong>, no cuando terminaste de leer. El patrón de fracaso más común en formación de SIG es exactamente el contrario: cubrir el temario completo sin haber caracterizado nunca un proceso real.' }
+  },
+
+  processAnatomy: {
+    core: { t: 'La transformación', n: 'Donde ocurre el trabajo',
+      d: 'Las actividades que convierten la entrada en la salida. Es la parte que todo el mundo describe bien y la menos auditada: un auditor experimentado pasa muy poco tiempo aquí y mucho en los controles y los recursos, porque <strong>ahí es donde las fichas mienten sin darse cuenta</strong>.' },
+    ent: { t: 'Entradas', n: 'Llegan con criterio de aceptación',
+      d: 'Material, información, solicitud o expediente que llega de un proveedor interno o externo. Lo auditable no es el objeto: es el <strong>criterio de aceptación</strong>. «Recibimos el requerimiento» es una descripción; «recibimos el requerimiento con especificación, cantidad, fecha y aprobación presupuestal, y si falta un campo se devuelve en 24 h» es un control verificable.' },
+    sal: { t: 'Salidas', n: 'Salen con criterio de conformidad',
+      d: 'Producto, servicio, decisión o registro que se entrega a un cliente. <strong>Ojo con el cliente</strong>: el del proceso suele ser el proceso siguiente, no el cliente final. Confundirlos hace que el criterio de conformidad se defina contra el mercado en lugar de contra quien realmente recibe el trabajo.' },
+    ctrl: { t: 'Controles', n: 'Gobiernan y no se consumen',
+      d: 'Requisito legal, política, criterio de aceptación, procedimiento. Mandan sobre el proceso sin ser parte de él y sin agotarse en la ejecución. <strong>Casi ninguna ficha los declara</strong>, y es la razón por la que tantos procesos parecen bajo control hasta que aparece un requisito legal que nadie había mapeado (cl. 9.1.2).' },
+    rec: { t: 'Recursos', n: 'Habilitan y sí se consumen',
+      d: 'Personas competentes, equipos, software y ambiente de trabajo. El ambiente de trabajo es requisito explícito de la <strong>cl. 7.1.4</strong> y el elemento que más veces falta en las fichas peruanas. Si hay medición, comprueba además la trazabilidad metrológica de la cl. 7.1.5.' },
+    med: { t: 'Medición', n: 'Sobre la salida y sobre el proceso',
+      d: 'Medir solo la salida informa tarde: cuando el indicador se mueve, el resultado ya se produjo. Por eso todo proceso maduro tiene también <strong>al menos un indicador de proceso</strong> (lead) que anticipa el resultado y permite corregir mientras aún se puede.' }
+  },
+
+  sipocChain: {
+    s: { t: 'S — Supplier / Proveedor', n: 'Quién entrega la entrada',
+      d: 'Interno o externo. Nombrarlo obliga a nombrar una relación real y no una abstracción. Si el proveedor es externo, se activa la <strong>cl. 8.4</strong> (control de procesos, productos y servicios suministrados externamente), que es una de las más auditadas del capítulo 8.' },
+    i: { t: 'I — Input / Entrada', n: 'Qué se recibe y con qué criterio',
+      d: 'El campo donde más SIPOC se quedan a medias: se anota el objeto («requerimiento») y se omite el criterio con el que se acepta. <strong>Sin criterio no hay control</strong>, y en campo cada persona acaba aceptando lo que le parece razonable ese día.' },
+    p: { t: 'P — Process / Proceso', n: 'De cuatro a siete pasos',
+      d: 'Pasos de alto nivel, en infinitivo. Si te salen quince, estás describiendo dos procesos y deberías partirlos. Se llena <strong>al final</strong>, no al principio: empezar por aquí es lo que produce SIPOC que describen lo que el área hace en lugar de lo que el cliente necesita.' },
+    o: { t: 'O — Output / Salida', n: 'Qué se entrega y con qué criterio',
+      d: 'Junto con el cliente, es lo primero que se define. La salida de un proceso es la entrada de otro, así que <strong>su criterio de conformidad y el criterio de aceptación del siguiente proceso deben ser el mismo</strong>. Cuando difieren, aparece el reproceso invisible: alguien arregla en silencio lo que recibe.' },
+    c: { t: 'C — Customer / Cliente', n: 'Por aquí se empieza',
+      d: 'Quién recibe la salida. Casi siempre es otro proceso interno. Empezar el SIPOC por el cliente fuerza a mirar el proceso desde fuera, que es la única perspectiva desde la que se puede juzgar si añade valor.' },
+    interno: { t: 'La cadena cliente-proveedor interno', n: 'Donde se pierde el desempeño',
+      d: 'Cada flecha entre procesos es una interfaz. Un proceso puede cumplir su indicador y destruir el desempeño del siguiente si entrega tarde o incompleto: <strong>Compras cierra con 98 % de órdenes a tiempo y el 40 % sin certificado de calidad</strong>, Recepción no libera, la planta se detiene, y los dos tableros están en verde. Por eso todo sistema maduro mide al menos un indicador de interfaz.' }
+  },
+
+  processLevels: {
+    l0: { t: 'Nivel 0 — Mapa general', n: 'Obligatorio',
+      d: 'De 8 a 15 procesos en una hoja. Es lo que ve la alta dirección y con lo que abre cualquier auditoría. <strong>Menos de 8 esconde agregaciones</strong> que diluyen responsabilidad; más de 15 no cabe en la cabeza de nadie y deja de usarse a las dos semanas.' },
+    l1: { t: 'Nivel 1 — Subprocesos y fichas', n: 'Obligatorio',
+      d: 'Despliegue de cada proceso del nivel 0. Aquí viven la caracterización, los indicadores y los riesgos. <strong>Es el nivel que realmente se audita</strong>: el mapa se mira treinta segundos, las fichas se interrogan durante horas.' },
+    l2: { t: 'Nivel 2 — Actividades y flujos', n: 'Según riesgo',
+      d: 'Diagramas de flujo, carriles, criterios de decisión. Se justifica cuando el proceso cruza áreas o cuando el criterio de decisión no es evidente. <strong>Dibujar con carriles es lo que hace visibles los traspasos</strong>, que es donde se concentran los retrasos y los reprocesos.' },
+    l3: { t: 'Nivel 3 — Tareas e instructivos', n: 'Excepcional',
+      d: 'Paso a paso operativo. Solo donde el error es caro, irreversible o pone en riesgo a una persona. Deben estar <strong>en el punto de uso y en formato usable ahí</strong>: un PDF en un servidor no sirve en un frente de obra sin señal.' },
+    limite: { t: 'El límite del despliegue', n: 'De dónde viene la burocracia',
+      d: 'Cada nivel adicional multiplica el esfuerzo de mantenimiento documental y no añade control si el anterior no se cumple. La burocracia casi nunca nace de exigir demasiado en el nivel 0: <strong>nace de niveles 2 y 3 que nadie lee y que quedan obsoletos en el primer cambio de método</strong>. Prueba: pregunta en campo cuándo se consultó por última vez un instructivo. Si la respuesta es «cuando lo firmamos», ese despliegue cuesta dinero y no compra control.' }
+  },
+
+  handoffMap: {
+    h1: { t: 'Traspaso 1 — Área usuaria → Logística', n: 'Sin criterio de completitud',
+      d: 'El requerimiento cambia de responsable. Es el traspaso que genera el 38 % de devoluciones del caso: llega sin especificación completa. <strong>El indicador lead «requerimientos completos a la primera» mide exactamente esta interfaz</strong>, y mejorarlo arrastra a los dos indicadores de resultado sin tocar el proceso de compra.' },
+    h2: { t: 'Traspaso 2 — Logística → Finanzas', n: 'Autorización intercalada',
+      d: 'La cotización sale del carril operativo para volver más tarde. Toda autorización intercalada es un cuello de botella potencial. La pregunta de rediseño es siempre la misma: <strong>¿puede delegarse por monto o por nivel de riesgo?</strong> En este caso concreto son 6 de los 21 días.' },
+    h3: { t: 'Traspaso 3 — Finanzas → Logística', n: 'El retorno sin plazo',
+      d: 'El trabajo vuelve al carril anterior. Los retornos son los traspasos peor definidos porque nadie los percibe como entrega: se asume que «ya volverá». <strong>Sin plazo declarado, el retorno es la mayor fuente de demora estructural del proceso</strong> y no aparece en ningún indicador.' },
+    h4: { t: 'Traspaso 4 — Logística → Calidad', n: 'Verificación posterior',
+      d: 'La verificación al final del flujo detecta, pero no previene: cuando falla, el insumo ya está en planta y el plazo ya se consumió. Preguntar si esta verificación podría ser <strong>preventiva</strong> —criterio en la orden, homologación previa del proveedor— es el punto donde el nivel 2 se convierte en rediseño de nivel 3.' },
+    zona: { t: 'La regla de los traspasos', n: 'Cuatro definiciones por interfaz',
+      d: 'Qué se entrega, a quién, con qué criterio de aceptación y en qué plazo. Cuando un traspaso funciona «porque nos coordinamos por WhatsApp», el proceso <strong>depende de personas y no de diseño</strong>: falla el día que una de ellas rota, y el sistema no tiene forma de anticiparlo. Un diagrama de bloques nunca muestra esto; solo los carriles lo hacen visible.' }
+  },
+
+  indicatorLoop: {
+    dato: { t: 'Paso 1 — El dato', n: 'Fuente verificable',
+      d: 'Debe poder reconstruirlo alguien distinto de quien lo reporta. <strong>Si el dato solo existe en la hoja de cálculo personal de una persona, el bucle ya está roto</strong> en su primer eslabón: no hay trazabilidad y el indicador no resiste una verificación en auditoría.' },
+    ind: { t: 'Paso 2 — El indicador', n: 'Fórmula estable en el tiempo',
+      d: 'La fórmula debe permanecer comparable a lo largo del período. <strong>El cambio que más indicadores destruye no es el tecnológico: es el de denominador</strong>, hecho a mitad de año sin declararlo. Destruye la línea base y, con ella, cualquier posibilidad de demostrar mejora (cl. 10.3).' },
+    umb: { t: 'Paso 3 — El umbral', n: 'Meta y umbral no son lo mismo',
+      d: 'La meta dice a dónde vamos; el umbral dice <strong>cuándo hay que actuar y quién</strong>. Es la columna que más veces falta y la que convierte un número en una obligación. Sin umbral el indicador informa, pero no gestiona — y la cl. 9.1.1 exige evaluar el desempeño, no solo medirlo.' },
+    dec: { t: 'Paso 4 — La decisión', n: 'La pregunta que tumba sistemas',
+      d: '«¿Qué decisión se tomó la última vez que este indicador se movió?». Si no hay ninguna, el indicador es decorativo por impecable que sea la tabla. <strong>Es la prueba más rápida y más incómoda de todo el capítulo 9.</strong>' },
+    acc: { t: 'Paso 5 — La acción', n: 'Sobre la causa, no sobre el efecto',
+      d: 'Corrección actúa sobre el efecto; acción correctiva actúa sobre la causa (cl. 10.2). Y la eficacia se verifica con <strong>dato posterior y tiempo transcurrido</strong>, nunca con una firma de cierre. Cerrar con «falta de capacitación» como causa raíz en el 80 % de los registros indica análisis ritual.' },
+    ret: { t: 'El retorno al proceso', n: 'Verificación de eficacia',
+      d: 'El efecto de la acción vuelve al proceso y se vuelve a medir con el mismo indicador. Ese retorno <strong>es</strong> la verificación de eficacia: sin él, la acción correctiva se cierra por fe. Es también la razón por la que la fórmula debe mantenerse estable — si cambió, no hay con qué comparar.' }
+  },
+
+  processMaturity: {
+    m1: { t: 'Nivel 1 — Inicial', n: 'Depende de la persona',
+      d: 'El trabajo sale adelante por experiencia individual. Síntoma: <strong>dos personas describen el mismo proceso de forma distinta</strong>. No hay nada que auditar porque no hay criterio declarado; una auditoría en este nivel produce hallazgos triviales y no ayuda.' },
+    m2: { t: 'Nivel 2 — Repetible', n: 'Costumbre no escrita',
+      d: 'Existe una práctica común que funciona, pero no está documentada ni tiene dueño formal. <strong>Funciona hasta que rota el personal clave</strong>, y entonces el conocimiento se va con la persona. Es el nivel donde está la mayoría de las pymes peruanas antes de iniciar la implementación.' },
+    m3: { t: 'Nivel 3 — Definido', n: 'El nivel que acredita una certificación',
+      d: 'Proceso caracterizado, con dueño, indicador y riesgo, y coherente con lo que ocurre en campo. <strong>Es exactamente lo que verifica una auditoría de certificación</strong>, y también donde se detiene la mayoría de los sistemas: el certificado se obtiene y el impulso de mejora desaparece.' },
+    m4: { t: 'Nivel 4 — Gestionado', n: 'El salto que no se compra',
+      d: 'Se decide con el dato y se controla la variación. Requiere distinguir variación común de especial y aceptar que el dato contradiga a la jerarquía. <strong>Ningún consultor puede instalarlo</strong>: es una decisión de gobierno, no un entregable documental. Aquí es donde el sistema empieza a producir dinero.' },
+    m5: { t: 'Nivel 5 — Optimizado', n: 'Se mejora antes del problema',
+      d: 'El proceso se rediseña por evidencia anticipada: series, capacidad, eficiencia de ciclo, minería de procesos. Es raro y no es obligatorio; pero un sistema estancado cinco años en nivel 3 con el mismo desempeño <strong>incumple la cl. 10.3</strong> aunque nunca le hayan abierto una no conformidad por ello.' }
+  },
+
+  valueStream: {
+    va: { t: 'Tiempo de valor añadido', n: '5 días de 21',
+      d: 'Los bloques altos: los tramos en que alguien transforma o verifica realmente. Ojo con la trampa de clasificación — <strong>una revisión que no cambia nada es espera, aunque haya una persona trabajando en ella</strong>. Ese matiz suele duplicar la espera contabilizada y es donde aparece la mejora real.' },
+    es: { t: 'Tiempo de espera', n: '16 días de 21',
+      d: 'Los bloques bajos: colas, autorizaciones pendientes, esperas del proveedor. En procesos administrativos sin gestionar suele superar el 90 % del plazo. <strong>Se ordena de mayor a menor y casi siempre las dos primeras esperas concentran más de la mitad del tiempo total.</strong>' },
+    lead: { t: 'Plazo total (lead time)', n: 'Lo único que percibe el cliente',
+      d: 'Desde que el cliente pide hasta que recibe. Al cliente interno no le importa cuántos días se trabajó: le importa cuándo llega. Por eso <strong>el plazo total, y no la productividad por tarea, es el indicador correcto de un proceso administrativo</strong>.' },
+    pce: { t: 'Eficiencia de ciclo (PCE)', n: '24 % en este caso',
+      d: 'PCE = tiempo de valor añadido ÷ plazo total = 5 ÷ 21 = 23,8 %. Reducir la espera de aprobación de 6 a 2 días lleva el plazo a 17 días y el PCE al 29 % <strong>sin contratar a nadie ni comprar software</strong>. La mejora vive en las decisiones de gobierno, no en la velocidad de ejecución.' },
+    ref: { t: 'Cómo se lee el resultado', n: 'Bandas de referencia',
+      d: 'Por debajo del 10 % es lo normal en un proceso administrativo sin gestionar; entre 10 y 25 % ya hay control pero la espera domina; por encima del 25 % el flujo se ha trabajado deliberadamente. <strong>Antes de automatizar, mide el PCE</strong>: automatizar una espera no la elimina, la digitaliza — y encima la vuelve más difícil de ver.' }
   }
 
 };
-
 /** Diagramas que hoy tienen puntos interactivos. */
 export const INTERACTIVOS = Object.keys(HOTSPOTS);

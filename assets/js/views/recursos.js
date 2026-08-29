@@ -40,7 +40,7 @@ ${DOS_RUTAS.map((r) => card(`
 
 ${sec('02', 'La cadena de confianza', 'Por qué un certificado sin acreditación vale menos — y a veces no vale nada fuera del país.')}
 
-${fig('certRoute', '23', 'Ruta a la certificación acreditada',
+${fig('certRoute', '31', 'Ruta a la certificación acreditada',
   'Tres carriles y catorce meses. Fíjate en el carril inferior: el organismo de acreditación no audita a tu empresa, audita a tu certificador. Esa cadena es lo que hace que un certificado emitido en Lima sea aceptado en una licitación en Rotterdam.', { interactive: true })}
 
 <div class="grid g4">
@@ -180,10 +180,10 @@ ${table(['Término', 'Definición', '~Origen'],
 
 ${sec('07', 'Diagramas para repaso visual', 'Los cuatro que conviene poder reproducir a mano en una pizarra.')}
 
-${fig('annexSL', '24', 'La estructura de diez capítulos', 'Si puedes dibujar esto de memoria y ubicar el PHVA, tienes el esqueleto completo del sistema.', { interactive: true })}
-${fig('docPyramid', '25', 'Pirámide documental', 'Cuatro niveles, volumen creciente hacia abajo, autoridad creciente hacia arriba.', { interactive: true })}
-${fig('auditCycle', '26', 'Ciclo de auditoría', 'Seis fases con su salida característica. Es la secuencia que se pregunta literalmente en los exámenes de auditor.', { interactive: true })}
-${fig('ncAnatomy', '27', 'Anatomía de un hallazgo', 'Requisito, evidencia, desviación. Y las tres clasificaciones con su consecuencia.', { interactive: true })}
+${fig('annexSL', '32', 'La estructura de diez capítulos', 'Si puedes dibujar esto de memoria y ubicar el PHVA, tienes el esqueleto completo del sistema.', { interactive: true })}
+${fig('docPyramid', '33', 'Pirámide documental', 'Cuatro niveles, volumen creciente hacia abajo, autoridad creciente hacia arriba.', { interactive: true })}
+${fig('auditCycle', '34', 'Ciclo de auditoría', 'Seis fases con su salida característica. Es la secuencia que se pregunta literalmente en los exámenes de auditor.', { interactive: true })}
+${fig('ncAnatomy', '35', 'Anatomía de un hallazgo', 'Requisito, evidencia, desviación. Y las tres clasificaciones con su consecuencia.', { interactive: true })}
 
 ${pager(['certificacion', 'Rutas de certificación'], ['recursos', 'Fuentes y recursos'])}
 `;
