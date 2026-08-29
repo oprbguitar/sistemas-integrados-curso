@@ -1,103 +1,10 @@
 /* ============================================================
-   SIG Lab — Vistas: Procesos · Riesgos · Auditoría · Medición · Casos
+   SIG Lab — Vistas: Riesgos · Auditoría · Medición · Casos
    ============================================================ */
 import { CASOS } from '../data/practica.js';
 import { CAMBIOS_2026 } from '../data/curso.js';
 import { fig } from '../viz.js';
 import { head, sec, callout, card, badge, table, checklist, acc, pager } from './ui.js';
-
-/* ══════════════════════════════════════════════════════════
-   Procesos
-   ══════════════════════════════════════════════════════════ */
-export function procesos() {
-  return `
-${head('Módulo 2', 'Gestión<br><em>por procesos</em>',
-  `El corazón operativo del SIG. Sin procesos caracterizados no hay sistema integrado: hay cuatro manuales conviviendo
-   en un archivador. Esta página va del mapa de nivel 0 hasta el indicador que sobrevive a una auditoría.`)}
-
-${sec('01', 'El mapa de procesos', 'Tres bandas, una dirección de flujo, y una regla que descarta el 70 % de los mapas que se ven en campo.')}
-
-${fig('processMap', '14', 'Mapa de procesos de nivel 0',
-  'Procesos estratégicos arriba, cadena de valor al centro, soporte abajo. La flecha de retroalimentación no es decorativa: es el capítulo 9 cerrando el ciclo. Un mapa sin ese retorno describe una fábrica, no un sistema de gestión.', { interactive: true })}
-
-${callout('key', 'La regla que descarta mapas',
-  `<p class="mb0">Si un proceso del mapa no tiene <strong>dueño con nombre</strong>, <strong>indicador</strong> y
-  <strong>al menos un riesgo asociado</strong>, no es un proceso: es un dibujo. La cl. 4.4.1 exige determinar criterios,
-  métodos, recursos, responsabilidades y riesgos para cada proceso. Un mapa bonito sin fichas detrás es una no conformidad
-  esperando a que alguien la escriba.</p>`)}
-
-<div class="grid g3">
-${card(`<div class="card-kicker">Nivel 0</div><h4>Mapa general</h4>
-  <p class="small muted mb0">De 8 a 15 procesos. Cabe en una hoja. Es lo que ve la alta dirección y lo que abre una auditoría.</p>`, { norm: '37001' })}
-${card(`<div class="card-kicker">Nivel 1</div><h4>Subprocesos</h4>
-  <p class="small muted mb0">Despliegue de cada proceso del nivel 0. Aquí viven las fichas de caracterización y los indicadores.</p>`, { norm: '9001' })}
-${card(`<div class="card-kicker">Nivel 2</div><h4>Actividades y flujos</h4>
-  <p class="small muted mb0">Diagramas de flujo e instructivos. <strong>El límite</strong>: bajar más es documentar tareas, y eso genera burocracia sin control.</p>`, { norm: '14001' })}
-</div>
-
-${sec('02', 'Caracterizar un proceso', 'Cuatro preguntas. Si una queda sin responder, el hallazgo ya está escrito.')}
-
-${fig('turtle', '15', 'Diagrama de tortuga',
-  'Las cuatro patas son exactamente las cuatro preguntas que un auditor formula frente a cualquier proceso. Responderlas por anticipado es la forma más eficiente de prepararse para una auditoría — y la forma más honesta de descubrir que un proceso no está bajo control.', { interactive: true })}
-
-${table(
-  ['Elemento', 'Qué debe contener', 'Error frecuente'],
-  [
-    ['<strong>Objetivo del proceso</strong>', 'Para qué existe, en una frase, en términos de resultado.', 'Describir la actividad («recibir materiales») en lugar del resultado («asegurar que el material recibido cumple especificación»).'],
-    ['<strong>Dueño</strong>', 'Cargo con autoridad sobre los recursos del proceso.', 'Asignar al coordinador del SIG como dueño de todos los procesos.'],
-    ['<strong>Entradas y proveedores</strong>', 'Qué se recibe, de quién, con qué criterio de aceptación.', 'Omitir el criterio de aceptación, que es lo único auditable.'],
-    ['<strong>Salidas y clientes</strong>', 'Qué se entrega, a quién, con qué criterio de conformidad.', 'Confundir cliente final con cliente del proceso (el siguiente proceso).'],
-    ['<strong>Recursos</strong>', 'Infraestructura, equipos, software, ambiente de trabajo.', 'No incluir el ambiente de trabajo, requisito explícito de la cl. 7.1.4.'],
-    ['<strong>Competencia</strong>', 'Perfil requerido y cómo se verifica.', 'Listar el cargo sin definir la competencia.'],
-    ['<strong>Métodos y criterios</strong>', 'Procedimientos, instructivos, criterios de decisión.', 'Referenciar documentos que no existen o están obsoletos.'],
-    ['<strong>Indicadores</strong>', 'Fórmula, fuente, frecuencia, meta, responsable, umbral de reacción.', 'Definir la meta sin línea base, lo que la hace ininterpretable.'],
-    ['<strong>Riesgos y controles</strong>', 'Qué puede impedir el resultado y qué lo previene.', 'Copiar el IPERC operativo, que responde otra pregunta.']
-  ])}
-
-${sec('03', 'Indicadores que sobreviven a una auditoría', 'Seis columnas obligatorias. Si falta alguna, el indicador no es gestionable.')}
-
-${table(
-  ['Columna', 'Pregunta que responde', 'Ejemplo — proceso de compras'],
-  [
-    ['<strong>Fórmula</strong>', '¿Cómo se calcula exactamente?', '(Órdenes recibidas conformes / Órdenes recibidas) × 100'],
-    ['<strong>Fuente del dato</strong>', '¿De dónde sale el número y quién lo puede verificar?', 'Módulo de recepción del ERP, reporte RC-04'],
-    ['<strong>Frecuencia</strong>', '¿Cada cuánto se mide y cada cuánto se analiza?', 'Medición mensual, análisis trimestral'],
-    ['<strong>Meta y línea base</strong>', '¿Desde cuánto, hasta cuánto y para cuándo?', 'De 91 % (2025) a 96 % al cierre de 2026'],
-    ['<strong>Responsable</strong>', '¿Quién responde por el resultado, no quién llena la tabla?', 'Jefe de Logística'],
-    ['<strong>Umbral de reacción</strong>', '¿Por debajo de qué valor se abre una acción, y cuál?', '&lt; 88 % dos meses seguidos → acción correctiva formal']
-  ])}
-
-${callout('trap', 'El indicador que nunca baja',
-  `<p class="mb0">Si un indicador lleva tres años en 98 %, no está midiendo nada relevante — está midiendo algo que la
-  organización ya domina, o está midiendo mal. Prueba de consultor: <strong>pregunta qué decisión se tomó alguna vez
-  porque ese indicador se movió</strong>. Si no hay ninguna, el indicador es decorativo y la cl. 9.1.1 está incumplida
-  aunque la tabla esté impecable. Ver el <a href="#/casos">caso 1</a>.</p>`)}
-
-${sec('04', 'Documentar el flujo', 'Cuándo basta un diagrama de bloques y cuándo hace falta notación con carriles.')}
-
-<div class="grid g2">
-${card(`<h4>Diagrama de bloques</h4>
-  <p class="small muted">Secuencia simple, un solo responsable, sin decisiones complejas.</p>
-  <p class="small muted mb0"><strong>Úsalo cuando:</strong> el proceso es lineal y cabe en menos de doce pasos.
-  <strong>Ventaja:</strong> cualquiera lo lee sin formación previa.</p>`, { norm: '9001' })}
-${card(`<h4>Diagrama con carriles (swimlane)</h4>
-  <p class="small muted">Cada carril es un rol o área; el flujo cruza carriles al cambiar de responsable.</p>
-  <p class="small muted mb0"><strong>Úsalo cuando:</strong> el proceso cruza áreas — que es donde nacen la mayoría de los problemas.
-  <strong>Ventaja:</strong> hace visible el traspaso de responsabilidad, que es lo que un auditor busca.</p>`, { norm: '14001' })}
-</div>
-
-${callout('tip', 'Cinco reglas de notación que evitan discusiones',
-  `<ol class="small mb0" style="color:var(--ink-2)">
-    <li>Un solo punto de inicio y, preferentemente, un solo punto de fin.</li>
-    <li>Los rombos de decisión tienen exactamente dos salidas rotuladas (sí/no). Tres salidas indican que faltan decisiones.</li>
-    <li>Toda flecha va en una sola dirección. Las flechas bidireccionales ocultan un bucle no analizado.</li>
-    <li>Cada actividad empieza con un verbo en infinitivo. «Facturación» no es una actividad; «emitir factura» sí.</li>
-    <li>Si el diagrama no cabe en una hoja, el proceso está mal delimitado — no hace falta una hoja más grande.</li>
-  </ol>`)}
-
-${pager(['normas', 'Las normas'], ['riesgos', 'Riesgo en sus tres lenguajes'])}
-`;
-}
 
 /* ══════════════════════════════════════════════════════════
    Riesgos
@@ -130,7 +37,7 @@ ${callout('key', 'Cómo se articulan sin fusionarse',
 
 ${sec('02', 'Evaluación de riesgo SST', 'La metodología más regulada de las cuatro, porque en Perú tiene sustento legal propio.')}
 
-${fig('riskMatrix', '16', 'Matriz 5 × 5 y bandas de decisión',
+${fig('riskMatrix', '24', 'Matriz 5 × 5 y bandas de decisión',
   'Define las bandas ANTES de evaluar, nunca después. Definirlas después es ajustar el criterio al resultado, y un auditor experimentado lo detecta comparando la distribución de riesgos con la banda de acción.', { interactive: true })}
 
 ${callout('warn', 'La trampa de la escala invertida',
@@ -150,7 +57,7 @@ ${table(
 
 ${sec('03', 'Jerarquía de controles', 'El requisito no es aplicar la jerarquía. Es aplicarla en orden y poder demostrarlo.')}
 
-${fig('controlHierarchy', '17', 'Cinco niveles, eficacia decreciente',
+${fig('controlHierarchy', '25', 'Cinco niveles, eficacia decreciente',
   'Cada nivel hacia abajo es más barato, más fácil de implementar y menos eficaz, porque depende cada vez más de que una persona haga lo correcto en el momento correcto. El EPP no es un control de riesgo: es la última barrera cuando todo lo demás falló.', { interactive: true })}
 
 ${callout('trap', 'El salto al EPP',
@@ -161,7 +68,7 @@ ${callout('trap', 'El salto al EPP',
 
 ${sec('04', 'Aspectos ambientales', 'Donde ISO 14001 exige mirar fuera del cerco.')}
 
-${fig('lifecycle', '18', 'Perspectiva de ciclo de vida',
+${fig('lifecycle', '26', 'Perspectiva de ciclo de vida',
   'La distinción entre controlar e influir define dos tipos de requisito: operacional para lo que se controla, de comunicación y especificación para lo que se influye. Una matriz de aspectos sin una sola fila fuera del perímetro es el hallazgo más fácil de abrir en el Perú.', { interactive: true })}
 
 <div class="grid g2">
@@ -185,7 +92,7 @@ ${card(`<h4>Criterio de significancia</h4>
 
 ${sec('05', 'Riesgos críticos: análisis de corbatín', 'Herramienta que ISO no exige y que todo consultor experimentado usa.')}
 
-${fig('bowtie', '19', 'Corbatín aplicado a trabajo en caliente',
+${fig('bowtie', '27', 'Corbatín aplicado a trabajo en caliente',
   'Obliga a nombrar cada barrera individualmente, con su dueño y su verificación. Una barrera sin verificación es una barrera de papel: existe en el procedimiento y no en la realidad — y es exactamente lo que un auditor busca cuando pregunta «¿y si este control falla, qué lo detecta?».', { interactive: true })}
 
 ${callout('tip', 'Factores de degradación',
@@ -221,7 +128,7 @@ ${checklist('riesgo-check', 'Autoauditoría de la gestión del riesgo', [
   'Las matrices se actualizaron después del último incidente y del último cambio relevante.'
 ])}
 
-${pager(['procesos', 'Gestión por procesos'], ['documental', 'Información documentada'])}
+${pager(['procesos-avanzado', 'Gestión por procesos — nivel 3'], ['documental', 'Información documentada'])}
 `;
 }
 
@@ -236,7 +143,7 @@ ${head('Módulo 5', 'Auditoría interna<br><em>del sistema integrado</em>',
 
 ${sec('01', 'El ciclo completo', 'Seis fases. El 70 % de los hallazgos débiles nacen de una fase 2 mal hecha.')}
 
-${fig('auditCycle', '20', 'Las seis fases de ISO 19011 cl. 6',
+${fig('auditCycle', '28', 'Las seis fases de ISO 19011 cl. 6',
   'Cada fase tiene una salida característica y verificable. La fase 6.7 pertenece al auditado, no al auditor: el auditor verifica la eficacia de la acción correctiva, no la ejecuta ni la propone. Confundir esto compromete la imparcialidad exigida por la cl. 9.2.', { interactive: true })}
 
 ${sec('02', 'Programa basado en riesgo', 'Un programa plano — todo una vez al año — es un hallazgo defendible del auditor externo.')}
@@ -254,7 +161,7 @@ ${table(
 
 ${sec('03', 'Redacción de hallazgos', 'Tres piezas obligatorias. Sin una de ellas, no tienes hallazgo: tienes una opinión.')}
 
-${fig('ncAnatomy', '21', 'Anatomía de un hallazgo',
+${fig('ncAnatomy', '29', 'Anatomía de un hallazgo',
   'Requisito, evidencia y desviación. La evidencia debe incluir trazabilidad — código de documento, fecha, identificación del registro — porque en la reunión de cierre el auditado va a pedir exactamente eso. Abajo, la clasificación con su consecuencia real.', { interactive: true })}
 
 <div class="grid g2">
@@ -406,7 +313,7 @@ ${callout('trap', 'Actas que informan pero no deciden',
 
 ${sec('03', 'El argumento económico', 'Cómo se defiende el presupuesto del SIG ante quien firma los cheques.')}
 
-${fig('costIceberg', '22', 'Lo visible y lo sumergido',
+${fig('costIceberg', '30', 'Lo visible y lo sumergido',
   'El argumento débil es la multa evitada. El argumento que mueve presupuesto es el costo oculto: investigación, productividad perdida, rotación, prima de seguro, licitaciones perdidas y licencia social. Documenta el factor de ocultamiento que uses — entre 4× y 10× según la literatura — y sostenlo con tus propios datos.', { interactive: true })}
 
 ${sec('04', 'Del SIG al reporte de sostenibilidad', 'Un sistema maduro ya produce el 60 % de lo que exige un marco ESG. La mayoría de las organizaciones no lo sabe.')}

@@ -6,7 +6,7 @@
 
 [![Estado](https://img.shields.io/badge/estado-publicado-17845A)](https://oprbguitar.github.io/sistemas-integrados-curso/)
 [![Normas](https://img.shields.io/badge/ISO-9001%20·%2014001%20·%2045001%20·%2037001-1D5FB0)](#de-qué-trata-un-sistema-integrado-de-gestión)
-[![Diagramas](https://img.shields.io/badge/diagramas-19%20interactivos-FF6B35)](#los-diagramas)
+[![Diagramas](https://img.shields.io/badge/diagramas-27%20interactivos-FF6B35)](#los-diagramas)
 [![Contraste](https://img.shields.io/badge/contraste-WCAG%20AA%20verificado-17845A)](#los-diagramas)
 [![Licencia](https://img.shields.io/badge/licencia-Estudio%20SIG%20Lab-6D4AA6)](LICENSE)
 [![Actualizado](https://img.shields.io/badge/actualizado-agosto%202026-62697A)](#estado-normativo-agosto-2026)
@@ -71,7 +71,7 @@ Una lesión con incapacidad permanente, un vertimiento a un cuerpo de agua y un 
 
 ## Qué contiene este repositorio
 
-Un sitio estático de **15 secciones**, sin dependencias externas ni paso de compilación.
+Un sitio estático de **18 secciones**, sin dependencias externas ni paso de compilación.
 
 | # | Sección | Contenido |
 |---|---|---|
@@ -80,20 +80,23 @@ Un sitio estático de **15 secciones**, sin dependencias externas ni paso de com
 | 03 | **Ruta de estudio** | Plan activo de 8 semanas con metas verificables y señales de dominio |
 | 04 | **Anexo SL e integración** | Coordinar / combinar / integrar, tres niveles de madurez, vocabulario |
 | 05 | **Las normas** | Cláusula por cláusula: requisito → intención → evidencia → preguntas → hallazgo → la trampa |
-| 06 | **Gestión por procesos** | Mapa de nivel 0, diagrama de tortuga, indicadores de seis columnas, notación de flujo |
-| 07 | **Riesgo y peligros** | Las tres metodologías separadas, matriz 5×5, jerarquía de controles, corbatín, gestión del cambio |
-| 08 | **Información documentada** | Inventario de lo obligatorio con veredicto de fusión, política integrada, retención legal peruana |
-| 09 | **Auditoría interna** | ISO 19011, programa basado en riesgo, redacción de hallazgos, causa raíz |
-| 10 | **Medición, mejora y ESG** | Indicadores reactivos y predictivos, revisión por la dirección, puente SIG → ESG |
-| 11 | **Casuística aplicada** | 5 casos completos con análisis cláusula por cláusula y hallazgo redactado |
-| 12 | **Modo campo** | 8 fichas de actuación: qué pedir, a quién preguntar, qué observar, qué producir y cómo saber que está bien |
-| 13 | **Rutas de certificación** | Empresa vs. persona, cadena de acreditación, proveedores, precios referenciales |
-| 14 | **Ayuda memoria** | 10 reglas duras, 10 fórmulas, 10 preguntas de auditoría, glosario de 32 términos |
-| 15 | **Fuentes y recursos** | Enlaces oficiales verificables y avisos sustantivos |
+| 06 | **Portal de procesos** | Itinerario en tres niveles, 21 fichas conceptuales animadas, antipatrones por nivel |
+| 07 | **Procesos · nivel 1 básico** | Anatomía de un proceso, vocabulario, SIPOC, tipos, mapa de nivel 0, límite de despliegue |
+| 08 | **Procesos · nivel 2 intermedio** | Ficha de caracterización, tortuga, carriles e interfaces, indicadores de seis columnas y su bucle de control |
+| 09 | **Procesos · nivel 3 avanzado** | Gobierno de procesos, madurez, variación común y especial, Cp/Cpk, eficiencia de ciclo, rediseño |
+| 10 | **Riesgo y peligros** | Las tres metodologías separadas, matriz 5×5, jerarquía de controles, corbatín, gestión del cambio |
+| 11 | **Información documentada** | Inventario de lo obligatorio con veredicto de fusión, política integrada, retención legal peruana |
+| 12 | **Auditoría interna** | ISO 19011, programa basado en riesgo, redacción de hallazgos, causa raíz |
+| 13 | **Medición, mejora y ESG** | Indicadores reactivos y predictivos, revisión por la dirección, puente SIG → ESG |
+| 14 | **Casuística aplicada** | 5 casos completos con análisis cláusula por cláusula y hallazgo redactado |
+| 15 | **Modo campo** | 8 fichas de actuación: qué pedir, a quién preguntar, qué observar, qué producir y cómo saber que está bien |
+| 16 | **Rutas de certificación** | Empresa vs. persona, cadena de acreditación, proveedores, precios referenciales |
+| 17 | **Ayuda memoria** | 10 reglas duras, 10 fórmulas, 10 preguntas de auditoría, glosario de 32 términos |
+| 18 | **Fuentes y recursos** | Enlaces oficiales verificables y avisos sustantivos |
 
 ### Los diagramas
 
-**19 diagramas SVG originales e interactivos**, escritos a mano, sin librerías. Cada elemento se puede pulsar (clic, `Enter` o `Espacio`) para abrir un panel que explica qué es, qué exige y dónde falla en la práctica — **151 puntos activables en total**. Todos se amplían a pantalla completa.
+**27 diagramas SVG originales e interactivos**, escritos a mano, sin librerías, desplegados en 35 figuras a lo largo del sitio. Cada elemento se puede pulsar (clic, `Enter` o `Espacio`) para abrir un panel que explica qué es, qué exige y dónde falla en la práctica — **298 puntos activables en total**. Todos se amplían a pantalla completa.
 
 Siguen las reglas del sistema editorial de [`cathrynlavery/diagram-design`](https://github.com/cathrynlavery/diagram-design):
 
@@ -105,7 +108,7 @@ Siguen las reglas del sistema editorial de [`cathrynlavery/diagram-design`](http
 - **Contraste WCAG AA verificado**: un auditor compone el fondo real de cada texto y calcula la ratio en ambos temas — 0 fallos
 
 <details>
-<summary><strong>Ver los 19 diagramas</strong></summary>
+<summary><strong>Ver los 27 diagramas</strong></summary>
 
 | Diagrama | Qué muestra |
 |---|---|
@@ -128,6 +131,14 @@ Siguen las reglas del sistema editorial de [`cathrynlavery/diagram-design`](http
 | Iceberg de costos | Lo visible vs. lo sumergido (4× a 10×) |
 | Anatomía de un hallazgo | Requisito + evidencia + desviación, y la clasificación |
 | Matriz de correspondencia | 17 requisitos × 4 normas: integrable / con matiz / propio |
+| Itinerario de gestión por procesos | Los tres niveles encadenados con su criterio de avance |
+| Anatomía de un proceso | Entradas, salidas, controles, recursos y medición |
+| Cadena SIPOC | Las cinco columnas más la cadena cliente-proveedor interno |
+| Niveles de despliegue del mapa | Nivel 0 a nivel 3 y el límite razonable |
+| Carriles e interfaces | Swimlane de un proceso de compra con sus cuatro traspasos |
+| Bucle de control del indicador | Dato → indicador → umbral → decisión → acción, y sus tres rupturas |
+| Madurez de la gestión por procesos | Cinco niveles y el umbral de certificación |
+| Eficiencia de ciclo (PCE) | Valor añadido frente a espera sobre el plazo total |
 
 </details>
 
@@ -169,15 +180,19 @@ assets/css/
   components.css               Tarjetas, acordeones, tablas, diagramas, modal
 assets/js/
   app.js                       Router hash, tema, búsqueda global, persistencia
-  viz.js                       Motor de 19 diagramas SVG
+  viz.js                       Motor de 27 diagramas SVG
   views/
     ui.js                      Constructores de UI compartidos
-    panel.js · programa.js · normas.js · practica.js · recursos.js
+    panel.js · programa.js · normas.js · practica.js · recursos.js · campo.js
+    procesos.js                Portal e itinerario de gestión por procesos (3 niveles)
   data/
     curso.js                   Módulos, ruta de estudio, hitos normativos
     normas.js                  Cláusulas comunes y propias, inventario documental
     practica.js                Casos, reglas, fórmulas, glosario
     certificacion.js           Rutas, esquemas, proveedores, precios, fuentes
+    procesos.js                Niveles, fichas conceptuales, caracterización, indicadores, cálculos
+    campo.js                   Fichas de actuación, fuerza de la evidencia
+    hotspots.js                Contenido de los puntos activables de cada diagrama
 .github/workflows/pages.yml    Publicación automática en GitHub Pages
 ```
 
@@ -191,8 +206,10 @@ El repositorio incluye el workflow de GitHub Pages. Actívalo en **Settings → 
 
 ## Características
 
-- **Diagramas interactivos**: 151 puntos activables por clic o teclado, con panel de detalle; ampliación a pantalla completa
-- **Búsqueda global** (`/` o `Ctrl`/`Cmd`+`K`) sobre cláusulas, términos, fórmulas, casos, fichas de campo, puntos de diagrama y proveedores
+- **Diagramas interactivos**: 298 puntos activables por clic o teclado, con panel de detalle; ampliación a pantalla completa
+- **Fichas conceptuales animadas**: 21 fichas de dos caras — concepto y por qué importa al frente, ejemplo aplicado y punto de fallo al dorso — con giro por clic o teclado, filtro por nivel y revelado escalonado al entrar en pantalla
+- **Guías de lectura de diagrama**: cada diagrama del itinerario de procesos viene con los pasos numerados para leerlo o construirlo en campo
+- **Búsqueda global** (`/` o `Ctrl`/`Cmd`+`K`) sobre cláusulas, términos, fórmulas, casos, fichas de campo, fichas conceptuales de proceso, cálculos, puntos de diagrama y proveedores
 - **Tema claro, oscuro y automático**, respetando la preferencia del sistema
 - **Checklists persistentes** en `localStorage` — el progreso de estudio se conserva entre sesiones
 - **Responsive** desde 390 px, sin desbordamiento horizontal en ninguna vista
